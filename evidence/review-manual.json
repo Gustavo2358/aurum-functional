@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "scope": "Integrated source review against SPEC, architecture and frozen behavioral contracts; finite evidence, not universal equivalence proof",
+  "source_sha256": {
+    "subject/src/core_command.c": "991babbb2df9bcaf2e3514a9b422597768008910ca548a4f687039f806a3fbf3",
+    "subject/src/core_money.c": "719924217446ede8d062e99ca912098c9b25d82add1de9c42b896afa620b05b9",
+    "subject/src/core_policy.c": "d83213f4d3ed48fdbe47321e11b351446037c8908f987fe1b30cf60486bd24c7",
+    "subject/src/core_state.c": "9363af165cf2c609f24a1907743eba9e3afee64b10cb936ba8d10cf4570a8aa2",
+    "subject/src/core_transition.c": "533258886ba0054d4c70111d9a48cee271c2e2a65c88e154a24e3c27e57e78bc",
+    "subject/src/main.c": "8a5efc6bdd525a9186b2218bff65addad24dafe0b25007efdb1615d594840255",
+    "subject/src/shell_output.c": "0f8c972317efe0d839e0a7225a3dfa4c3bdcf8a25cee994bedc2d01ac602ec8a",
+    "subject/src/shell_protocol.c": "10ebfa3dc5861b331280f9cfa1ccbec42d741af5210d77030ab576498b7e923c",
+    "subject/src/shell_storage.c": "82ffaab405308d04f61661f760abcd4df63ef665907c322d0df2658c8ed9c234",
+    "subject/include/aurum.h": "711f80c6a74a48d12bc21f659927557454edc04b5560b390f22324139c1f6195",
+    "subject/include/core.h": "c0c718c22a020e9a2e3cad56bdee0606e4d94dfc7f3e1f9cedfffe4b5b742844"
+  },
+  "open_findings": [],
+  "resolved_findings": [
+    {
+      "id": "R-01",
+      "target": "subject/src/core_transition.c:edited",
+      "issue": "Appended edits initially carried index zero rather than collection length",
+      "resolution": "Core owner set edit.index=length for append before final validation"
+    },
+    {
+      "id": "R-02",
+      "target": "subject/src/core_transition.c:PAY_RECORD,ASSESS_START,FINISH",
+      "issue": "Preserve distinct legacy Result fields at record/ledger capacity failure versus cache failure",
+      "resolution": "Explicit capacity_result is reset before CACHE; seven independent public-command regressions PASS"
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 tests/review_regressions.py",
+      "status": "PASS",
+      "cases": 7,
+      "evidence": "evidence/review-regressions.json"
+    },
+    {
+      "command": "python3 tests/candidate_mutations.py",
+      "status": "PASS",
+      "killed": 16,
+      "survived": 0,
+      "equivalent_pass": 1,
+      "evidence": "evidence/review-mutations.json"
+    }
+  ],
+  "excluded": [
+    "Joern",
+    "slicing",
+    "extraction methodologies",
+    "network",
+    "new dependency installation"
+  ],
+  "limitations": [
+    "Finite corpus does not establish universal equivalence",
+    "Quadratic selection algorithms are documented, not performance-qualified at maximum capacities",
+    "Environmental allocation failure equivalence follows SPEC D-05",
+    "Overall G0-G8 qualification is owned by the final FULL gate, not this review report"
+  ]
+}

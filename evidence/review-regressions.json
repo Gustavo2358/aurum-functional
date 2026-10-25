@@ -1,0 +1,523 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "assess_second_ledger_entry_capacity",
+      "config": "ledger_capacity=7",
+      "setup": [
+        "AUTHORIZE request_id=A account_id=A1 card_id=C1 merchant_id=M1 amount=10000",
+        "CAPTURE request_id=X auth_id=A principal=10000",
+        "TICK now=172800",
+        "CLOSE request_id=C account_id=A1 cycle=3",
+        "TICK now=188640"
+      ],
+      "command": "ASSESS_LATE_FEE request_id=L invoice_id=I1",
+      "invoice_id": "I1",
+      "principal": 0
+    },
+    {
+      "name": "payment_record_capacity",
+      "config": "payments_capacity=1",
+      "setup": [
+        "AUTHORIZE request_id=A account_id=A1 card_id=C1 merchant_id=M1 amount=10000",
+        "CAPTURE request_id=X auth_id=A principal=10000",
+        "TICK now=172800",
+        "CLOSE request_id=C account_id=A1 cycle=3",
+        "PAY request_id=P1 account_id=A1 amount=1"
+      ],
+      "command": "PAY request_id=P2 account_id=A1 amount=1",
+      "invoice_id": "",
+      "principal": 1
+    },
+    {
+      "name": "assess_cache_capacity",
+      "config": "keys_capacity=3",
+      "setup": [
+        "AUTHORIZE request_id=A account_id=A1 card_id=C1 merchant_id=M1 amount=10000",
+        "CAPTURE request_id=X auth_id=A principal=10000",
+        "TICK now=172800",
+        "CLOSE request_id=C account_id=A1 cycle=3",
+        "TICK now=188640"
+      ],
+      "command": "ASSESS_LATE_FEE request_id=L invoice_id=I1",
+      "invoice_id": "",
+      "principal": 0
+    },
+    {
+      "name": "payment_cache_capacity",
+      "config": "keys_capacity=3",
+      "setup": [
+        "AUTHORIZE request_id=A account_id=A1 card_id=C1 merchant_id=M1 amount=10000",
+        "CAPTURE request_id=X auth_id=A principal=10000",
+        "TICK now=172800",
+        "CLOSE request_id=C account_id=A1 cycle=3"
+      ],
+      "command": "PAY request_id=P account_id=A1 amount=1",
+      "invoice_id": "",
+      "principal": 0
+    },
+    {
+      "name": "cancel_second_ledger_entry_capacity",
+      "config": "ledger_capacity=3",
+      "setup": [
+        "AUTHORIZE request_id=A account_id=A1 card_id=C1 merchant_id=M1 amount=10000"
+      ],
+      "command": "CANCEL request_id=C auth_id=A",
+      "invoice_id": "",
+      "principal": 0
+    },
+    {
+      "name": "tick_second_authorization_capacity",
+      "config": "ledger_capacity=7",
+      "setup": [
+        "AUTHORIZE request_id=Z account_id=A1 card_id=C1 merchant_id=M1 amount=10000",
+        "AUTHORIZE request_id=A account_id=A1 card_id=C1 merchant_id=M1 amount=10000"
+      ],
+      "command": "TICK now=146040",
+      "invoice_id": "",
+      "principal": 0
+    },
+    {
+      "name": "refund_second_ledger_entry_capacity",
+      "config": "ledger_capacity=7",
+      "setup": [
+        "AUTHORIZE request_id=A account_id=A1 card_id=C1 merchant_id=M1 amount=10000",
+        "CAPTURE request_id=X auth_id=A principal=10000"
+      ],
+      "command": "REFUND request_id=F capture_id=X principal=1",
+      "invoice_id": "",
+      "principal": 0
+    }
+  ],
+  "complete_results_and_snapshots_equal": true,
+  "runs": {
+    "original": {
+      "status": "PASS",
+      "library_sha256": "f6b97f914efed04ea909af67935032592271f4a6383896b290c68009705366ca",
+      "cases": [
+        {
+          "name": "assess_second_ledger_entry_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 7,
+            "request_id": "L",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "I1",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "96befcfa727c7fd5c1b61aeaf3ae2f035b4c4e1df7841176bb6216af4e2820e4",
+          "after_sha256": "96befcfa727c7fd5c1b61aeaf3ae2f035b4c4e1df7841176bb6216af4e2820e4"
+        },
+        {
+          "name": "payment_record_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 6,
+            "request_id": "P2",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 1,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "5aa2be6e00f46e8cdda35568c738858ca73310769347aeda48610d966dd2a654",
+          "after_sha256": "5aa2be6e00f46e8cdda35568c738858ca73310769347aeda48610d966dd2a654"
+        },
+        {
+          "name": "assess_cache_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 7,
+            "request_id": "L",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "c1bdf5ef9aa0bfdeb7b8089c10f502912e995a74a64f7363314ac204064f68cb",
+          "after_sha256": "c1bdf5ef9aa0bfdeb7b8089c10f502912e995a74a64f7363314ac204064f68cb"
+        },
+        {
+          "name": "payment_cache_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 6,
+            "request_id": "P",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "9932acd9b6f83d4e066acfdea6bd16cce9b797847847d1e30cc73953adf0ed8e",
+          "after_sha256": "9932acd9b6f83d4e066acfdea6bd16cce9b797847847d1e30cc73953adf0ed8e"
+        },
+        {
+          "name": "cancel_second_ledger_entry_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 3,
+            "request_id": "C",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "b0341c8b33e4c0c54320348733531ebe5b1fed9021231511f74550c1cd075acb",
+          "after_sha256": "b0341c8b33e4c0c54320348733531ebe5b1fed9021231511f74550c1cd075acb"
+        },
+        {
+          "name": "tick_second_authorization_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 8,
+            "request_id": "",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "44ccdeff8008ca8db2144523422c2c0d97866d3db58fe9eb4ea6af2e43ff3768",
+          "after_sha256": "44ccdeff8008ca8db2144523422c2c0d97866d3db58fe9eb4ea6af2e43ff3768"
+        },
+        {
+          "name": "refund_second_ledger_entry_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 4,
+            "request_id": "F",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "cd01fc6a332154cadefe2c6e888c598ee17866fafb4257e15aada62c41e72cda",
+          "after_sha256": "cd01fc6a332154cadefe2c6e888c598ee17866fafb4257e15aada62c41e72cda"
+        }
+      ]
+    },
+    "candidate": {
+      "status": "PASS",
+      "library_sha256": "08c4737194e3f2f93ac12f5896d8657656c347563ebe72a26c7648bd5b7a1e54",
+      "cases": [
+        {
+          "name": "assess_second_ledger_entry_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 7,
+            "request_id": "L",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "I1",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "96befcfa727c7fd5c1b61aeaf3ae2f035b4c4e1df7841176bb6216af4e2820e4",
+          "after_sha256": "96befcfa727c7fd5c1b61aeaf3ae2f035b4c4e1df7841176bb6216af4e2820e4"
+        },
+        {
+          "name": "payment_record_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 6,
+            "request_id": "P2",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 1,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "5aa2be6e00f46e8cdda35568c738858ca73310769347aeda48610d966dd2a654",
+          "after_sha256": "5aa2be6e00f46e8cdda35568c738858ca73310769347aeda48610d966dd2a654"
+        },
+        {
+          "name": "assess_cache_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 7,
+            "request_id": "L",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "c1bdf5ef9aa0bfdeb7b8089c10f502912e995a74a64f7363314ac204064f68cb",
+          "after_sha256": "c1bdf5ef9aa0bfdeb7b8089c10f502912e995a74a64f7363314ac204064f68cb"
+        },
+        {
+          "name": "payment_cache_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 6,
+            "request_id": "P",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "9932acd9b6f83d4e066acfdea6bd16cce9b797847847d1e30cc73953adf0ed8e",
+          "after_sha256": "9932acd9b6f83d4e066acfdea6bd16cce9b797847847d1e30cc73953adf0ed8e"
+        },
+        {
+          "name": "cancel_second_ledger_entry_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 3,
+            "request_id": "C",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "b0341c8b33e4c0c54320348733531ebe5b1fed9021231511f74550c1cd075acb",
+          "after_sha256": "b0341c8b33e4c0c54320348733531ebe5b1fed9021231511f74550c1cd075acb"
+        },
+        {
+          "name": "tick_second_authorization_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 8,
+            "request_id": "",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "44ccdeff8008ca8db2144523422c2c0d97866d3db58fe9eb4ea6af2e43ff3768",
+          "after_sha256": "44ccdeff8008ca8db2144523422c2c0d97866d3db58fe9eb4ea6af2e43ff3768"
+        },
+        {
+          "name": "refund_second_ledger_entry_capacity",
+          "status": "PASS",
+          "failures": [],
+          "result": {
+            "op": 4,
+            "request_id": "F",
+            "decision": 3,
+            "reason": 21,
+            "auth_id": "",
+            "capture_id": "",
+            "invoice_id": "",
+            "principal": 0,
+            "fee": 0,
+            "reserved": 0,
+            "released": 0,
+            "cash_refund": 0,
+            "issued_total": 0,
+            "minimum_due": 0,
+            "points": 0,
+            "points_reversed": 0,
+            "expires_at": 0,
+            "has_quote": false
+          },
+          "before_sha256": "cd01fc6a332154cadefe2c6e888c598ee17866fafb4257e15aada62c41e72cda",
+          "after_sha256": "cd01fc6a332154cadefe2c6e888c598ee17866fafb4257e15aada62c41e72cda"
+        }
+      ]
+    }
+  },
+  "oracle_build": {
+    "command": [
+      "cc",
+      "-std=c17",
+      "-O0",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Werror",
+      "-fPIC",
+      "-shared",
+      "-I/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/include",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/billing.c",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/engine.c",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/lifecycle.c",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/money.c",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/output.c",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/policy.c",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/protocol.c",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/state.c",
+      "-o",
+      "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/build/oracle/libaurum.so"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "source_sha256": {
+      "tests/original/subject/src/billing.c": "06cdac8f888df3aad77e629b60c81c7bacb232ccfbc2fbaef5caa7fe7d2dfe9f",
+      "tests/original/subject/src/engine.c": "924f5785ac2c0f444b78cc228ec3b5dd9c7abaf44c0ddd3ea09367f1dc526f3a",
+      "tests/original/subject/src/lifecycle.c": "df29c5e330aff1f650ea9e0bc5929b9a1534d3cced0657c735cdec2cd7b94098",
+      "tests/original/subject/src/money.c": "ee5f6edfc2abb618d5161b7307d6dc9e8e61e019895ceb3278b69a4772db7680",
+      "tests/original/subject/src/output.c": "dd289d0345ef8248b07fa24616118e6e05c76cb7ce861429f2c899a007ac91c4",
+      "tests/original/subject/src/policy.c": "a3030bc0ed170139f19cb269a2c661c3d0504ad9c4d73a099c880edab0c5b019",
+      "tests/original/subject/src/protocol.c": "4841a44f610ba41ade682a2058f65ad8e72c32f16929c0df25f892a4f8099983",
+      "tests/original/subject/src/state.c": "b8ad26fa680b9a56b24b5fa5d9312f024a074cabbbdc099bc60c679c65dd2539"
+    }
+  }
+}

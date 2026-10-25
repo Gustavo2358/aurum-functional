@@ -1,0 +1,18 @@
+credit_equality KILLED
+credit_omits_fee KILLED
+fx_half_down KILLED
+capture_state_guard_removed KILLED
+review_boundary_exclusive KILLED
+velocity_excludes_boundary KILLED
+accept_truncated_line KILLED
+capture_independent_rounding KILLED
+refund_entire_fee_first KILLED
+payment_principal_before_fee KILLED
+expire_one_minute_early KILLED
+expiration_descending_ids KILLED
+refund_oldest_first KILLED
+replay_executes_again KILLED
+zero_ledger_entries KILLED
+abort_publishes_private_state KILLED
+equivalent_local_rename EQUIVALENT_PASS
+{"status": "PASS", "killed": 16, "survived": 0, "equivalent": 1}

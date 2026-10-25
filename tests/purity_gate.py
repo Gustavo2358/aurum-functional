@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 from clang import cindex as C
@@ -47,7 +48,7 @@ def main():
     sources=sorted((ROOT/'subject/src').glob('core_*.c'))
     command=['cc','-std=c17','-O1','-g','-Wall','-Wextra','-Werror','-Wno-unused-function',
              '-I'+str(ROOT/'subject/include'),'-I'+str(out)]
-    if a.sanitizers:command+=['-fsanitize=address,undefined','-fno-omit-frame-pointer']
+    if a.sanitizers:command+=['-fsanitize=address,undefined','-fno-omit-frame-pointer','-fno-pie','-no-pie']
     command += [str(ROOT/'tests/purity_runtime.c')]+[str(p) for p in sources]+['-o',str(out/'purity-runtime')]
     build=subprocess.run(command,capture_output=True,text=True)
     (out/'build.stdout').write_text(build.stdout);(out/'build.stderr').write_text(build.stderr)
@@ -55,7 +56,12 @@ def main():
             'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
                              for p in sources+[ROOT/'subject/include/core.h',ROOT/'tests/purity_runtime.c']}}
     if build.returncode == 0:
-        run=subprocess.run([str(out/'purity-runtime')],capture_output=True,text=True,timeout=60)
+        env=dict(os.environ)
+        if a.sanitizers:
+            env['ASAN_OPTIONS']='detect_leaks=0:halt_on_error=1'
+            env['UBSAN_OPTIONS']='halt_on_error=1:print_stacktrace=1'
+            report['sanitizers']={'ASan':'enabled','UBSan':'enabled','LSan':'NOT_RUN: host ptrace restriction; core owns no heap allocations'}
+        run=subprocess.run([str(out/'purity-runtime')],capture_output=True,text=True,timeout=60,env=env)
         (out/'run.stdout').write_text(run.stdout);(out/'run.stderr').write_text(run.stderr)
         report.update(exit_code=run.returncode, status='PASS' if run.returncode==0 else 'FAIL')
         if run.returncode==0:report['checks']=json.loads(run.stdout)

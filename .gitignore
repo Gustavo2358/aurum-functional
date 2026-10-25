@@ -6,3 +6,7 @@ __pycache__/
 *.gcov.json.gz
 evidence/harness-original/aurum
 evidence/harness-original/libaurum.so
+
+*.zip
+evidence/purity-runtime*/purity-runtime
+evidence/full/purity-sanitize/purity-runtime

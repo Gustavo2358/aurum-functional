@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "functions": 130,
+  "violations": [],
+  "negative_controls": [
+    {
+      "name": "null_cast",
+      "expected_accept": true,
+      "accepted": true,
+      "pass": true
+    },
+    {
+      "name": "nonzero_cast",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "value_parameter",
+      "expected_accept": true,
+      "accepted": true,
+      "pass": true
+    },
+    {
+      "name": "local_memset",
+      "expected_accept": true,
+      "accepted": true,
+      "pass": true
+    },
+    {
+      "name": "aliased_memset",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "good",
+      "expected_accept": true,
+      "accepted": true,
+      "pass": true
+    },
+    {
+      "name": "out_parameter",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "nested_pointer",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "global",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "static_local",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "effect",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "escape",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "cast",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "internal_out",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    },
+    {
+      "name": "function_pointer",
+      "expected_accept": false,
+      "accepted": false,
+      "pass": true
+    }
+  ]
+}

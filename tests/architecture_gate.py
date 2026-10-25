@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Conservative libclang restrictions; no memory/ownership inference engine."""
 import argparse
+import ctypes
 import hashlib
 import json
 from pathlib import Path
@@ -44,6 +45,26 @@ def pointer_issues(typ, trail='', seen=None, ban_all=False):
                 for issue in pointer_issues(field.type, trail + '.' + field.spelling, seen, ban_all)]
     return []
 
+def null_cast(node):
+    """Compiler-evaluate only the operand of a cast; ((void *)0) is NULL."""
+    children=list(node.get_children())
+    if len(children)!=1 or children[0].kind != C.CursorKind.INTEGER_LITERAL:
+        return False
+    lib=C.conf.lib
+    lib.clang_Cursor_Evaluate.argtypes=[C.Cursor]
+    lib.clang_Cursor_Evaluate.restype=ctypes.c_void_p
+    lib.clang_EvalResult_getKind.argtypes=[ctypes.c_void_p]
+    lib.clang_EvalResult_getKind.restype=ctypes.c_int
+    lib.clang_EvalResult_getAsLongLong.argtypes=[ctypes.c_void_p]
+    lib.clang_EvalResult_getAsLongLong.restype=ctypes.c_longlong
+    lib.clang_EvalResult_dispose.argtypes=[ctypes.c_void_p]
+    value=lib.clang_Cursor_Evaluate(children[0])
+    if not value:return False
+    try:
+        return lib.clang_EvalResult_getKind(value)==1 and lib.clang_EvalResult_getAsLongLong(value)==0
+    finally:
+        lib.clang_EvalResult_dispose(value)
+
 def local_destination(expr):
     """Accept direct fields/arrays of local value objects, never pointer aliases."""
     nodes = [expr, *descendants(expr)]
@@ -52,7 +73,7 @@ def local_destination(expr):
         return False
     # Other references may index a local array; each must be a local value too.
     for ref in refs:
-        if ref is None or ref.kind != C.CursorKind.VAR_DECL:
+        if ref is None or ref.kind not in (C.CursorKind.VAR_DECL, C.CursorKind.PARM_DECL):
             return False
         if ref.semantic_parent.kind != C.CursorKind.FUNCTION_DECL:
             return False
@@ -103,6 +124,12 @@ def inspect(core_files, shell_files, include):
                     seen_types.add(node.spelling)
                     for problem in pointer_issues(node.underlying_typedef_type, node.spelling, ban_all=node.spelling in NO_ESCAPE):
                         violations.append(f'{at(node)}: API pointer graph {problem}')
+            if layer == 'core' and node.kind == C.CursorKind.FUNCTION_DECL and locpath == (include/'core.h').resolve():
+                for arg in node.get_arguments():
+                    for issue in pointer_issues(arg.type, arg.spelling):
+                        violations.append(f'{at(arg)}: mutable public parameter graph {issue}')
+                for issue in pointer_issues(node.type.get_result(), 'return'):
+                    violations.append(f'{at(node)}: mutable public return {issue}')
             if not own:
                 continue
             if layer == 'core':
@@ -119,7 +146,7 @@ def inspect(core_files, shell_files, include):
                         violations.append(f'{at(node)}: mutable external/global read {ref.spelling}')
                 if node.kind.name in {'ASM_STMT', 'GCC_ASM_STMT', 'MS_ASM_STMT'}:
                     violations.append(f'{at(node)}: inline assembly')
-                if node.kind == C.CursorKind.CSTYLE_CAST_EXPR and node.type.get_canonical().kind == C.TypeKind.POINTER and not node.type.get_pointee().is_const_qualified():
+                if node.kind == C.CursorKind.CSTYLE_CAST_EXPR and node.type.get_canonical().kind == C.TypeKind.POINTER and not node.type.get_pointee().is_const_qualified() and not null_cast(node):
                     violations.append(f'{at(node)}: cast to mutable pointer')
                 if node.kind == C.CursorKind.CALL_EXPR:
                     ref = node.referenced
@@ -158,12 +185,16 @@ def inspect(core_files, shell_files, include):
     if not core_files:
         violations.append('no production core source files found')
     return {'status': 'FAIL' if violations else 'PASS', 'violations': sorted(set(violations)),
-            'functions': inventory, 'source_sha256': hashes, 'pure_libc_allowlist': sorted(PURE_LIBC),
+            'functions': inventory, 'source_sha256': hashes, 'audited_types': sorted(seen_types),
+            'pure_libc_allowlist': sorted(PURE_LIBC), 'local_destination_libc': sorted(LOCAL_WRITES),
             'limitations': ['Conservative type/effect restrictions, not a whole-program purity proof.',
                             'Domain placement and contract association require human/source review.']}
 
 def self_test():
     cases = {
+        'null_cast': ('const int *core_ok(void){return ((void *)0);}', True),
+        'nonzero_cast': ('const int *core_bad(void){return ((void *)1);}', False),
+        'value_parameter': ('extern void *memset(void *,int,unsigned long); typedef struct {int a;} V; int core_ok(V v){memset(&v,0,sizeof v);return v.a;}', True),
         'local_memset': ('extern void *memset(void *,int,unsigned long); int core_ok(void){int a;memset(&a,0,sizeof a);return a;}', True),
         'aliased_memset': ('extern void *memset(void *,int,unsigned long); int core_bad(const int *p){void *q=(void *)p;memset(q,0,4);return 0;}', False),
         'good': ('typedef struct {const int *p;} V; int core_ok(V v){return *v.p;}', True),
@@ -197,6 +228,15 @@ def main():
     core_files = sorted(a.core_dir.glob('core_*.c'))
     shell_files = sorted(p for p in a.shell_dir.glob('*.c') if not p.name.startswith('core_'))
     report = inspect(core_files, shell_files, ROOT/'subject/include')
+    for header in sorted((ROOT/'subject/include').glob('*.h')):
+        report['source_sha256'][str(header.resolve())] = hashlib.sha256(header.read_bytes()).hexdigest()
+    missing = {'core_begin', 'core_step', 'core_capacity_failure'} - {f['name'] for f in report['functions']}
+    if missing:
+        report['violations'].append('missing core protocol definitions: ' + ', '.join(sorted(missing)))
+    absent_types = (NO_ESCAPE | {'StateView'}) - set(report['audited_types'])
+    if absent_types:
+        report['violations'].append('missing audited API types: ' + ', '.join(sorted(absent_types)))
+    if report['violations']: report['status'] = 'FAIL'
     report['negative_controls'] = controls
     if any(not c['pass'] for c in controls): report['status'] = 'FAIL'
     a.report.parent.mkdir(parents=True, exist_ok=True)

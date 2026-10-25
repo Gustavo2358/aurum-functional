@@ -81,20 +81,25 @@ static Snapshot *apply(const Snapshot *before,Edit e) {
  }
  protect(s);return s;
 }
-typedef struct { Result result; uint64_t edits, state; size_t steps; CoreStatus status; } Run;
-static Run transaction(const Snapshot *published,Command command) {
+typedef struct { Result result; uint64_t edits, state; size_t steps; CoreStatus status; const Snapshot *output; } Run;
+static Run transaction_impl(const Snapshot *published,Command command,bool retain) {
  const Snapshot *staged=published;Continuation continuation=core_begin();Run run={.edits=basis};
  uint64_t original_raw=raw_hash(published),original_semantic=semantic_hash(published);
  for(size_t count=0;count<512;count++) {
   uint64_t raw=raw_hash(staged),semantic=semantic_hash(staged);
   Step step=core_step(view(staged),command,continuation);
+  /* Keep this continuation live across an unrelated invocation. */
+  Command noise=core_command_default(QUOTE);noise.amount=12345;
+  Step interleaved=core_step(view(published),noise,core_begin());
+  assert(interleaved.status==CORE_READ && interleaved.result.principal==12345);
   assert(raw_hash(staged)==raw && semantic_hash(staged)==semantic);
   assert(raw_hash(published)==original_raw && semantic_hash(published)==original_semantic);
   run.steps++;run.status=step.status;
   if(step.status!=CORE_EDIT) {
    assert(step.status==CORE_COMMIT || step.status==CORE_ABORT || step.status==CORE_READ);
    run.result=step.result;run.state=semantic_hash(staged);
-   if(staged!=published)release(staged);
+   if(retain && step.status==CORE_COMMIT)run.output=staged;
+   if(staged!=published && run.output!=staged)release(staged);
    return run;
   }
   run.edits=edit_hash(run.edits,step.edit);
@@ -102,10 +107,48 @@ static Run transaction(const Snapshot *published,Command command) {
  }
  assert(!"core continuation failed to terminate in bounded test fixture");return run;
 }
+static Run transaction(const Snapshot *published,Command command) {return transaction_impl(published,command,false);}
+
 static void same(Run a,Run b) {
  assert(a.status==b.status && a.steps==b.steps && a.edits==b.edits && a.state==b.state);
  assert(hash_Result(basis,&a.result)==hash_Result(basis,&b.result));
 }
+static Run advance(const Snapshot *s,Command c,Decision decision) {
+ Run first=transaction_impl(s,c,true);same(first,transaction(s,c));
+ assert(first.status==CORE_COMMIT && first.result.decision==decision && first.result.reason==NONE);
+ assert(first.output && first.output!=s);return first;
+}
+static void lifecycle(const Snapshot *base) {
+ const Snapshot *states[16];size_t n=0;
+ Command authorize=base->command;authorize.amount=20000;
+ Run authorized=advance(base,authorize,APPROVED);states[n++]=authorized.output;
+ Run replay=transaction(authorized.output,authorize);assert(replay.status==CORE_READ && replay.steps==1);
+ assert(hash_Result(basis,&replay.result)==hash_Result(basis,&authorized.result));
+ Command conflict=authorize;conflict.amount=19999;Run failed=transaction(authorized.output,conflict);
+ assert(failed.result.decision==ERROR && failed.result.reason==IDEMPOTENCY_CONFLICT);
+ Command capture=core_command_default(CAPTURE);strcpy(capture.request_id,"CP");strcpy(capture.auth_id,authorized.result.auth_id);capture.principal=12000;
+ Run captured=advance(states[n-1],capture,OK);states[n++]=captured.output;assert(captured.result.principal==12000);
+ Command refund=core_command_default(REFUND);strcpy(refund.request_id,"RF");strcpy(refund.capture_id,captured.result.capture_id);refund.principal=1000;
+ Run refunded=advance(states[n-1],refund,OK);states[n++]=refunded.output;assert(refunded.result.principal==1000);
+ Command cancel=core_command_default(CANCEL);strcpy(cancel.request_id,"CX");strcpy(cancel.auth_id,authorized.result.auth_id);
+ Run cancelled=advance(states[n-1],cancel,OK);states[n++]=cancelled.output;assert(cancelled.result.released==8000);
+ Command tick=core_command_default(TICK);tick.now=30*1440;
+ Run advanced=advance(states[n-1],tick,OK);states[n++]=advanced.output;
+ Command close=core_command_default(CLOSE);strcpy(close.request_id,"CL");strcpy(close.account_id,"A");close.cycle=0;
+ Run closed=advance(states[n-1],close,OK);states[n++]=closed.output;assert(closed.result.issued_total==11000);
+ Command pay=core_command_default(PAY);strcpy(pay.request_id,"P1");strcpy(pay.account_id,"A");pay.amount=100;
+ Run paid=advance(states[n-1],pay,OK);states[n++]=paid.output;
+ tick.now=41*1440;advanced=advance(states[n-1],tick,OK);states[n++]=advanced.output;
+ Command assess=core_command_default(ASSESS_LATE_FEE);strcpy(assess.request_id,"L");strcpy(assess.invoice_id,closed.result.invoice_id);
+ Run assessed=advance(states[n-1],assess,OK);states[n++]=assessed.output;assert(assessed.result.fee==1000);
+ strcpy(pay.request_id,"P2");pay.amount=1000;paid=advance(states[n-1],pay,OK);states[n++]=paid.output;
+ strcpy(refund.request_id,"RF2");refund.principal=11000;refunded=advance(states[n-1],refund,OK);states[n++]=refunded.output;assert(refunded.result.cash_refund==100);
+ Command reconcile=core_command_default(RECONCILE);strcpy(reconcile.account_id,"A");Run checked=transaction(states[n-1],reconcile);assert(checked.status==CORE_READ && checked.result.decision==OK);
+ /* All historical snapshots are still valid and unchanged by later reductions. */
+ same(authorized,transaction(base,authorize));same(captured,transaction(states[0],capture));
+ for(size_t i=0;i<n;i++)release(states[i]);
+}
+
 static void arithmetic(void) {
  Number n=core_money_add(MONEY_MAX-1,1);assert(n.ok && n.value==MONEY_MAX);
  assert(!core_money_add(MONEY_MAX,1).ok);assert(!core_money_add(-1,1).ok);
@@ -122,8 +165,40 @@ static void arithmetic(void) {
   Money sum=0;for(int64_t i=0;i<parts;i++)sum+=core_split_part(total,parts,i);assert(sum==total);
  }
 }
+static void populated_snapshot(const Snapshot *base) {
+ Snapshot *s=allocate();memcpy(s,base,sizeof *s);
+ s->auths[0]=(Authorization){.id="AU",.account_id="A",.state=PARTIAL,.principal=300,.fee=30,.captured_principal=100,.captured_fee=10,.expires_at=1440};s->auths_len=1;
+ s->captures[0]=(Capture){.id="CP",.auth_id="AU",.account_id="A",.principal=100,.fee=10,.granted=20,.reversed=3};s->captures_len=1;
+ s->lots[0]=(Lot){.account_id="A",.capture_id="CP",.invoice_id="IN",.principal=1000,.fee=100,.paid_principal=100,.paid_fee=10,.cancelled_principal=200,.cancelled_fee=20};s->lots_len=1;
+ s->invoices[0]=(Invoice){.id="IN",.account_id="A",.late=50,.paid_late=20};s->invoices_len=1;
+ s->history[0]=(History){.account_id="A",.minute=0,.decision=APPROVED,.principal=300};s->history_len=1;
+ s->payments[0]=(Payment){.id="P",.account_id="A",.amount=100};s->payments_len=1;
+ s->refunds[0]=(Refund){.id="RF",.capture_id="CP",.principal=200,.fee=20};s->refunds_len=1;
+ s->rewards[0]=(Reward){.account_id="A",.capture_id="CP",.granted=20};s->rewards_len=1;
+ s->keys[0]=(Cached){.command=base->command};s->keys_len=1;
+ s->accounts[0].cached_debt=800;s->accounts[0].cached_held=220;
+ const LedgerAccount accounts[]={HOLD_ASSET,HOLD_OFFSET,RECEIVABLE_PRINCIPAL,RECEIVABLE_FEE,RECEIVABLE_LATE,OPENING_OFFSET};
+ const Money amounts[]={220,-220,700,70,30,-800};
+ for(size_t i=0;i<6;i++){s->ledger[i]=(Entry){.event_id="E",.account_id="A",.account=accounts[i],.amount=amounts[i]};}s->ledger_len=6;
+ protect(s);uint64_t raw=raw_hash(s),semantic=semantic_hash(s);
+ for(int i=0;i<40;i++) {
+  assert(core_find_auth(view(s),"AU")==&s->auths[0]);assert(core_find_capture(view(s),"CP")==&s->captures[0]);assert(core_find_invoice(view(s),"IN")==&s->invoices[0]);
+  assert(core_lot_principal(&s->lots[0])==700 && core_lot_fee(&s->lots[0])==70);
+  assert(core_invoice_outstanding(view(s),&s->invoices[0])==800);
+  assert(core_authorization_hold(&s->auths[0])==220);
+  assert(core_recent_count(view(s),"A")==1);
+  DailyTotals d=core_daily_totals(view(s),"A",0);assert(d.gross==300 && d.count==1);
+  assert(core_reward_gross(view(s),"A",0)==20);
+  Projection p=core_project_account(view(s),&s->accounts[0]);
+  assert(p.debt==800 && p.held==220 && p.available_credit==98980 && p.points==17 && p.invoiced_outstanding==800);
+  assert(core_ledger_balanced(view(s)));Reconciliation r=core_reconcile(view(s),"A");assert(r.valid && r.debt_difference==0 && r.held_difference==0);
+  assert(raw_hash(s)==raw && semantic_hash(s)==semantic);
+ }
+ release(s);
+}
+
 int main(void) {
- arithmetic();Snapshot *s=seed();uint64_t raw_before=raw_hash(s),semantic_before=semantic_hash(s);
+ arithmetic();Snapshot *s=seed();populated_snapshot(s);lifecycle(s);uint64_t raw_before=raw_hash(s),semantic_before=semantic_hash(s);
  assert(core_config_valid(&s->config) && core_command_valid(&s->command));
  assert(core_find_account(view(s),"A")==&s->accounts[0]);assert(core_find_card(view(s),"C")==&s->cards[0]);
  Price p=core_quote(&s->config,&s->command);assert(p.reason==NONE && p.principal==10000 && p.fee==0);
@@ -138,6 +213,6 @@ int main(void) {
  Run declined=transaction(other,s->command);assert(declined.result.decision==DECLINED && declined.result.reason==CREDIT_LIMIT);
  for(int i=0;i<40;i++) { same(first,transaction(s,s->command));same(declined,transaction(other,s->command));same(q,transaction(s,quote));same(timed,transaction(s,tick)); }
  assert(raw_hash(s)==raw_before && semantic_hash(s)==semantic_before);
- printf("{\"status\":\"PASS\",\"readonly_collections\":13,\"repetitions\":40,\"interleaved_commands\":4,\"arithmetic_split_cases\":3612,\"raw_before\":\"%016" PRIx64 "\",\"raw_after\":\"%016" PRIx64 "\",\"semantic_before\":\"%016" PRIx64 "\",\"semantic_after\":\"%016" PRIx64 "\",\"authorize_steps\":%zu,\"tick_steps\":%zu}\n",raw_before,raw_hash(s),semantic_before,semantic_hash(s),first.steps,timed.steps);
+ printf("{\"status\":\"PASS\",\"readonly_collections\":13,\"repetitions\":40,\"interleaved_commands\":4,\"lifecycle_operations\":11,\"cache_replay_and_conflict\":true,\"arithmetic_split_cases\":3612,\"raw_before\":\"%016" PRIx64 "\",\"raw_after\":\"%016" PRIx64 "\",\"semantic_before\":\"%016" PRIx64 "\",\"semantic_after\":\"%016" PRIx64 "\",\"authorize_steps\":%zu,\"tick_steps\":%zu}\n",raw_before,raw_hash(s),semantic_before,semantic_hash(s),first.steps,timed.steps);
  release(other);release(s);return 0;
 }

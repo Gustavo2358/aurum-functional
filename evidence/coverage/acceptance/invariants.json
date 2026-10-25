@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "seed": 20260930,
+  "streams": 9,
+  "commands": 540,
+  "assertions": 212281,
+  "oracle": "Independent relational sums and arbitrary-precision equations over records produced by real C commands"
+}

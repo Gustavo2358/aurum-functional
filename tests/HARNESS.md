@@ -17,6 +17,7 @@ From the repository root after `make all`:
 
 ```sh
 python3 tests/verify_frozen.py
+python3 tests/abi_layout.py
 python3 tests/acceptance.py --binary build/aurum --library build/libaurum.so --report-dir evidence/harness-candidate
 python3 tests/differential.py --candidate build/aurum
 python3 tests/differential.py --candidate build/aurum --corpus tests/corpus/generated.json --golden tests/corpus/golden-generated.json --report evidence/harness-generated.json
@@ -26,7 +27,9 @@ python3 tests/state_differential.py --library build/libaurum.so
 The shared library includes `tests/legacy_adapter.c`, a test-only ABI bridge into
 the replacement core. It is not linked into the production executable. Frozen
 ctypes bindings read the frozen header; Engine and value-record field layouts must
-therefore match it. The bridge converts pure value results to historical output
+therefore match it. `abi_layout.py` independently compiles both headers and compares
+all record sizes and offsets/sizes of 213 fields before loading the library.
+The bridge converts pure value results to historical output
 parameters and prepares explicit historical fixture records. Financial decisions,
 projections and formulas call the replacement `core_*` functions. No old C source
 is linked into this library.

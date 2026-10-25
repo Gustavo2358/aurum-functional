@@ -11,9 +11,12 @@ No expectation is derived from a newly implemented core.
 * `StateView` contains const collection pointers and lengths. `Continuation`,
   `Edit`, `Step`, and `Result` cannot carry pointers escaping the call.
 * Core mutable global/static storage, implicit/indirect calls, assembly, and
-  calls outside core or an explicit pure libc allowlist fail the gate.
+  calls outside core or explicit libc allowlists fail the gate. `strcpy`,
+  `memcpy`, and `memset` require a syntactically direct local value destination
+  (including owned by-value parameters), without pointer aliases.
 * Casts cannot create mutable pointers to externally owned data. A cast to a
-  non-const pointer is conservatively rejected, even for a local object.
+  non-const pointer is conservatively rejected, even for a local object. The
+  compiler-evaluated integer literal zero used by `NULL` is the sole exception.
 * Public domain symbols are `core_` functions; shell cannot define them.
 * Core must not import shell ownership headers or oracle/fixture identifiers.
 * Every production function and branch is inventoried with location, call edges,
@@ -36,6 +39,8 @@ No expectation is derived from a newly implemented core.
   returned aggregates. Continuations and edits remain caller-owned values.
 * Exercise a successful command through CORE_EDIT and its terminal status using
   an independent mechanical edit applicator; published input remains unchanged.
+  Cover AUTHORIZE, CAPTURE, REFUND, CANCEL, TICK, CLOSE, PAY and ASSESS_LATE_FEE,
+  cache replay, key conflicts, final reconciliation, and a refund to cash.
 
 These gates neither analyze memory ownership globally nor claim mathematical
 purity for arbitrary C. Mandatory frozen domain, differential, protocol, and
@@ -48,3 +53,24 @@ Run structural gate and its deliberate negative controls, then direct runtime
 checks with compiler warnings and ASan/UBSan where available. Reuse frozen oracle
 expectations; no extraction tool, Joern, new package install, or original-tree
 write belongs to this gate.
+
+## Commands and evidence
+
+Use the existing original environment only as a Python/libclang tool provider:
+
+```sh
+/home/gustavo/workspace/aurum-fixture/.venv/bin/python tests/architecture_gate.py --self-test
+/home/gustavo/workspace/aurum-fixture/.venv/bin/python tests/purity_gate.py --report-dir evidence/purity-runtime-normal
+/home/gustavo/workspace/aurum-fixture/.venv/bin/python tests/purity_gate.py --sanitizers --report-dir evidence/purity-runtime-sanitized
+```
+
+The structural runner writes `evidence/purity-architecture.json` and the function
+inventory `evidence/architecture-inventory.json`. Runtime reports preserve source
+hashes, commands, compiler output, process status, and before/after fingerprints.
+`purity_semantic.h` is generated only to walk fields without C struct padding;
+it does not generate expected results or contain business decision logic.
+
+The direct core sanitizer runner disables LeakSanitizer because the sandbox host
+rejects its ptrace-based exit inspection. ASan and UBSan remain enabled and halt
+on their first finding. This is a runner-specific limitation, not the status of
+any broader externally executed leak gate. The core has no permitted heap calls.

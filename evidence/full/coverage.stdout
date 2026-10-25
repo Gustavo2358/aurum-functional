@@ -1,0 +1,7 @@
+build-cli PASS
+build-library PASS
+acceptance PASS
+fixed PASS
+generated PASS
+gcov PASS
+{"status": "PASS", "mode": "coverage", "coverage": {"subject/src/core_transition.c": {"lines": 569, "lines_hit": 554, "branches": 376, "branches_hit": 313}, "subject/src/core_command.c": {"lines": 71, "lines_hit": 63, "branches": 215, "branches_hit": 144}, "subject/src/core_state.c": {"lines": 154, "lines_hit": 154, "branches": 198, "branches_hit": 158}, "subject/src/core_money.c": {"lines": 43, "lines_hit": 43, "branches": 80, "branches_hit": 72}, "subject/src/core_policy.c": {"lines": 122, "lines_hit": 122, "branches": 236, "branches_hit": 208}, "subject/src/shell_protocol.c": {"lines": 245, "lines_hit": 223, "branches": 395, "branches_hit": 318}, "subject/src/shell_storage.c": {"lines": 60, "lines_hit": 57, "branches": 181, "branches_hit": 107}, "subject/src/main.c": {"lines": 36, "lines_hit": 35, "branches": 48, "branches_hit": 38}, "subject/src/shell_output.c": {"lines": 119, "lines_hit": 117, "branches": 79, "branches_hit": 61}}}

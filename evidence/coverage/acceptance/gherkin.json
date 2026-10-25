@@ -1,0 +1,3902 @@
+[
+  {
+    "name": "elegibilidade vence crédito",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 11,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-001",
+      "@SC-BR-AUT-001-01"
+    ],
+    "operation": "auth.decide",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "crédito vence risco",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 23,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-001",
+      "@SC-BR-AUT-001-02"
+    ],
+    "operation": "auth.decide",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "doméstica",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 39,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-002",
+      "@SC-BR-AUT-002-01"
+    ],
+    "operation": "auth.approve",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "estrangeira",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 53,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-002",
+      "@SC-BR-AUT-002-02"
+    ],
+    "operation": "auth.approve",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem captura",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 71,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-003",
+      "@SC-BR-AUT-003-01"
+    ],
+    "operation": "auth.approve",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "valor diferente sem captura",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 83,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-003",
+      "@SC-BR-AUT-003-02"
+    ],
+    "operation": "auth.approve",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "insuficiência",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 99,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-004",
+      "@SC-BR-AUT-004-01"
+    ],
+    "operation": "auth.decide",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "risco alto",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 112,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-004",
+      "@SC-BR-AUT-004-02"
+    ],
+    "operation": "auth.decide",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "score review",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 129,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-005",
+      "@SC-BR-AUT-005-01"
+    ],
+    "operation": "auth.decide",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "último score review",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 145,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-005",
+      "@SC-BR-AUT-005-02"
+    ],
+    "operation": "auth.decide",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "prazo padrão",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 162,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-006",
+      "@SC-BR-AUT-006-01"
+    ],
+    "operation": "auth.approve",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "virada",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 173,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-006",
+      "@SC-BR-AUT-006-02"
+    ],
+    "operation": "auth.approve",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "regular estrangeiro",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 187,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-007",
+      "@SC-BR-AUT-007-01"
+    ],
+    "operation": "auth.quote_consistency",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "premium parcelado doméstico",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 201,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-007",
+      "@SC-BR-AUT-007-02"
+    ],
+    "operation": "auth.quote_consistency",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem espaço de autorização",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 220,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-008",
+      "@SC-BR-AUT-008-01"
+    ],
+    "operation": "auth.capacity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem espaço de idempotência",
+    "uri": "docs/oracle/features/aut.feature",
+    "line": 232,
+    "tags": [
+      "@cap_aut",
+      "@BR-AUT-008",
+      "@SC-BR-AUT-008-02"
+    ],
+    "operation": "auth.capacity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "primeiro consome",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 11,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-001",
+      "@SC-BR-BAT-001-01"
+    ],
+    "operation": "batch.order",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "ordem inversa",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 23,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-001",
+      "@SC-BR-BAT-001-02"
+    ],
+    "operation": "batch.order",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "sucesso recusa sucesso",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 39,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-002",
+      "@SC-BR-BAT-002-01"
+    ],
+    "operation": "batch.continue",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "primeira recusa não impede próxima",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 51,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-002",
+      "@SC-BR-BAT-002-02"
+    ],
+    "operation": "batch.continue",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "replay intercalado",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 67,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-003",
+      "@SC-BR-BAT-003-01"
+    ],
+    "operation": "batch.replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "replay adjacente",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 79,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-003",
+      "@SC-BR-BAT-003-02"
+    ],
+    "operation": "batch.replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "autorizar na primeira",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 95,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-004",
+      "@SC-BR-BAT-004-01"
+    ],
+    "operation": "batch.account_isolation",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "autorizar na segunda",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 107,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-004",
+      "@SC-BR-BAT-004-02"
+    ],
+    "operation": "batch.account_isolation",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "projeções corretas",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 123,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-005",
+      "@SC-BR-BAT-005-01"
+    ],
+    "operation": "batch.reconcile",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "cache divergente",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 140,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-005",
+      "@SC-BR-BAT-005-02"
+    ],
+    "operation": "batch.reconcile",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "eventos balanceados",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 160,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-006",
+      "@SC-BR-BAT-006-01"
+    ],
+    "operation": "batch.balance_check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "global zero mas eventos inválidos",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 170,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-006",
+      "@SC-BR-BAT-006-02"
+    ],
+    "operation": "batch.balance_check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "ordem lexicográfica",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 184,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-007",
+      "@SC-BR-BAT-007-01"
+    ],
+    "operation": "batch.report_order",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "ordem já canônica",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 194,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-007",
+      "@SC-BR-BAT-007-02"
+    ],
+    "operation": "batch.report_order",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "retrocesso",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 208,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-008",
+      "@SC-BR-BAT-008-01"
+    ],
+    "operation": "batch.tick",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "mesmo instante",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 221,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-008",
+      "@SC-BR-BAT-008-02"
+    ],
+    "operation": "batch.tick",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "falha durante preparação",
+    "uri": "docs/oracle/features/bat.feature",
+    "line": 234,
+    "tags": [
+      "@cap_bat",
+      "@BR-BAT-008",
+      "@SC-BR-BAT-008-03"
+    ],
+    "operation": "batch.tick",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "último dia em andamento",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 11,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-001",
+      "@SC-BR-BIL-001-01"
+    ],
+    "operation": "billing.close_time",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "instante de fechamento",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 23,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-001",
+      "@SC-BR-BIL-001-02"
+    ],
+    "operation": "billing.close_time",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "próximo ciclo",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 38,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-002",
+      "@SC-BR-BIL-002-01"
+    ],
+    "operation": "billing.close_order",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "ciclo já fechado",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 49,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-002",
+      "@SC-BR-BIL-002-02"
+    ],
+    "operation": "billing.close_order",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "pulo",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 61,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-002",
+      "@SC-BR-BIL-002-03"
+    ],
+    "operation": "billing.close_order",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "excluir futuro",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 77,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-003",
+      "@SC-BR-BIL-003-01"
+    ],
+    "operation": "billing.issue",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "reembolso anterior",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 90,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-003",
+      "@SC-BR-BIL-003-02"
+    ],
+    "operation": "billing.issue",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "fechamento vazio",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 107,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-004",
+      "@SC-BR-BIL-004-01"
+    ],
+    "operation": "billing.empty",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "outro ciclo vazio",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 121,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-004",
+      "@SC-BR-BIL-004-02"
+    ],
+    "operation": "billing.empty",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "no início da janela",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 139,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-005",
+      "@SC-BR-BIL-005-01"
+    ],
+    "operation": "billing.due_day",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "fechamento tardio",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 150,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-005",
+      "@SC-BR-BIL-005-02"
+    ],
+    "operation": "billing.due_day",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "saldo pequeno",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 165,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-006",
+      "@SC-BR-BIL-006-01"
+    ],
+    "operation": "billing.minimum_due",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "piso",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 175,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-006",
+      "@SC-BR-BIL-006-02"
+    ],
+    "operation": "billing.minimum_due",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "arredondamento superior",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 185,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-006",
+      "@SC-BR-BIL-006-03"
+    ],
+    "operation": "billing.minimum_due",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zero",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 195,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-006",
+      "@SC-BR-BIL-006-04"
+    ],
+    "operation": "billing.minimum_due",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "paga multa e parte de tarifa",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 209,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-007",
+      "@SC-BR-BIL-007-01"
+    ],
+    "operation": "billing.allocate_payment",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "chega ao principal",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 224,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-007",
+      "@SC-BR-BIL-007-02"
+    ],
+    "operation": "billing.allocate_payment",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "quitar atual preserva futuro",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 243,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-008",
+      "@SC-BR-BIL-008-01"
+    ],
+    "operation": "billing.pay_invoiced",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "parcial atual",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 257,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-008",
+      "@SC-BR-BIL-008-02"
+    ],
+    "operation": "billing.pay_invoiced",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "exato",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 275,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-009",
+      "@SC-BR-BIL-009-01"
+    ],
+    "operation": "billing.payment_admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "excedente",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 286,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-009",
+      "@SC-BR-BIL-009-02"
+    ],
+    "operation": "billing.payment_admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zero",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 298,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-009",
+      "@SC-BR-BIL-009-03"
+    ],
+    "operation": "billing.payment_admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "mínimo pago ainda há atraso",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 314,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-010",
+      "@SC-BR-BIL-010-01"
+    ],
+    "operation": "billing.partial_payment",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "quitado",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 331,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-010",
+      "@SC-BR-BIL-010-02"
+    ],
+    "operation": "billing.partial_payment",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "primeira multa",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 351,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-011",
+      "@SC-BR-BIL-011-01"
+    ],
+    "operation": "billing.assess_late_fee",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "já aplicada",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 367,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-011",
+      "@SC-BR-BIL-011-02"
+    ],
+    "operation": "billing.assess_late_fee",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "dia do vencimento",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 386,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-012",
+      "@SC-BR-BIL-012-01"
+    ],
+    "operation": "billing.assess_late_fee",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "quitada após vencimento",
+    "uri": "docs/oracle/features/bil.feature",
+    "line": 401,
+    "tags": [
+      "@cap_bil",
+      "@BR-BIL-012",
+      "@SC-BR-BIL-012-02"
+    ],
+    "operation": "billing.assess_late_fee",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "antes de expirar",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 11,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-001",
+      "@SC-BR-CAP-001-01"
+    ],
+    "operation": "capture.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "instante da expiração",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 23,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-001",
+      "@SC-BR-CAP-001-02"
+    ],
+    "operation": "capture.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "cancelada",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 36,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-001",
+      "@SC-BR-CAP-001-03"
+    ],
+    "operation": "capture.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura restante",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 53,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-002",
+      "@SC-BR-CAP-002-01"
+    ],
+    "operation": "capture.amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "acima",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 65,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-002",
+      "@SC-BR-CAP-002-02"
+    ],
+    "operation": "capture.amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zero",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 78,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-002",
+      "@SC-BR-CAP-002-03"
+    ],
+    "operation": "capture.amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "primeiro fragmento",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 95,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-003",
+      "@SC-BR-CAP-003-01"
+    ],
+    "operation": "capture.fee_delta",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "segundo fragmento",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 108,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-003",
+      "@SC-BR-CAP-003-02"
+    ],
+    "operation": "capture.fee_delta",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "último fragmento",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 121,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-003",
+      "@SC-BR-CAP-003-03"
+    ],
+    "operation": "capture.fee_delta",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "parcial",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 138,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-004",
+      "@SC-BR-CAP-004-01"
+    ],
+    "operation": "capture.next_state",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "total",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 149,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-004",
+      "@SC-BR-CAP-004-02"
+    ],
+    "operation": "capture.next_state",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "parcial com tarifa",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 164,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-005",
+      "@SC-BR-CAP-005-01"
+    ],
+    "operation": "capture.transition",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura integral",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 179,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-005",
+      "@SC-BR-CAP-005-02"
+    ],
+    "operation": "capture.transition",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "principal e tarifa",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 198,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-006",
+      "@SC-BR-CAP-006-01"
+    ],
+    "operation": "capture.ledger",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem tarifa",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 214,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-006",
+      "@SC-BR-CAP-006-02"
+    ],
+    "operation": "capture.ledger",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "falta de lotes",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 232,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-007",
+      "@SC-BR-CAP-007-01"
+    ],
+    "operation": "capture.capacity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "falta de diário",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 244,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-007",
+      "@SC-BR-CAP-007-02"
+    ],
+    "operation": "capture.capacity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "risco alto depois",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 260,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-008",
+      "@SC-BR-CAP-008-01"
+    ],
+    "operation": "capture.no_reauthorization",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "risco baixo depois",
+    "uri": "docs/oracle/features/cap.feature",
+    "line": 274,
+    "tags": [
+      "@cap_cap",
+      "@BR-CAP-008",
+      "@SC-BR-CAP-008-02"
+    ],
+    "operation": "capture.no_reauthorization",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "impedimento",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 11,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-001",
+      "@SC-BR-ELG-001-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "perfil elegível",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 22,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-001",
+      "@SC-BR-ELG-001-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "impedimento",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 37,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-002",
+      "@SC-BR-ELG-002-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "perfil elegível",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 48,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-002",
+      "@SC-BR-ELG-002-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "dia final válido",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 63,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-003",
+      "@SC-BR-ELG-003-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "dia seguinte inválido",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 74,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-003",
+      "@SC-BR-ELG-003-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "impedimento",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 90,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-004",
+      "@SC-BR-ELG-004-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "perfil elegível",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 101,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-004",
+      "@SC-BR-ELG-004-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "impedimento",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 116,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-005",
+      "@SC-BR-ELG-005-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "perfil elegível",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 127,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-005",
+      "@SC-BR-ELG-005-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "país externo não permitido",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 142,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-006",
+      "@SC-BR-ELG-006-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "moeda estrangeira no país base",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 154,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-006",
+      "@SC-BR-ELG-006-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "aproximação bloqueada",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 170,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-007",
+      "@SC-BR-ELG-007-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "POS permitido",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 182,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-007",
+      "@SC-BR-ELG-007-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "fronteira sem PIN",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 197,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-008",
+      "@SC-BR-ELG-008-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "acima da fronteira sem PIN",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 208,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-008",
+      "@SC-BR-ELG-008-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "remoto não exige PIN presencial",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 220,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-008",
+      "@SC-BR-ELG-008-03"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "vencimento inclusivo",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 236,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-009",
+      "@SC-BR-ELG-009-01"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "vencida com saldo",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 247,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-009",
+      "@SC-BR-ELG-009-02"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "vencida quitada",
+    "uri": "docs/oracle/features/elg.feature",
+    "line": 259,
+    "tags": [
+      "@cap_elg",
+      "@BR-ELG-009",
+      "@SC-BR-ELG-009-03"
+    ],
+    "operation": "eligibility.check",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "Capturar em partes, faturar e quitar",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 7,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-001",
+      "@covers_BR-AUT-002",
+      "@covers_BR-CAP-003",
+      "@covers_BR-BIL-007",
+      "@covers_BR-REW-008"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Captura parcial, cancelamento do resto e reembolso",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 23,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-002",
+      "@covers_BR-REV-002",
+      "@covers_BR-REV-009",
+      "@covers_BR-LIM-007"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Captura parcial preservada na expiração exata",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 38,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-003",
+      "@covers_BR-REV-004",
+      "@covers_BR-CAP-001"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Reembolso após pagamento integral vira dinheiro",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 53,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-004",
+      "@covers_BR-REV-008",
+      "@covers_BR-REW-006",
+      "@covers_BR-BIL-010"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Parcelas com restos, pagamento e reembolso de lotes futuros",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 69,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-005",
+      "@covers_BR-INS-004",
+      "@covers_BR-INS-005",
+      "@covers_BR-REV-007",
+      "@covers_BR-BIL-008"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Replay, conflito e reutilização de ID em outro namespace",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 87,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-006",
+      "@covers_BR-IDM-001",
+      "@covers_BR-IDM-002",
+      "@covers_BR-IDM-004"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Mistura de decisões no mesmo minuto",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 103,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-007",
+      "@covers_BR-AUT-005",
+      "@covers_BR-LIM-008",
+      "@covers_BR-RSK-008"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Virada diária sem liberar reserva ainda válida",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 118,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-008",
+      "@covers_BR-LIM-006",
+      "@covers_BR-AUT-006",
+      "@covers_BR-BAT-008"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Inadimplência, pagamento e nova intenção",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 133,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-009",
+      "@covers_BR-ELG-009",
+      "@covers_BR-BIL-010",
+      "@covers_BR-IDM-006"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Cap de pontos, reembolso e reinício de ciclo com 80 comandos",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 149,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-010",
+      "@covers_BR-REW-004",
+      "@covers_BR-REW-005",
+      "@covers_BR-REW-006",
+      "@covers_BR-REW-007"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Falta de espaço para idempotência não deixa captura parcial",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 167,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-011",
+      "@covers_BR-AUT-008",
+      "@covers_BR-CAP-007",
+      "@covers_FR-IO-011"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "Falha intermediária não desfaz o lote",
+    "uri": "docs/oracle/features/flows.feature",
+    "line": 184,
+    "tags": [
+      "@integration",
+      "@flow",
+      "@SC-FLOW-012",
+      "@covers_BR-BAT-001",
+      "@covers_BR-BAT-002"
+    ],
+    "operation": "flow.run",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "autorizar duas vezes",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 11,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-001",
+      "@SC-BR-IDM-001-01"
+    ],
+    "operation": "idempotency.replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "três replays",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 25,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-001",
+      "@SC-BR-IDM-001-02"
+    ],
+    "operation": "idempotency.replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "montante alterado",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 43,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-002",
+      "@SC-BR-IDM-002-01"
+    ],
+    "operation": "idempotency.conflict",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "moeda alterada",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 56,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-002",
+      "@SC-BR-IDM-002-02"
+    ],
+    "operation": "idempotency.conflict",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "ordem e zeros",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 74,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-003",
+      "@SC-BR-IDM-003-01"
+    ],
+    "operation": "idempotency.canonical",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "default explícito",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 85,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-003",
+      "@SC-BR-IDM-003-02"
+    ],
+    "operation": "idempotency.canonical",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "tipos diferentes",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 100,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-004",
+      "@SC-BR-IDM-004-01"
+    ],
+    "operation": "idempotency.namespace",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "mesmo tipo",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 112,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-004",
+      "@SC-BR-IDM-004-02"
+    ],
+    "operation": "idempotency.namespace",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "invalid input",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 128,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-005",
+      "@SC-BR-IDM-005-01"
+    ],
+    "operation": "idempotency.error_policy",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "capacity",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 138,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-005",
+      "@SC-BR-IDM-005-02"
+    ],
+    "operation": "idempotency.error_policy",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "not found",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 148,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-005",
+      "@SC-BR-IDM-005-03"
+    ],
+    "operation": "idempotency.error_policy",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "recusa de crédito persistida",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 162,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-006",
+      "@SC-BR-IDM-006-01"
+    ],
+    "operation": "idempotency.declined_replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "review persistido",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 176,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-006",
+      "@SC-BR-IDM-006-02"
+    ],
+    "operation": "idempotency.declined_replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura repetida",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 193,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-007",
+      "@SC-BR-IDM-007-01"
+    ],
+    "operation": "idempotency.capture_replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura repetida várias vezes",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 207,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-007",
+      "@SC-BR-IDM-007-02"
+    ],
+    "operation": "idempotency.capture_replay",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "quote",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 225,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-008",
+      "@SC-BR-IDM-008-01"
+    ],
+    "operation": "idempotency.query",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "reconcile",
+    "uri": "docs/oracle/features/idm.feature",
+    "line": 237,
+    "tags": [
+      "@cap_idm",
+      "@BR-IDM-008",
+      "@SC-BR-IDM-008-02"
+    ],
+    "operation": "idempotency.query",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "uma parcela",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 11,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-001",
+      "@SC-BR-INS-001-01"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "doze parcelas",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 22,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-001",
+      "@SC-BR-INS-001-02"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zero parcelas",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 33,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-001",
+      "@SC-BR-INS-001-03"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "treze parcelas",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 45,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-001",
+      "@SC-BR-INS-001-04"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "três fora do país",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 61,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-002",
+      "@SC-BR-INS-002-01"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "quatro fora do país",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 73,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-002",
+      "@SC-BR-INS-002-02"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "doze no país base",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 86,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-002",
+      "@SC-BR-INS-002-03"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "igual ao mínimo",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 102,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-003",
+      "@SC-BR-INS-003-01"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "abaixo do mínimo",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 113,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-003",
+      "@SC-BR-INS-003-02"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "à vista pequeno",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 126,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-003",
+      "@SC-BR-INS-003-03"
+    ],
+    "operation": "installment.admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "dois centavos de resto",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 141,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-004",
+      "@SC-BR-INS-004-01"
+    ],
+    "operation": "installment.split",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem resto",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 152,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-004",
+      "@SC-BR-INS-004-02"
+    ],
+    "operation": "installment.split",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "restos diferentes",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 167,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-005",
+      "@SC-BR-INS-005-01"
+    ],
+    "operation": "installment.split_components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "tarifa menor que n",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 180,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-005",
+      "@SC-BR-INS-005-02"
+    ],
+    "operation": "installment.split_components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura no dia100",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 196,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-006",
+      "@SC-BR-INS-006-01"
+    ],
+    "operation": "installment.schedule",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "fronteira do ciclo",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 208,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-006",
+      "@SC-BR-INS-006-02"
+    ],
+    "operation": "installment.schedule",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "três parcelas",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 224,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-007",
+      "@SC-BR-INS-007-01"
+    ],
+    "operation": "installment.conservation",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "doze parcelas",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 237,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-007",
+      "@SC-BR-INS-007-02"
+    ],
+    "operation": "installment.conservation",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "mínimo exato da captura",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 254,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-008",
+      "@SC-BR-INS-008-01"
+    ],
+    "operation": "installment.capture_admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura insuficiente",
+    "uri": "docs/oracle/features/ins.feature",
+    "line": 266,
+    "tags": [
+      "@cap_ins",
+      "@BR-INS-008",
+      "@SC-BR-INS-008-02"
+    ],
+    "operation": "installment.capture_admission",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "falta amount",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 11,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-001",
+      "@SC-FR-IO-001-01"
+    ],
+    "operation": "io.parse",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "canal desconhecido",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 22,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-001",
+      "@SC-FR-IO-001-02"
+    ],
+    "operation": "io.parse",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "valores diferentes",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 37,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-002",
+      "@SC-FR-IO-002-01"
+    ],
+    "operation": "io.parse",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "valores iguais",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 48,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-002",
+      "@SC-FR-IO-002-02"
+    ],
+    "operation": "io.parse",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "typo de amount",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 63,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-003",
+      "@SC-FR-IO-003-01"
+    ],
+    "operation": "io.parse",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "campo extra",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 74,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-003",
+      "@SC-FR-IO-003-02"
+    ],
+    "operation": "io.parse",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "válido",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 89,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-004",
+      "@SC-FR-IO-004-01"
+    ],
+    "operation": "io.identifier",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "limite de 48",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 99,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-004",
+      "@SC-FR-IO-004-02"
+    ],
+    "operation": "io.identifier",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "49 caracteres",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 109,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-004",
+      "@SC-FR-IO-004-03"
+    ],
+    "operation": "io.identifier",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "barra",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 119,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-004",
+      "@SC-FR-IO-004-04"
+    ],
+    "operation": "io.identifier",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zeros à esquerda",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 133,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-005",
+      "@SC-FR-IO-005-01"
+    ],
+    "operation": "io.money_parse",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "decimal fracionário",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 144,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-005",
+      "@SC-FR-IO-005-02"
+    ],
+    "operation": "io.money_parse",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "expoente",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 154,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-005",
+      "@SC-FR-IO-005-03"
+    ],
+    "operation": "io.money_parse",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "positivo com sinal",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 164,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-005",
+      "@SC-FR-IO-005-04"
+    ],
+    "operation": "io.money_parse",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "overflow",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 174,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-005",
+      "@SC-FR-IO-005-05"
+    ],
+    "operation": "io.money_parse",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "limite",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 188,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-006",
+      "@SC-FR-IO-006-01"
+    ],
+    "operation": "io.line_limit",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "excesso e próxima linha",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 198,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-006",
+      "@SC-FR-IO-006-02"
+    ],
+    "operation": "io.line_limit",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "linhas ignoráveis",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 214,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-007",
+      "@SC-FR-IO-007-01"
+    ],
+    "operation": "io.ignored_lines",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "comentário inline inválido",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 224,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-007",
+      "@SC-FR-IO-007-02"
+    ],
+    "operation": "io.ignored_lines",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "cotação repetida isoladamente",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 239,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-008",
+      "@SC-FR-IO-008-01"
+    ],
+    "operation": "io.output",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "valor com centavos",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 252,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-008",
+      "@SC-FR-IO-008-02"
+    ],
+    "operation": "io.output",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "rejeição local",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 268,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-009",
+      "@SC-FR-IO-009-01"
+    ],
+    "operation": "io.exit",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "seed inválido",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 278,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-009",
+      "@SC-FR-IO-009-02"
+    ],
+    "operation": "io.exit",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "conta duplicada",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 292,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-010",
+      "@SC-FR-IO-010-01"
+    ],
+    "operation": "io.seed",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "dono ausente",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 303,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-010",
+      "@SC-FR-IO-010-02"
+    ],
+    "operation": "io.seed",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "taxa inválida",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 314,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-010",
+      "@SC-FR-IO-010-03"
+    ],
+    "operation": "io.seed",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "histórico cheio",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 329,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-011",
+      "@SC-FR-IO-011-01"
+    ],
+    "operation": "io.capacity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "diário cheio",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 342,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-011",
+      "@SC-FR-IO-011-02"
+    ],
+    "operation": "io.capacity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "timezone diferente",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 359,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-012",
+      "@SC-FR-IO-012-01"
+    ],
+    "operation": "io.environment",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "locale diferente",
+    "uri": "docs/oracle/features/io.feature",
+    "line": 369,
+    "tags": [
+      "@cap_io",
+      "@FR-IO-012",
+      "@SC-FR-IO-012-02"
+    ],
+    "operation": "io.environment",
+    "kind": "E2E",
+    "status": "PASS"
+  },
+  {
+    "name": "dívida e hold",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 11,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-001",
+      "@SC-BR-LIM-001-01"
+    ],
+    "operation": "limits.available",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "compromisso acima do limite",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 23,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-001",
+      "@SC-BR-LIM-001-02"
+    ],
+    "operation": "limits.available",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "igualdade completa",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 39,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-002",
+      "@SC-BR-LIM-002-01"
+    ],
+    "operation": "limits.credit",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "tarifa excede",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 51,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-002",
+      "@SC-BR-LIM-002-02"
+    ],
+    "operation": "limits.credit",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "exato",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 68,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-003",
+      "@SC-BR-LIM-003-01"
+    ],
+    "operation": "limits.operation",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "um centavo acima",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 80,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-003",
+      "@SC-BR-LIM-003-02"
+    ],
+    "operation": "limits.operation",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "exato apesar de tarifa",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 97,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-004",
+      "@SC-BR-LIM-004-01"
+    ],
+    "operation": "limits.daily_amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "excesso de principal",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 110,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-004",
+      "@SC-BR-LIM-004-02"
+    ],
+    "operation": "limits.daily_amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "décima tentativa contável",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 128,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-005",
+      "@SC-BR-LIM-005-01"
+    ],
+    "operation": "limits.daily_count",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "limite cheio",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 140,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-005",
+      "@SC-BR-LIM-005-02"
+    ],
+    "operation": "limits.daily_count",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "dia corrente",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 157,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-006",
+      "@SC-BR-LIM-006-01"
+    ],
+    "operation": "limits.day_projection",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "dia vazio",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 169,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-006",
+      "@SC-BR-LIM-006-02"
+    ],
+    "operation": "limits.day_projection",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "cancelamento",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 185,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-007",
+      "@SC-BR-LIM-007-01"
+    ],
+    "operation": "limits.after_reversal",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "reembolso",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 196,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-007",
+      "@SC-BR-LIM-007-02"
+    ],
+    "operation": "limits.after_reversal",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "review",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 211,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-008",
+      "@SC-BR-LIM-008-01"
+    ],
+    "operation": "limits.record_decision",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "declined",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 223,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-008",
+      "@SC-BR-LIM-008-02"
+    ],
+    "operation": "limits.record_decision",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "approved",
+    "uri": "docs/oracle/features/lim.feature",
+    "line": 235,
+    "tags": [
+      "@cap_lim",
+      "@BR-LIM-008",
+      "@SC-BR-LIM-008-03"
+    ],
+    "operation": "limits.record_decision",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "zero representável",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 11,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-001",
+      "@SC-BR-MNY-001-01"
+    ],
+    "operation": "money.validate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "máximo representável",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 21,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-001",
+      "@SC-BR-MNY-001-02"
+    ],
+    "operation": "money.validate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "acima do máximo",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 31,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-001",
+      "@SC-BR-MNY-001-03"
+    ],
+    "operation": "money.validate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "negativo",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 42,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-001",
+      "@SC-BR-MNY-001-04"
+    ],
+    "operation": "money.validate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "soma exata",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 57,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-002",
+      "@SC-BR-MNY-002-01"
+    ],
+    "operation": "money.add",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "excesso",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 69,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-002",
+      "@SC-BR-MNY-002-02"
+    ],
+    "operation": "money.add",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zera",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 85,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-003",
+      "@SC-BR-MNY-003-01"
+    ],
+    "operation": "money.subtract",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "saldo positivo",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 97,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-003",
+      "@SC-BR-MNY-003-02"
+    ],
+    "operation": "money.subtract",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "underflow",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 109,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-003",
+      "@SC-BR-MNY-003-03"
+    ],
+    "operation": "money.subtract",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "fração descartada",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 125,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-004",
+      "@SC-BR-MNY-004-01"
+    ],
+    "operation": "money.floor_rate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "menos de um centavo",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 136,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-004",
+      "@SC-BR-MNY-004-02"
+    ],
+    "operation": "money.floor_rate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "cem por cento",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 147,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-004",
+      "@SC-BR-MNY-004-03"
+    ],
+    "operation": "money.floor_rate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "fração elevada",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 162,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-005",
+      "@SC-BR-MNY-005-01"
+    ],
+    "operation": "money.ceil_rate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zero",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 173,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-005",
+      "@SC-BR-MNY-005-02"
+    ],
+    "operation": "money.ceil_rate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "divisão exata",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 184,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-005",
+      "@SC-BR-MNY-005-03"
+    ],
+    "operation": "money.ceil_rate",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "metade",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 199,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-006",
+      "@SC-BR-MNY-006-01"
+    ],
+    "operation": "money.fx",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "abaixo de metade",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 210,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-006",
+      "@SC-BR-MNY-006-02"
+    ],
+    "operation": "money.fx",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "acima de metade",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 221,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-006",
+      "@SC-BR-MNY-006-03"
+    ],
+    "operation": "money.fx",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "fronteiras válidas",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 236,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-007",
+      "@SC-BR-MNY-007-01"
+    ],
+    "operation": "money.validate_rates",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "FX zero",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 247,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-007",
+      "@SC-BR-MNY-007-02"
+    ],
+    "operation": "money.validate_rates",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "percentual inválido",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 258,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-007",
+      "@SC-BR-MNY-007-03"
+    ],
+    "operation": "money.validate_rates",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "FX excessivo",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 269,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-007",
+      "@SC-BR-MNY-007-04"
+    ],
+    "operation": "money.validate_rates",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "intermediário usado por FX",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 284,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-008",
+      "@SC-BR-MNY-008-01"
+    ],
+    "operation": "money.checked_mul",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "overflow int64",
+    "uri": "docs/oracle/features/mny.feature",
+    "line": 296,
+    "tags": [
+      "@cap_mny",
+      "@BR-MNY-008",
+      "@SC-BR-MNY-008-02"
+    ],
+    "operation": "money.checked_mul",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "um centavo",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 11,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-001",
+      "@SC-BR-PRC-001-01"
+    ],
+    "operation": "pricing.quote",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "montante base",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 22,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-001",
+      "@SC-BR-PRC-001-02"
+    ],
+    "operation": "pricing.quote",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "USD",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 37,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-002",
+      "@SC-BR-PRC-002-01"
+    ],
+    "operation": "pricing.quote",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "EUR",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 48,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-002",
+      "@SC-BR-PRC-002-02"
+    ],
+    "operation": "pricing.quote",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "moeda ausente",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 63,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-003",
+      "@SC-BR-PRC-003-01"
+    ],
+    "operation": "pricing.quote",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "moeda existente",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 75,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-003",
+      "@SC-BR-PRC-003-02"
+    ],
+    "operation": "pricing.quote",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "regular USD",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 91,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-004",
+      "@SC-BR-PRC-004-01"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "BRL no exterior",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 103,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-004",
+      "@SC-BR-PRC-004-02"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "premium parcelado estrangeiro",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 120,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-005",
+      "@SC-BR-PRC-005-01"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "regular equivalente",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 135,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-005",
+      "@SC-BR-PRC-005-02"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "à vista",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 154,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-006",
+      "@SC-BR-PRC-006-01"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "três parcelas",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 165,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-006",
+      "@SC-BR-PRC-006-02"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "frações combinadas",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 176,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-006",
+      "@SC-BR-PRC-006-03"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "teto atingido",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 191,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-007",
+      "@SC-BR-PRC-007-01"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "abaixo do teto",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 206,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-007",
+      "@SC-BR-PRC-007-02"
+    ],
+    "operation": "pricing.components",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "cotação única",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 222,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-008",
+      "@SC-BR-PRC-008-01"
+    ],
+    "operation": "pricing.purity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "cotação repetida",
+    "uri": "docs/oracle/features/prc.feature",
+    "line": 236,
+    "tags": [
+      "@cap_prc",
+      "@BR-PRC-008",
+      "@SC-BR-PRC-008-02"
+    ],
+    "operation": "pricing.purity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "com tarifa",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 11,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-001",
+      "@SC-BR-REV-001-01"
+    ],
+    "operation": "reversal.cancel",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem tarifa",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 26,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-001",
+      "@SC-BR-REV-001-02"
+    ],
+    "operation": "reversal.cancel",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "quarenta por cento capturado",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 44,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-002",
+      "@SC-BR-REV-002-01"
+    ],
+    "operation": "reversal.cancel",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "noventa por cento capturado",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 59,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-002",
+      "@SC-BR-REV-002-02"
+    ],
+    "operation": "reversal.cancel",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "capturada",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 77,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-003",
+      "@SC-BR-REV-003-01"
+    ],
+    "operation": "reversal.cancel_terminal",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "já cancelada",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 88,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-003",
+      "@SC-BR-REV-003-02"
+    ],
+    "operation": "reversal.cancel_terminal",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "ausente",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 99,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-003",
+      "@SC-BR-REV-003-03"
+    ],
+    "operation": "reversal.cancel_terminal",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "um minuto antes",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 114,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-004",
+      "@SC-BR-REV-004-01"
+    ],
+    "operation": "reversal.expire",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "instante exato",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 128,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-004",
+      "@SC-BR-REV-004-02"
+    ],
+    "operation": "reversal.expire",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "capturada não expira",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 144,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-004",
+      "@SC-BR-REV-004-03"
+    ],
+    "operation": "reversal.expire",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "restante exato",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 164,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-005",
+      "@SC-BR-REV-005-01"
+    ],
+    "operation": "reversal.refund_amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "excede captura",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 176,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-005",
+      "@SC-BR-REV-005-02"
+    ],
+    "operation": "reversal.refund_amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "zero",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 189,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-005",
+      "@SC-BR-REV-005-03"
+    ],
+    "operation": "reversal.refund_amount",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "primeira fração",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 206,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-006",
+      "@SC-BR-REV-006-01"
+    ],
+    "operation": "reversal.refund_fee",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "última fração",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 219,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-006",
+      "@SC-BR-REV-006-02"
+    ],
+    "operation": "reversal.refund_fee",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "últimas parcelas primeiro",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 236,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-007",
+      "@SC-BR-REV-007-01"
+    ],
+    "operation": "reversal.refund_allocation",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "somente uma parte da última",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 248,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-007",
+      "@SC-BR-REV-007-02"
+    ],
+    "operation": "reversal.refund_allocation",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura toda paga",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 264,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-008",
+      "@SC-BR-REV-008-01"
+    ],
+    "operation": "reversal.refund_paid",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "captura parcialmente paga",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 279,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-008",
+      "@SC-BR-REV-008-02"
+    ],
+    "operation": "reversal.refund_paid",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "autorização cancelada",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 298,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-009",
+      "@SC-BR-REV-009-01"
+    ],
+    "operation": "reversal.refund_closed_auth",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "autorização expirada",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 314,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-009",
+      "@SC-BR-REV-009-02"
+    ],
+    "operation": "reversal.refund_closed_auth",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "com multa pendente",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 334,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-010",
+      "@SC-BR-REV-010-01"
+    ],
+    "operation": "reversal.refund_with_late_fee",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem multa",
+    "uri": "docs/oracle/features/rev.feature",
+    "line": 350,
+    "tags": [
+      "@cap_rev",
+      "@BR-REV-010",
+      "@SC-BR-REV-010-02"
+    ],
+    "operation": "reversal.refund_with_late_fee",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "um ponto",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 11,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-001",
+      "@SC-BR-REW-001-01"
+    ],
+    "operation": "rewards.raw",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "abaixo de um ponto",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 24,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-001",
+      "@SC-BR-REW-001-02"
+    ],
+    "operation": "rewards.raw",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "fração não rende um ponto",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 41,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-002",
+      "@SC-BR-REW-002-01"
+    ],
+    "operation": "rewards.raw",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "uma unidade rende dois",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 53,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-002",
+      "@SC-BR-REW-002-02"
+    ],
+    "operation": "rewards.raw",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "restrita premium",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 69,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-003",
+      "@SC-BR-REW-003-01"
+    ],
+    "operation": "rewards.raw",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "normal premium",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 81,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-003",
+      "@SC-BR-REW-003-02"
+    ],
+    "operation": "rewards.raw",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "últimos pontos disponíveis",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 97,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-004",
+      "@SC-BR-REW-004-01"
+    ],
+    "operation": "rewards.cap",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "cap cheio",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 108,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-004",
+      "@SC-BR-REW-004-02"
+    ],
+    "operation": "rewards.cap",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem cap próximo",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 119,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-004",
+      "@SC-BR-REW-004-03"
+    ],
+    "operation": "rewards.cap",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "novo ciclo",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 134,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-005",
+      "@SC-BR-REW-005-01"
+    ],
+    "operation": "rewards.cycle_cap",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "mesmo ciclo",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 146,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-005",
+      "@SC-BR-REW-005-02"
+    ],
+    "operation": "rewards.cycle_cap",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "concessão reduzida por cap",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 162,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-006",
+      "@SC-BR-REW-006-01"
+    ],
+    "operation": "rewards.refund",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "metade final",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 175,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-006",
+      "@SC-BR-REW-006-02"
+    ],
+    "operation": "rewards.refund",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "integral",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 188,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-006",
+      "@SC-BR-REW-006-03"
+    ],
+    "operation": "rewards.refund",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "cap cheio antes do estorno",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 205,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-007",
+      "@SC-BR-REW-007-01"
+    ],
+    "operation": "rewards.after_refund",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "espaço não depende do estorno",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 218,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-007",
+      "@SC-BR-REW-007-02"
+    ],
+    "operation": "rewards.after_refund",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "uma captura",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 234,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-008",
+      "@SC-BR-REW-008-01"
+    ],
+    "operation": "rewards.capture_partition",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "duas capturas",
+    "uri": "docs/oracle/features/rew.feature",
+    "line": 245,
+    "tags": [
+      "@cap_rew",
+      "@BR-REW-008",
+      "@SC-BR-REW-008-02"
+    ],
+    "operation": "rewards.capture_partition",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "base padrão",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 11,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-001",
+      "@SC-BR-RSK-001-01"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "base alta",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 25,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-001",
+      "@SC-BR-RSK-001-02"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "país externo",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 43,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-002",
+      "@SC-BR-RSK-002-01"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "moeda externa no país base",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 56,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-002",
+      "@SC-BR-RSK-002-02"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "ausente",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 73,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-003",
+      "@SC-BR-RSK-003-01"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "presente",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 85,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-003",
+      "@SC-BR-RSK-003-02"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "abaixo",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 101,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-004",
+      "@SC-BR-RSK-004-01"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "igual",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 112,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-004",
+      "@SC-BR-RSK-004-02"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "fronteiras inclusivas",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 127,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-005",
+      "@SC-BR-RSK-005-01"
+    ],
+    "operation": "risk.velocity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "dois eventos",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 139,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-005",
+      "@SC-BR-RSK-005-02"
+    ],
+    "operation": "risk.velocity",
+    "kind": "COMPONENT",
+    "status": "PASS"
+  },
+  {
+    "name": "último aprovado",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 155,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-006",
+      "@SC-BR-RSK-006-01"
+    ],
+    "operation": "risk.classify",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "primeiro review",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 165,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-006",
+      "@SC-BR-RSK-006-02"
+    ],
+    "operation": "risk.classify",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "último review",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 175,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-006",
+      "@SC-BR-RSK-006-03"
+    ],
+    "operation": "risk.classify",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "primeiro declined",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 185,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-006",
+      "@SC-BR-RSK-006-04"
+    ],
+    "operation": "risk.classify",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "saturação",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 199,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-007",
+      "@SC-BR-RSK-007-01"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "sem saturação",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 213,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-007",
+      "@SC-BR-RSK-007-02"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "composição gera review",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 231,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-008",
+      "@SC-BR-RSK-008-01"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "abaixo do valor alto",
+    "uri": "docs/oracle/features/rsk.feature",
+    "line": 245,
+    "tags": [
+      "@cap_rsk",
+      "@BR-RSK-008",
+      "@SC-BR-RSK-008-02"
+    ],
+    "operation": "risk.score",
+    "kind": "UNIT",
+    "status": "PASS"
+  },
+  {
+    "name": "runner rejects divergent oracle",
+    "status": "PASS",
+    "kind": "HARNESS"
+  },
+  {
+    "name": "runner rejects invalid financial prestate",
+    "status": "PASS",
+    "kind": "HARNESS"
+  },
+  {
+    "name": "runner rejects undefined operation",
+    "status": "PASS",
+    "kind": "HARNESS"
+  }
+]

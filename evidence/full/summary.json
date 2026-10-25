@@ -1,0 +1,177 @@
+{
+  "status": "PASS",
+  "gates": [
+    {
+      "gate": "frozen",
+      "command": [
+        "/usr/bin/python3",
+        "tests/verify_frozen.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "build",
+      "command": [
+        "make",
+        "all"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "abi-layout",
+      "command": [
+        "/usr/bin/python3",
+        "tests/abi_layout.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "acceptance",
+      "command": [
+        "/usr/bin/python3",
+        "tests/acceptance.py",
+        "--binary",
+        "build/aurum",
+        "--library",
+        "build/libaurum.so",
+        "--report-dir",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/full/acceptance"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "differential",
+      "command": [
+        "/usr/bin/python3",
+        "tests/differential.py",
+        "--candidate",
+        "build/aurum",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/full/differential.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "architecture",
+      "command": [
+        "/home/gustavo/workspace/aurum-fixture/.venv/bin/python",
+        "tests/architecture_gate.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "purity",
+      "command": [
+        "/home/gustavo/workspace/aurum-fixture/.venv/bin/python",
+        "tests/purity_gate.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "capacity-regressions",
+      "command": [
+        "/usr/bin/python3",
+        "tests/review_regressions.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "candidate-mutations",
+      "command": [
+        "/usr/bin/python3",
+        "tests/candidate_mutations.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "generated",
+      "command": [
+        "/usr/bin/python3",
+        "tests/differential.py",
+        "--candidate",
+        "build/aurum",
+        "--corpus",
+        "tests/corpus/generated.json",
+        "--golden",
+        "tests/corpus/golden-generated.json",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/full/generated.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "full-state",
+      "command": [
+        "/usr/bin/python3",
+        "tests/state_differential.py",
+        "--library",
+        "build/libaurum.so",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/full/state.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "purity-sanitize",
+      "command": [
+        "/home/gustavo/workspace/aurum-fixture/.venv/bin/python",
+        "tests/purity_gate.py",
+        "--sanitizers",
+        "--report-dir",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/full/purity-sanitize"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "sanitize",
+      "command": [
+        "/usr/bin/python3",
+        "tests/instrument_candidate.py",
+        "--mode",
+        "sanitize"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "coverage",
+      "command": [
+        "/usr/bin/python3",
+        "tests/instrument_candidate.py",
+        "--mode",
+        "coverage"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ],
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "ast_python": "/home/gustavo/workspace/aurum-fixture/.venv/bin/python",
+  "source_sha256": {
+    "subject/include/aurum.h": "711f80c6a74a48d12bc21f659927557454edc04b5560b390f22324139c1f6195",
+    "subject/include/core.h": "c0c718c22a020e9a2e3cad56bdee0606e4d94dfc7f3e1f9cedfffe4b5b742844",
+    "subject/src/core_command.c": "991babbb2df9bcaf2e3514a9b422597768008910ca548a4f687039f806a3fbf3",
+    "subject/src/core_money.c": "719924217446ede8d062e99ca912098c9b25d82add1de9c42b896afa620b05b9",
+    "subject/src/core_policy.c": "d83213f4d3ed48fdbe47321e11b351446037c8908f987fe1b30cf60486bd24c7",
+    "subject/src/core_state.c": "9363af165cf2c609f24a1907743eba9e3afee64b10cb936ba8d10cf4570a8aa2",
+    "subject/src/core_transition.c": "533258886ba0054d4c70111d9a48cee271c2e2a65c88e154a24e3c27e57e78bc",
+    "subject/src/main.c": "8a5efc6bdd525a9186b2218bff65addad24dafe0b25007efdb1615d594840255",
+    "subject/src/shell_output.c": "0f8c972317efe0d839e0a7225a3dfa4c3bdcf8a25cee994bedc2d01ac602ec8a",
+    "subject/src/shell_protocol.c": "10ebfa3dc5861b331280f9cfa1ccbec42d741af5210d77030ab576498b7e923c",
+    "subject/src/shell_storage.c": "82ffaab405308d04f61661f760abcd4df63ef665907c322d0df2658c8ed9c234"
+  },
+  "excluded": "Joern, slicing and extraction methodologies intentionally NOT_RUN per user request."
+}

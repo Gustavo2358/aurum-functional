@@ -1,0 +1,113 @@
+{
+  "status": "PASS",
+  "mode": "sanitize",
+  "runs": [
+    {
+      "name": "build-cli",
+      "command": [
+        "cc",
+        "-std=c17",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-I/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/include",
+        "-O1",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_command.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_money.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_policy.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_state.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_transition.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/main.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_output.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_protocol.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_storage.c",
+        "-no-pie",
+        "-o",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/build/sanitize/aurum"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "build-library",
+      "command": [
+        "cc",
+        "-std=c17",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-I/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/include",
+        "-O1",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fPIC",
+        "-shared",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_command.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_money.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_policy.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_state.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_transition.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_output.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_protocol.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_storage.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/legacy_adapter.c",
+        "-o",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/build/sanitize/libaurum.so"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "acceptance",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/acceptance.py",
+        "--binary",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/build/sanitize/aurum",
+        "--library",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/build/sanitize/libaurum.so",
+        "--report-dir",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/sanitize/acceptance"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "fixed",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/differential.py",
+        "--candidate",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/build/sanitize/aurum",
+        "--corpus",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/corpus/cases.json",
+        "--golden",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/corpus/golden.json",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/sanitize/fixed.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "generated",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/differential.py",
+        "--candidate",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/build/sanitize/aurum",
+        "--corpus",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/corpus/generated.json",
+        "--golden",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/corpus/golden-generated.json",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/sanitize/generated.json"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "coverage": {},
+  "scope": "Full candidate acceptance and fixed/generated differential; ASan+UBSan for C shared and CLI; CLI differential leak detection enabled. Python host leak detection disabled. Coverage is runtime evidence, not proof of equivalence."
+}

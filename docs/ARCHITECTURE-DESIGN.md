@@ -15,6 +15,7 @@ Locals are ordinary C values. Value-returning constructors replace out parameter
 typedef struct { bool ok; int64_t value; } Number;
 typedef struct { Money gross; int64_t count; } DailyTotals;
 typedef struct { bool valid; Money debt_difference, held_difference; } Reconciliation;
+typedef struct { bool valid, store; History value; } HistoryRecord;
 typedef struct {
     Config config;
     int64_t now;
@@ -50,10 +51,28 @@ expiration eligibility or rollback policy. It only executes typed edits and
 honors the terminal status. Allocation failure discards the private transaction
 and returns `core_capacity_failure(command)`.
 
+The reducer protocol starts with `core_begin()`. Until a terminal result, the
+caller passes the identical Command value, the returned continuation, and a view
+corresponding exactly to the preceding edits already applied to its private
+transaction. Continuation fields are not independent public inputs to synthesize
+or modify. Each collection has a valid pointer/length pair, configuration is
+valid, and records form a valid domain snapshot. Specific corruption tests for
+reconciliation and cached projections are separate from those setup assumptions.
+The public CLI still validates every supported external command and seed; these
+protocol preconditions do not narrow its accepted input or error behavior.
+
+Views borrow their const arrays for the duration of each core call; the transaction
+owner controls their lifetime between calls. Const query pointers borrow the same
+arrays. Neither Step nor Continuation retains pointers or owns external memory.
+Append edits report the current logical collection length as their index;
+replacement indices identify existing elements. Clock edits use `value.now`.
+
 Every next call receives a view of the current private staged snapshot. The
 previous published snapshot remains alive and intact until commit. There is no
 fixed bound on the number of calls or edits; capacities retain 1..1,000,000 per
 collection. A constant-size continuation is transport, not a collection limit.
+Its eight Entry slots describe at most four debit/credit pairs for one elementary
+event; TICK and PAY process arbitrarily many events over successive calls.
 Selection scans implement deterministic ordering without core scratch allocation;
 ordered multi-entity operations can therefore take quadratic time. This preserves
 the domain without claiming scalability beyond the documented algorithm.
@@ -95,6 +114,9 @@ output pointer.
 * `int64_t core_recent_count(StateView,const char *)`;
   `DailyTotals core_daily_totals(StateView,const char *,int64_t)`;
   `Reason core_eligibility(StateView,const Account *,const Card *,const Merchant *,const Command *)`.
+* `HistoryRecord core_history_record(StateView,const char *,Decision,Money)`
+  determines whether a valid decision should produce a history record; production
+  authorization and the independent test adapter share this policy.
 * `Money core_authorization_hold(const Authorization *)`;
   `Reason core_capture_admission(const Authorization *,int64_t,Money)`,
   `core_refund_admission(const Capture *,Money)`; `AuthState core_capture_state(Money,Money)`.
@@ -118,3 +140,10 @@ Parsing and JSON serialization remain shell concerns. Logical defaults, command
 canonical equality, pricing, admission, transitions, financial ordering,
 projection and reconciliation remain domain concerns. Production contains no
 oracle/scenario IDs or expectation data.
+
+The implementation separates arithmetic (`core_money.c`), command envelopes and
+canonical equality (`core_command.c`), financial policy (`core_policy.c`), readonly
+queries and projections (`core_state.c`), and state transitions
+(`core_transition.c`). The transition dispatcher carries operation phases,
+financial ordering and edit values; its shared ledger phase emits the pairs
+already decided by those operation phases.

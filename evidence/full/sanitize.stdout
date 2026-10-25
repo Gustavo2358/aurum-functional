@@ -1,0 +1,6 @@
+build-cli PASS
+build-library PASS
+acceptance PASS
+fixed PASS
+generated PASS
+{"status": "PASS", "mode": "sanitize", "coverage": {}}

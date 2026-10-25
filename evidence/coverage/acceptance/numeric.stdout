@@ -1,0 +1,1 @@
+{"status": "PASS", "seed": 20260930, "numeric_cases": 16887, "assertions": 32502, "reference": "Python arbitrary-precision integers; no expected values from the C implementation"}

@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "build_exit": 0,
+  "command": [
+    "cc",
+    "-std=c17",
+    "-O1",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-unused-function",
+    "-I/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/include",
+    "-I/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/purity-runtime-sanitized",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-pie",
+    "-no-pie",
+    "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/purity_runtime.c",
+    "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_command.c",
+    "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_money.c",
+    "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_policy.c",
+    "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_state.c",
+    "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_transition.c",
+    "-o",
+    "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/purity-runtime-sanitized/purity-runtime"
+  ],
+  "source_sha256": {
+    "subject/src/core_command.c": "991babbb2df9bcaf2e3514a9b422597768008910ca548a4f687039f806a3fbf3",
+    "subject/src/core_money.c": "719924217446ede8d062e99ca912098c9b25d82add1de9c42b896afa620b05b9",
+    "subject/src/core_policy.c": "d83213f4d3ed48fdbe47321e11b351446037c8908f987fe1b30cf60486bd24c7",
+    "subject/src/core_state.c": "9363af165cf2c609f24a1907743eba9e3afee64b10cb936ba8d10cf4570a8aa2",
+    "subject/src/core_transition.c": "533258886ba0054d4c70111d9a48cee271c2e2a65c88e154a24e3c27e57e78bc",
+    "subject/include/core.h": "c0c718c22a020e9a2e3cad56bdee0606e4d94dfc7f3e1f9cedfffe4b5b742844",
+    "tests/purity_runtime.c": "39e633ea08153bf44b75fe44ecf9c4f4c21278e5ca6c04c8af8d6bd63b536ce9"
+  },
+  "sanitizers": {
+    "ASan": "enabled",
+    "UBSan": "enabled",
+    "LSan": "NOT_RUN: host ptrace restriction; core owns no heap allocations"
+  },
+  "exit_code": 0,
+  "checks": {
+    "status": "PASS",
+    "readonly_collections": 13,
+    "repetitions": 40,
+    "interleaved_commands": 4,
+    "lifecycle_operations": 11,
+    "cache_replay_and_conflict": true,
+    "arithmetic_split_cases": 3612,
+    "raw_before": "fbf77b444bcaf120",
+    "raw_after": "fbf77b444bcaf120",
+    "semantic_before": "4cdc1c965bde1e63",
+    "semantic_after": "4cdc1c965bde1e63",
+    "authorize_steps": 7,
+    "tick_steps": 3
+  }
+}

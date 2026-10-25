@@ -1,0 +1,127 @@
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_command.c'
+Lines executed:88.73% of 71
+Branches executed:92.56% of 215
+Taken at least once:60.47% of 215
+Calls executed:96.30% of 27
+
+Creating 'aurum-core_command.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_money.c'
+Lines executed:100.00% of 43
+Branches executed:100.00% of 80
+Taken at least once:57.50% of 80
+Calls executed:100.00% of 18
+
+Creating 'aurum-core_money.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_policy.c'
+Lines executed:100.00% of 122
+Branches executed:99.15% of 236
+Taken at least once:69.92% of 236
+Calls executed:100.00% of 27
+
+Creating 'aurum-core_policy.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_state.c'
+Lines executed:100.00% of 154
+Branches executed:96.97% of 198
+Taken at least once:75.25% of 198
+Calls executed:100.00% of 27
+
+Creating 'aurum-core_state.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_transition.c'
+Lines executed:96.84% of 569
+Branches executed:96.81% of 376
+Taken at least once:80.05% of 376
+Calls executed:76.04% of 217
+
+Creating 'aurum-core_transition.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/main.c'
+Lines executed:97.22% of 36
+Branches executed:100.00% of 48
+Taken at least once:79.17% of 48
+Calls executed:83.33% of 30
+
+Creating 'aurum-main.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_output.c'
+Lines executed:98.32% of 119
+Branches executed:97.47% of 79
+Taken at least once:77.22% of 79
+Calls executed:97.12% of 104
+
+Creating 'aurum-shell_output.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_protocol.c'
+Lines executed:91.02% of 245
+Branches executed:94.94% of 395
+Taken at least once:80.51% of 395
+Calls executed:94.81% of 77
+
+Creating 'aurum-shell_protocol.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_storage.c'
+Lines executed:95.00% of 60
+Branches executed:88.95% of 181
+Taken at least once:58.56% of 181
+Calls executed:36.54% of 52
+
+Creating 'aurum-shell_storage.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_command.c'
+Lines executed:88.73% of 71
+Branches executed:92.56% of 215
+Taken at least once:66.05% of 215
+Calls executed:96.30% of 27
+
+Creating 'libaurum.so-core_command.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_money.c'
+Lines executed:100.00% of 43
+Branches executed:100.00% of 80
+Taken at least once:90.00% of 80
+Calls executed:100.00% of 18
+
+Creating 'libaurum.so-core_money.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_policy.c'
+Lines executed:99.18% of 122
+Branches executed:100.00% of 236
+Taken at least once:86.44% of 236
+Calls executed:100.00% of 27
+
+Creating 'libaurum.so-core_policy.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_state.c'
+Lines executed:81.17% of 154
+Branches executed:73.74% of 198
+Taken at least once:63.64% of 198
+Calls executed:59.26% of 27
+
+Creating 'libaurum.so-core_state.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/core_transition.c'
+Lines executed:97.01% of 569
+Branches executed:96.28% of 376
+Taken at least once:78.72% of 376
+Calls executed:72.81% of 217
+
+Creating 'libaurum.so-core_transition.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/legacy_adapter.c'
+Lines executed:92.39% of 92
+Branches executed:100.00% of 44
+Taken at least once:72.73% of 44
+Calls executed:85.54% of 83
+
+Creating 'libaurum.so-legacy_adapter.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_output.c'
+Lines executed:24.37% of 119
+Branches executed:30.38% of 79
+Taken at least once:17.72% of 79
+Calls executed:15.38% of 104
+
+Creating 'libaurum.so-shell_output.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_protocol.c'
+Lines executed:43.27% of 245
+Branches executed:40.00% of 395
+Taken at least once:26.84% of 395
+Calls executed:37.66% of 77
+
+Creating 'libaurum.so-shell_protocol.gcov.json.gz'
+File '/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/subject/src/shell_storage.c'
+Lines executed:95.00% of 60
+Branches executed:88.95% of 181
+Taken at least once:59.12% of 181
+Calls executed:38.46% of 52
+
+Creating 'libaurum.so-shell_storage.gcov.json.gz'
+Lines executed:87.98% of 2894

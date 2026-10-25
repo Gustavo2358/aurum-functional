@@ -8,7 +8,10 @@ def ast_python():
  candidate=os.environ.get('AURUM_AST_PYTHON')
  choices=[candidate,sys.executable,'/home/gustavo/workspace/aurum-fixture/.venv/bin/python']
  for choice in choices:
-  if choice and subprocess.run([choice,'-c','import clang.cindex'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:return choice
+  if not choice:continue
+  try:
+   if subprocess.run([choice,'-c','import clang.cindex'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:return choice
+  except OSError:continue
  raise RuntimeError('NOT_RUN: libclang Python binding unavailable; set AURUM_AST_PYTHON to an existing environment. No automatic install.')
 
 def main():
@@ -16,12 +19,13 @@ def main():
  out=ROOT/'evidence'/('fast' if a.fast else 'full');out.mkdir(parents=True,exist_ok=True)
  py=sys.executable;apy=ast_python();runs=[]
  commands=[('frozen',[py,'tests/verify_frozen.py']),('build',['make','all']),
+  ('abi-layout',[py,'tests/abi_layout.py']),
   ('acceptance',[py,'tests/acceptance.py','--binary','build/aurum','--library','build/libaurum.so','--report-dir',str(out/'acceptance')]),
   ('differential',[py,'tests/differential.py','--candidate','build/aurum','--report',str(out/'differential.json')]),
   ('architecture',[apy,'tests/architecture_gate.py','--self-test']),
   ('purity',[apy,'tests/purity_gate.py'])]
  if not a.fast:
-  commands += [('generated',[py,'tests/differential.py','--candidate','build/aurum','--corpus','tests/corpus/generated.json','--golden','tests/corpus/golden-generated.json','--report',str(out/'generated.json')]),
+  commands += [('capacity-regressions',[py,'tests/review_regressions.py']),('candidate-mutations',[py,'tests/candidate_mutations.py']),('generated',[py,'tests/differential.py','--candidate','build/aurum','--corpus','tests/corpus/generated.json','--golden','tests/corpus/golden-generated.json','--report',str(out/'generated.json')]),
    ('full-state',[py,'tests/state_differential.py','--library','build/libaurum.so','--report',str(out/'state.json')]),
    ('purity-sanitize',[apy,'tests/purity_gate.py','--sanitizers','--report-dir',str(out/'purity-sanitize')]),
    ('sanitize',[py,'tests/instrument_candidate.py','--mode','sanitize']),
