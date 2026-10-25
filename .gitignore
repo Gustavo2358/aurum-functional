@@ -1,0 +1,8 @@
+build/
+__pycache__/
+*.pyc
+*.gcda
+*.gcno
+*.gcov.json.gz
+evidence/harness-original/aurum
+evidence/harness-original/libaurum.so

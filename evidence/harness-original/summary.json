@@ -1,0 +1,156 @@
+{
+  "status": "PASS",
+  "binary": "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/aurum",
+  "binary_sha256": "59ab090645f12b4424ba00ab405e13c6ff45379a11c0a8a4bd07cb99897698f0",
+  "library": "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/libaurum.so",
+  "library_sha256": "eeecac97d3b6ead438516774beb0d2ff3d2a93acdea847b93803d7cc2812b6e6",
+  "python": "3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]",
+  "gates": [
+    {
+      "gate": "build-cli",
+      "command": [
+        "cc",
+        "-std=c17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-I/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/include",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/billing.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/engine.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/lifecycle.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/main.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/money.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/output.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/policy.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/protocol.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/state.c",
+        "-o",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/aurum"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "build-library",
+      "command": [
+        "cc",
+        "-std=c17",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-I/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/include",
+        "-fPIC",
+        "-shared",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/billing.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/engine.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/lifecycle.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/money.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/output.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/policy.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/protocol.c",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/subject/src/state.c",
+        "-o",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/libaurum.so"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "oracle-math",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/tools/check_oracle_math.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "gherkin",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/harness/run.py",
+        "--self-test",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/gherkin.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "protocol",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/harness/protocol_adversarial.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "adversarial",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/harness/adversarial.py",
+        "--binary",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/aurum",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/adversarial.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "numeric",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/harness/numeric_properties.py",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/numeric.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "invariants",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/harness/invariants.py",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/invariants.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "regression",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/harness/regression_audit.py",
+        "--binary",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/aurum",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/regression.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    {
+      "gate": "mutations",
+      "command": [
+        "/usr/bin/python3",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/tests/original/tools/mutations.py",
+        "--binary",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/aurum",
+        "--report",
+        "/home/gustavo/Documents/Codex/2026-10-25/task-5/aurum-functional/evidence/harness-original/mutations.json"
+      ],
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  ]
+}

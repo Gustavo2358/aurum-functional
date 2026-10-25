@@ -1,0 +1,18 @@
+credit_equality: KILLED
+credit_omits_fee: KILLED
+capture_state_guard_removed: KILLED
+capture_independent_rounding: KILLED
+refund_entire_fee_first: KILLED
+refund_restores_reward_cap: KILLED
+payment_late_last: KILLED
+payment_principal_before_fee: KILLED
+replay_executes_again: KILLED
+expire_one_minute_early: KILLED
+accept_truncated_line: KILLED
+equivalent_local_rename: EQUIVALENT_PASS
+{
+  "status": "PASS",
+  "killed": 11,
+  "survived": 0,
+  "equivalent": 1
+}

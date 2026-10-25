@@ -1,0 +1,4855 @@
+{
+  "schema": "aurum-author-oracle-1",
+  "notice": "Specification only; no implementation results. Keep out of extraction input.",
+  "rules": [
+    {
+      "id": "BR-MNY-001",
+      "title": "Domínio monetário inteiro e limitado",
+      "norm": "Valores monetários não assinados válidos pertencem a [0, 1000000000000]. Negativo ou acima do máximo é NUMERIC_RANGE; zero é permitido na representação, embora comandos de pagamento/captura exijam positivo.",
+      "operation": "money.validate",
+      "cases": [
+        {
+          "name": "zero representável",
+          "given": {
+            "value": 0
+          },
+          "expected": {
+            "ok": true
+          },
+          "id": "SC-BR-MNY-001-01"
+        },
+        {
+          "name": "máximo representável",
+          "given": {
+            "value": 1000000000000
+          },
+          "expected": {
+            "ok": true
+          },
+          "id": "SC-BR-MNY-001-02"
+        },
+        {
+          "name": "acima do máximo",
+          "given": {
+            "value": 1000000000001
+          },
+          "expected": {
+            "ok": false,
+            "error": "NUMERIC_RANGE"
+          },
+          "id": "SC-BR-MNY-001-03"
+        },
+        {
+          "name": "negativo",
+          "given": {
+            "value": -1
+          },
+          "expected": {
+            "ok": false,
+            "error": "NUMERIC_RANGE"
+          },
+          "id": "SC-BR-MNY-001-04"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-MNY-002",
+      "title": "Soma monetária verificada",
+      "norm": "A soma de dois valores monetários válidos só existe no modelo se o resultado não exceder MONEY_MAX. Validar antes de atualizar acumuladores.",
+      "operation": "money.add",
+      "cases": [
+        {
+          "name": "soma exata",
+          "given": {
+            "a": 999999999999,
+            "b": 1
+          },
+          "expected": {
+            "ok": true,
+            "value": 1000000000000
+          },
+          "id": "SC-BR-MNY-002-01"
+        },
+        {
+          "name": "excesso",
+          "given": {
+            "a": 1000000000000,
+            "b": 1
+          },
+          "expected": {
+            "ok": false,
+            "error": "NUMERIC_RANGE"
+          },
+          "id": "SC-BR-MNY-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-MNY-003",
+      "title": "Subtração sem saldo negativo",
+      "norm": "Subtrair b de a requer a>=b e operandos monetários válidos. Underflow deve ser rejeitado, não convertido em unsigned enorme ou zero silencioso.",
+      "operation": "money.subtract",
+      "cases": [
+        {
+          "name": "zera",
+          "given": {
+            "a": 500,
+            "b": 500
+          },
+          "expected": {
+            "ok": true,
+            "value": 0
+          },
+          "id": "SC-BR-MNY-003-01"
+        },
+        {
+          "name": "saldo positivo",
+          "given": {
+            "a": 501,
+            "b": 500
+          },
+          "expected": {
+            "ok": true,
+            "value": 1
+          },
+          "id": "SC-BR-MNY-003-02"
+        },
+        {
+          "name": "underflow",
+          "given": {
+            "a": 499,
+            "b": 500
+          },
+          "expected": {
+            "ok": false,
+            "error": "NUMERIC_RANGE"
+          },
+          "id": "SC-BR-MNY-003-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-MNY-004",
+      "title": "Percentual com truncamento inferior",
+      "norm": "floor_rate(v,bps)=floor(v*bps/10000), com v não negativo e bps em [0,10000]. Não arredondar meio centavo para cima.",
+      "operation": "money.floor_rate",
+      "cases": [
+        {
+          "name": "fração descartada",
+          "given": {
+            "value": 10001,
+            "bps": 200
+          },
+          "expected": {
+            "value": 200
+          },
+          "id": "SC-BR-MNY-004-01"
+        },
+        {
+          "name": "menos de um centavo",
+          "given": {
+            "value": 49,
+            "bps": 200
+          },
+          "expected": {
+            "value": 0
+          },
+          "id": "SC-BR-MNY-004-02"
+        },
+        {
+          "name": "cem por cento",
+          "given": {
+            "value": 123,
+            "bps": 10000
+          },
+          "expected": {
+            "value": 123
+          },
+          "id": "SC-BR-MNY-004-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-MNY-005",
+      "title": "Percentual com arredondamento superior",
+      "norm": "ceil_rate(v,bps)=ceil(v*bps/10000). Zero permanece zero. Este operador é usado no pagamento mínimo, não nas tarifas.",
+      "operation": "money.ceil_rate",
+      "cases": [
+        {
+          "name": "fração elevada",
+          "given": {
+            "value": 10001,
+            "bps": 1000
+          },
+          "expected": {
+            "value": 1001
+          },
+          "id": "SC-BR-MNY-005-01"
+        },
+        {
+          "name": "zero",
+          "given": {
+            "value": 0,
+            "bps": 1000
+          },
+          "expected": {
+            "value": 0
+          },
+          "id": "SC-BR-MNY-005-02"
+        },
+        {
+          "name": "divisão exata",
+          "given": {
+            "value": 10000,
+            "bps": 1000
+          },
+          "expected": {
+            "value": 1000
+          },
+          "id": "SC-BR-MNY-005-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-MNY-006",
+      "title": "Conversão com metade para cima",
+      "norm": "fx(v,rate)=floor((v*rate+5000)/10000). A metade exata sobe para o próximo centavo. Operandos e resultado respeitam os limites do domínio.",
+      "operation": "money.fx",
+      "cases": [
+        {
+          "name": "metade",
+          "given": {
+            "value": 1,
+            "rate": 15000
+          },
+          "expected": {
+            "value": 2
+          },
+          "id": "SC-BR-MNY-006-01"
+        },
+        {
+          "name": "abaixo de metade",
+          "given": {
+            "value": 1,
+            "rate": 14999
+          },
+          "expected": {
+            "value": 1
+          },
+          "id": "SC-BR-MNY-006-02"
+        },
+        {
+          "name": "acima de metade",
+          "given": {
+            "value": 1,
+            "rate": 15001
+          },
+          "expected": {
+            "value": 2
+          },
+          "id": "SC-BR-MNY-006-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-MNY-007",
+      "title": "Configuração de taxas validada",
+      "norm": "bps deve estar entre 0 e 10000 inclusive; FX deve estar entre 1 e 100000 inclusive. Taxa inválida não pode ser usada nem corrigida por clamp.",
+      "operation": "money.validate_rates",
+      "cases": [
+        {
+          "name": "fronteiras válidas",
+          "given": {
+            "bps": 10000,
+            "fx_rate": 100000
+          },
+          "expected": {
+            "ok": true
+          },
+          "id": "SC-BR-MNY-007-01"
+        },
+        {
+          "name": "FX zero",
+          "given": {
+            "bps": 200,
+            "fx_rate": 0
+          },
+          "expected": {
+            "ok": false
+          },
+          "id": "SC-BR-MNY-007-02"
+        },
+        {
+          "name": "percentual inválido",
+          "given": {
+            "bps": 10001,
+            "fx_rate": 50000
+          },
+          "expected": {
+            "ok": false
+          },
+          "id": "SC-BR-MNY-007-03"
+        },
+        {
+          "name": "FX excessivo",
+          "given": {
+            "bps": 200,
+            "fx_rate": 100001
+          },
+          "expected": {
+            "ok": false
+          },
+          "id": "SC-BR-MNY-007-04"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-MNY-008",
+      "title": "Intermediários aritméticos não transbordam",
+      "norm": "A multiplicação verificada de inteiros int64 não negativos retorna NUMERIC_RANGE se exceder INT64_MAX. Nunca executar signed overflow para então tentar detectá-lo. O limite monetário final continua sendo outro cheque.",
+      "operation": "money.checked_mul",
+      "cases": [
+        {
+          "name": "intermediário usado por FX",
+          "given": {
+            "a": 1000000000000,
+            "b": 100000
+          },
+          "expected": {
+            "ok": true,
+            "value": 100000000000000000
+          },
+          "id": "SC-BR-MNY-008-01"
+        },
+        {
+          "name": "overflow int64",
+          "given": {
+            "a": 9223372036854775807,
+            "b": 2
+          },
+          "expected": {
+            "ok": false,
+            "error": "NUMERIC_RANGE"
+          },
+          "id": "SC-BR-MNY-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-001",
+      "title": "Moeda base não altera principal",
+      "norm": "BRL usa fator10000; o principal cotado é exatamente o montante solicitado, sem reconversão adicional.",
+      "operation": "pricing.quote",
+      "cases": [
+        {
+          "name": "um centavo",
+          "given": {
+            "amount": 1,
+            "currency": "BRL"
+          },
+          "expected": {
+            "principal": 1
+          },
+          "id": "SC-BR-PRC-001-01"
+        },
+        {
+          "name": "montante base",
+          "given": {
+            "amount": 10001,
+            "currency": "BRL"
+          },
+          "expected": {
+            "principal": 10001
+          },
+          "id": "SC-BR-PRC-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-002",
+      "title": "Cotação estrangeira usa taxa explícita",
+      "norm": "USD usa50000 e EUR60000 no perfil base. A conversão produz principal em BRL com half-up; taxas são fixas sintéticas.",
+      "operation": "pricing.quote",
+      "cases": [
+        {
+          "name": "USD",
+          "given": {
+            "amount": 123,
+            "currency": "USD"
+          },
+          "expected": {
+            "principal": 615
+          },
+          "id": "SC-BR-PRC-002-01"
+        },
+        {
+          "name": "EUR",
+          "given": {
+            "amount": 123,
+            "currency": "EUR"
+          },
+          "expected": {
+            "principal": 738
+          },
+          "id": "SC-BR-PRC-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-003",
+      "title": "Moeda sem taxa não recebe fallback",
+      "norm": "Uma moeda sem taxa não pode ser tratada como BRL nem inferida de country. A cotação falha com UNSUPPORTED_CURRENCY; AUTHORIZE traduz isso para DECLINED.",
+      "operation": "pricing.quote",
+      "cases": [
+        {
+          "name": "moeda ausente",
+          "given": {
+            "amount": 10000,
+            "currency": "JPY"
+          },
+          "expected": {
+            "ok": false,
+            "reason": "UNSUPPORTED_CURRENCY"
+          },
+          "id": "SC-BR-PRC-003-01"
+        },
+        {
+          "name": "moeda existente",
+          "given": {
+            "amount": 10000,
+            "currency": "BRL"
+          },
+          "expected": {
+            "ok": true,
+            "principal": 10000
+          },
+          "id": "SC-BR-PRC-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-004",
+      "title": "Tarifa cambial de cliente regular",
+      "norm": "REGULAR em currency!=BRL paga floor(P*200/10000) na componente internacional. O país não ativa essa tarifa sozinho.",
+      "operation": "pricing.components",
+      "cases": [
+        {
+          "name": "regular USD",
+          "given": {
+            "principal": 10001,
+            "currency": "USD",
+            "tier": "REGULAR"
+          },
+          "expected": {
+            "international_fee": 200
+          },
+          "id": "SC-BR-PRC-004-01"
+        },
+        {
+          "name": "BRL no exterior",
+          "given": {
+            "principal": 10001,
+            "currency": "BRL",
+            "country": "US",
+            "tier": "REGULAR"
+          },
+          "expected": {
+            "international_fee": 0
+          },
+          "id": "SC-BR-PRC-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-005",
+      "title": "Isenção premium é específica",
+      "norm": "PREMIUM zera somente international_fee. Não zera installment_fee, principal nem multa.",
+      "operation": "pricing.components",
+      "cases": [
+        {
+          "name": "premium parcelado estrangeiro",
+          "given": {
+            "principal": 10000,
+            "currency": "USD",
+            "tier": "PREMIUM",
+            "installments": 3
+          },
+          "expected": {
+            "international_fee": 0,
+            "installment_fee": 100,
+            "fee": 100
+          },
+          "id": "SC-BR-PRC-005-01"
+        },
+        {
+          "name": "regular equivalente",
+          "given": {
+            "principal": 10000,
+            "currency": "USD",
+            "tier": "REGULAR",
+            "installments": 3
+          },
+          "expected": {
+            "international_fee": 200,
+            "installment_fee": 100,
+            "fee": 300
+          },
+          "id": "SC-BR-PRC-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-006",
+      "title": "Tarifa por parcelas adicionais",
+      "norm": "installment_fee=floor(P*50*(n-1)/10000), em cálculo único. Não arredondar separadamente cada parcela adicional.",
+      "operation": "pricing.components",
+      "cases": [
+        {
+          "name": "à vista",
+          "given": {
+            "principal": 10001,
+            "installments": 1
+          },
+          "expected": {
+            "installment_fee": 0
+          },
+          "id": "SC-BR-PRC-006-01"
+        },
+        {
+          "name": "três parcelas",
+          "given": {
+            "principal": 10001,
+            "installments": 3
+          },
+          "expected": {
+            "installment_fee": 100
+          },
+          "id": "SC-BR-PRC-006-02"
+        },
+        {
+          "name": "frações combinadas",
+          "given": {
+            "principal": 599,
+            "installments": 3
+          },
+          "expected": {
+            "installment_fee": 5
+          },
+          "id": "SC-BR-PRC-006-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-007",
+      "title": "Teto incide depois da soma de componentes",
+      "norm": "F=min(5000, international_fee+installment_fee). As componentes calculadas continuam observáveis, sem aplicar teto em cada uma.",
+      "operation": "pricing.components",
+      "cases": [
+        {
+          "name": "teto atingido",
+          "given": {
+            "principal": 100000,
+            "currency": "USD",
+            "tier": "REGULAR",
+            "installments": 12
+          },
+          "expected": {
+            "international_fee": 2000,
+            "installment_fee": 5500,
+            "fee": 5000
+          },
+          "id": "SC-BR-PRC-007-01"
+        },
+        {
+          "name": "abaixo do teto",
+          "given": {
+            "principal": 10000,
+            "currency": "BRL",
+            "installments": 3
+          },
+          "expected": {
+            "fee": 100
+          },
+          "id": "SC-BR-PRC-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-PRC-008",
+      "title": "Cotação não compromete a conta",
+      "norm": "QUOTE produz preço, mas não reserva limite, cria dívida, soma consumo diário ou concede pontos. Consultas repetidas no mesmo estado/configuração são iguais.",
+      "operation": "pricing.purity",
+      "cases": [
+        {
+          "name": "cotação única",
+          "given": {
+            "amount": 10000,
+            "currency": "USD",
+            "repeat": 1
+          },
+          "expected": {
+            "principal": 50000,
+            "fee": 1000,
+            "financial_unchanged": true
+          },
+          "id": "SC-BR-PRC-008-01"
+        },
+        {
+          "name": "cotação repetida",
+          "given": {
+            "amount": 10000,
+            "currency": "USD",
+            "repeat": 3
+          },
+          "expected": {
+            "same_response": true,
+            "financial_unchanged": true
+          },
+          "id": "SC-BR-PRC-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-001",
+      "title": "Conta inativa impede autorização",
+      "norm": "No gate de elegibilidade, conta inativa impede autorização. Gates anteriores têm precedência. A decisão é DECLINED com a razão correspondente, sem efeitos financeiros.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "impedimento",
+          "given": {
+            "account.active": false
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "ACCOUNT_INACTIVE"
+          },
+          "id": "SC-BR-ELG-001-01"
+        },
+        {
+          "name": "perfil elegível",
+          "given": {},
+          "expected": {
+            "eligible": true,
+            "reason": "NONE"
+          },
+          "id": "SC-BR-ELG-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-002",
+      "title": "Cartão bloqueado impede autorização",
+      "norm": "No gate de elegibilidade, cartão bloqueado impede autorização. Gates anteriores têm precedência. A decisão é DECLINED com a razão correspondente, sem efeitos financeiros.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "impedimento",
+          "given": {
+            "card.status": "BLOCKED"
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "CARD_BLOCKED"
+          },
+          "id": "SC-BR-ELG-002-01"
+        },
+        {
+          "name": "perfil elegível",
+          "given": {},
+          "expected": {
+            "eligible": true,
+            "reason": "NONE"
+          },
+          "id": "SC-BR-ELG-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-004",
+      "title": "Lojista bloqueado impede autorização",
+      "norm": "No gate de elegibilidade, lojista bloqueado impede autorização. Gates anteriores têm precedência. A decisão é DECLINED com a razão correspondente, sem efeitos financeiros.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "impedimento",
+          "given": {
+            "merchant.status": "BLOCKED"
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "MERCHANT_BLOCKED"
+          },
+          "id": "SC-BR-ELG-004-01"
+        },
+        {
+          "name": "perfil elegível",
+          "given": {},
+          "expected": {
+            "eligible": true,
+            "reason": "NONE"
+          },
+          "id": "SC-BR-ELG-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-005",
+      "title": "Categoria restrita impede nova autorização",
+      "norm": "No gate de elegibilidade, categoria restrita impede nova autorização. Gates anteriores têm precedência. A decisão é DECLINED com a razão correspondente, sem efeitos financeiros.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "impedimento",
+          "given": {
+            "merchant.category": "RESTRICTED"
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "CATEGORY_RESTRICTED"
+          },
+          "id": "SC-BR-ELG-005-01"
+        },
+        {
+          "name": "perfil elegível",
+          "given": {},
+          "expected": {
+            "eligible": true,
+            "reason": "NONE"
+          },
+          "id": "SC-BR-ELG-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-003",
+      "title": "Validade do cartão inclui o último dia",
+      "norm": "Cartão é válido quando day<=expiry_day. Expiração de cartão não se confunde com TTL da autorização.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "dia final válido",
+          "given": {
+            "day": 500,
+            "card.expiry_day": 500
+          },
+          "expected": {
+            "eligible": true
+          },
+          "id": "SC-BR-ELG-003-01"
+        },
+        {
+          "name": "dia seguinte inválido",
+          "given": {
+            "day": 501,
+            "card.expiry_day": 500
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "CARD_EXPIRED"
+          },
+          "id": "SC-BR-ELG-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-006",
+      "title": "Permissão internacional depende do país",
+      "norm": "Se country!=BR e card.allow_international=false, rejeitar. Moeda USD em country=BR não aciona essa restrição de país.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "país externo não permitido",
+          "given": {
+            "country": "US",
+            "card.allow_international": false
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "INTERNATIONAL_DISABLED"
+          },
+          "id": "SC-BR-ELG-006-01"
+        },
+        {
+          "name": "moeda estrangeira no país base",
+          "given": {
+            "country": "BR",
+            "currency": "USD",
+            "card.allow_international": false
+          },
+          "expected": {
+            "eligible": true
+          },
+          "id": "SC-BR-ELG-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-007",
+      "title": "Permissão de aproximação é específica do canal",
+      "norm": "channel=CONTACTLESS exige card.allow_contactless=true. Proibição não bloqueia POS normal.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "aproximação bloqueada",
+          "given": {
+            "channel": "CONTACTLESS",
+            "card.allow_contactless": false
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "CONTACTLESS_DISABLED"
+          },
+          "id": "SC-BR-ELG-007-01"
+        },
+        {
+          "name": "POS permitido",
+          "given": {
+            "channel": "POS",
+            "card.allow_contactless": false
+          },
+          "expected": {
+            "eligible": true
+          },
+          "id": "SC-BR-ELG-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-008",
+      "title": "PIN exigido acima do limite presencial",
+      "norm": "Quando card_present=true e amount nominal>10000, pin_ok deve ser true. O limiar é deliberadamente nominal na moeda de entrada, antes da cotação; não usar P convertido. Quando card_present=false, esta guarda de PIN presencial não se aplica.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "fronteira sem PIN",
+          "given": {
+            "amount": 10000,
+            "pin_ok": false
+          },
+          "expected": {
+            "eligible": true
+          },
+          "id": "SC-BR-ELG-008-01"
+        },
+        {
+          "name": "acima da fronteira sem PIN",
+          "given": {
+            "amount": 10001,
+            "pin_ok": false
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "PIN_REQUIRED"
+          },
+          "id": "SC-BR-ELG-008-02"
+        },
+        {
+          "name": "remoto não exige PIN presencial",
+          "given": {
+            "amount": 10001,
+            "card_present": false,
+            "pin_ok": false
+          },
+          "expected": {
+            "eligible": true
+          },
+          "id": "SC-BR-ELG-008-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-ELG-009",
+      "title": "Saldo vencido impede nova autorização",
+      "norm": "Qualquer fatura da conta com day>due_day e outstanding>0 causa PAST_DUE. No dia do vencimento ainda não há atraso; pagamento mínimo não elimina saldo vencido.",
+      "operation": "eligibility.check",
+      "cases": [
+        {
+          "name": "vencimento inclusivo",
+          "given": {
+            "day": 130,
+            "invoices": [
+              {
+                "due_day": 130,
+                "outstanding": 100
+              }
+            ]
+          },
+          "expected": {
+            "eligible": true
+          },
+          "id": "SC-BR-ELG-009-01"
+        },
+        {
+          "name": "vencida com saldo",
+          "given": {
+            "day": 131,
+            "invoices": [
+              {
+                "due_day": 130,
+                "outstanding": 100
+              }
+            ]
+          },
+          "expected": {
+            "eligible": false,
+            "reason": "PAST_DUE"
+          },
+          "id": "SC-BR-ELG-009-02"
+        },
+        {
+          "name": "vencida quitada",
+          "given": {
+            "day": 131,
+            "invoices": [
+              {
+                "due_day": 130,
+                "outstanding": 0
+              }
+            ]
+          },
+          "expected": {
+            "eligible": true
+          },
+          "id": "SC-BR-ELG-009-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-001",
+      "title": "Disponibilidade considera dívida e reservas",
+      "norm": "available=max(0,credit_limit-debt-held); parcelas futuras fazem parte de debt e limite reduzido não pode gerar saldo disponível negativo.",
+      "operation": "limits.available",
+      "cases": [
+        {
+          "name": "dívida e hold",
+          "given": {
+            "credit_limit": 100000,
+            "debt": 40000,
+            "held": 30000
+          },
+          "expected": {
+            "available": 30000
+          },
+          "id": "SC-BR-LIM-001-01"
+        },
+        {
+          "name": "compromisso acima do limite",
+          "given": {
+            "credit_limit": 100000,
+            "debt": 110000,
+            "held": 0
+          },
+          "expected": {
+            "available": 0
+          },
+          "id": "SC-BR-LIM-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-002",
+      "title": "Crédito cobre principal mais tarifa",
+      "norm": "A autorização só cabe no crédito quando P+F<=available. Igualdade é permitida; validar só P é erro.",
+      "operation": "limits.credit",
+      "cases": [
+        {
+          "name": "igualdade completa",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "available": 10200
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-LIM-002-01"
+        },
+        {
+          "name": "tarifa excede",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "available": 10199
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "CREDIT_LIMIT"
+          },
+          "id": "SC-BR-LIM-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-003",
+      "title": "Limite por operação usa principal convertido",
+      "norm": "P<=per_operation_limit; taxa não entra nessa comparação, mas a moeda precisa já estar convertida. Igualdade passa.",
+      "operation": "limits.operation",
+      "cases": [
+        {
+          "name": "exato",
+          "given": {
+            "principal": 200000,
+            "fee": 5000,
+            "per_operation_limit": 200000
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-LIM-003-01"
+        },
+        {
+          "name": "um centavo acima",
+          "given": {
+            "principal": 200001,
+            "fee": 0,
+            "per_operation_limit": 200000
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "OPERATION_LIMIT"
+          },
+          "id": "SC-BR-LIM-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-004",
+      "title": "Limite diário usa consumo bruto de principal",
+      "norm": "daily_gross_principal+P<=daily_limit. Tarifa não consome o limite diário de principal.",
+      "operation": "limits.daily_amount",
+      "cases": [
+        {
+          "name": "exato apesar de tarifa",
+          "given": {
+            "used": 290000,
+            "principal": 10000,
+            "fee": 200,
+            "daily_limit": 300000
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-LIM-004-01"
+        },
+        {
+          "name": "excesso de principal",
+          "given": {
+            "used": 290001,
+            "principal": 10000,
+            "fee": 0,
+            "daily_limit": 300000
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "DAILY_AMOUNT"
+          },
+          "id": "SC-BR-LIM-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-005",
+      "title": "Limite diário de quantidade verifica histórico anterior",
+      "norm": "Se o número anterior de APPROVED/REVIEW no dia for menor que10, a nova tentativa pode passar esse gate; com 10 já existentes, é recusada. DECLINED não entra.",
+      "operation": "limits.daily_count",
+      "cases": [
+        {
+          "name": "décima tentativa contável",
+          "given": {
+            "approved": 7,
+            "review": 2,
+            "declined": 20
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-LIM-005-01"
+        },
+        {
+          "name": "limite cheio",
+          "given": {
+            "approved": 7,
+            "review": 3,
+            "declined": 0
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "DAILY_COUNT"
+          },
+          "id": "SC-BR-LIM-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-006",
+      "title": "Consumo é separado por dia lógico",
+      "norm": "Agregações diárias selecionam somente eventos APPROVED/REVIEW do day corrente. Registros de outro dia não desaparecem, apenas ficam fora do agregado.",
+      "operation": "limits.day_projection",
+      "cases": [
+        {
+          "name": "dia corrente",
+          "given": {
+            "day": 101,
+            "history": [
+              {
+                "day": 100,
+                "decision": "APPROVED",
+                "principal": 9000
+              },
+              {
+                "day": 101,
+                "decision": "APPROVED",
+                "principal": 5000
+              },
+              {
+                "day": 101,
+                "decision": "REVIEW",
+                "principal": 7000
+              }
+            ]
+          },
+          "expected": {
+            "gross_principal": 5000,
+            "count": 2
+          },
+          "id": "SC-BR-LIM-006-01"
+        },
+        {
+          "name": "dia vazio",
+          "given": {
+            "day": 102,
+            "history": [
+              {
+                "day": 101,
+                "decision": "APPROVED",
+                "principal": 5000
+              }
+            ]
+          },
+          "expected": {
+            "gross_principal": 0,
+            "count": 0
+          },
+          "id": "SC-BR-LIM-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-007",
+      "title": "Reversões não restauram consumo bruto diário",
+      "norm": "Cancelar, expirar ou reembolsar não subtrai principal do agregado diário de autorizações aprovadas. Limite de crédito é liberado por regras próprias, não pelo contador diário.",
+      "operation": "limits.after_reversal",
+      "cases": [
+        {
+          "name": "cancelamento",
+          "given": {
+            "approved_principal": 10000,
+            "action": "CANCEL"
+          },
+          "expected": {
+            "daily_gross_principal": 10000
+          },
+          "id": "SC-BR-LIM-007-01"
+        },
+        {
+          "name": "reembolso",
+          "given": {
+            "approved_principal": 10000,
+            "action": "REFUND"
+          },
+          "expected": {
+            "daily_gross_principal": 10000
+          },
+          "id": "SC-BR-LIM-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-LIM-008",
+      "title": "Review consome quantidade mas não principal diário",
+      "norm": "Uma decisão REVIEW adiciona1 ao contador diário e zero ao principal bruto; DECLINED adiciona zero a ambos.",
+      "operation": "limits.record_decision",
+      "cases": [
+        {
+          "name": "review",
+          "given": {
+            "decision": "REVIEW",
+            "principal": 10000
+          },
+          "expected": {
+            "count_delta": 1,
+            "gross_delta": 0
+          },
+          "id": "SC-BR-LIM-008-01"
+        },
+        {
+          "name": "declined",
+          "given": {
+            "decision": "DECLINED",
+            "principal": 10000
+          },
+          "expected": {
+            "count_delta": 0,
+            "gross_delta": 0
+          },
+          "id": "SC-BR-LIM-008-02"
+        },
+        {
+          "name": "approved",
+          "given": {
+            "decision": "APPROVED",
+            "principal": 10000
+          },
+          "expected": {
+            "count_delta": 1,
+            "gross_delta": 10000
+          },
+          "id": "SC-BR-LIM-008-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-001",
+      "title": "Score começa no score-base válido",
+      "norm": "base_score em [0,100] participa do somatório; não substituir por probabilidade ou taxa externa. O resultado mínimo, sem componentes adicionais, é o score-base.",
+      "operation": "risk.score",
+      "cases": [
+        {
+          "name": "base padrão",
+          "given": {
+            "base_score": 10,
+            "principal": 10000,
+            "country": "BR",
+            "card_present": true,
+            "recent_count": 0
+          },
+          "expected": {
+            "score": 10
+          },
+          "id": "SC-BR-RSK-001-01"
+        },
+        {
+          "name": "base alta",
+          "given": {
+            "base_score": 79,
+            "principal": 10000,
+            "country": "BR",
+            "card_present": true,
+            "recent_count": 0
+          },
+          "expected": {
+            "score": 79
+          },
+          "id": "SC-BR-RSK-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-002",
+      "title": "País internacional acrescenta quinze pontos",
+      "norm": "country!=BR acrescenta15 ao score; moeda estrangeira sozinha não acrescenta esse componente.",
+      "operation": "risk.score",
+      "cases": [
+        {
+          "name": "país externo",
+          "given": {
+            "base_score": 10,
+            "country": "US",
+            "currency": "BRL",
+            "principal": 10000
+          },
+          "expected": {
+            "score": 25
+          },
+          "id": "SC-BR-RSK-002-01"
+        },
+        {
+          "name": "moeda externa no país base",
+          "given": {
+            "base_score": 10,
+            "country": "BR",
+            "currency": "USD",
+            "principal": 10000
+          },
+          "expected": {
+            "score": 10
+          },
+          "id": "SC-BR-RSK-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-003",
+      "title": "Cartão ausente acrescenta vinte pontos",
+      "norm": "card_present=false soma20, independentemente do canal nominal. Não inferir presença do enum do canal.",
+      "operation": "risk.score",
+      "cases": [
+        {
+          "name": "ausente",
+          "given": {
+            "base_score": 10,
+            "card_present": false,
+            "principal": 10000
+          },
+          "expected": {
+            "score": 30
+          },
+          "id": "SC-BR-RSK-003-01"
+        },
+        {
+          "name": "presente",
+          "given": {
+            "base_score": 10,
+            "card_present": true,
+            "principal": 10000
+          },
+          "expected": {
+            "score": 10
+          },
+          "id": "SC-BR-RSK-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-004",
+      "title": "Montante alto inclui a fronteira",
+      "norm": "P>=100000 acrescenta15; P=99999 não. Usar principal convertido, não amount nominal.",
+      "operation": "risk.score",
+      "cases": [
+        {
+          "name": "abaixo",
+          "given": {
+            "base_score": 10,
+            "principal": 99999
+          },
+          "expected": {
+            "score": 10
+          },
+          "id": "SC-BR-RSK-004-01"
+        },
+        {
+          "name": "igual",
+          "given": {
+            "base_score": 10,
+            "principal": 100000
+          },
+          "expected": {
+            "score": 25
+          },
+          "id": "SC-BR-RSK-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-005",
+      "title": "Velocidade conta uma janela inclusiva de eventos anteriores",
+      "norm": "Contar APPROVED/REVIEW já persistidos com now-60<=minute<=now; excluir DECLINED. Três ou mais acrescentam20. A tentativa corrente não entra antes do resultado.",
+      "operation": "risk.velocity",
+      "cases": [
+        {
+          "name": "fronteiras inclusivas",
+          "given": {
+            "now": 1000,
+            "history": [
+              {
+                "minute": 939,
+                "decision": "APPROVED"
+              },
+              {
+                "minute": 940,
+                "decision": "APPROVED"
+              },
+              {
+                "minute": 999,
+                "decision": "REVIEW"
+              },
+              {
+                "minute": 1000,
+                "decision": "APPROVED"
+              },
+              {
+                "minute": 1000,
+                "decision": "DECLINED"
+              }
+            ]
+          },
+          "expected": {
+            "recent_count": 3,
+            "component": 20
+          },
+          "id": "SC-BR-RSK-005-01"
+        },
+        {
+          "name": "dois eventos",
+          "given": {
+            "now": 1000,
+            "history": [
+              {
+                "minute": 940,
+                "decision": "APPROVED"
+              },
+              {
+                "minute": 999,
+                "decision": "REVIEW"
+              }
+            ]
+          },
+          "expected": {
+            "recent_count": 2,
+            "component": 0
+          },
+          "id": "SC-BR-RSK-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-006",
+      "title": "Faixas de decisão não se sobrepõem",
+      "norm": "score<50→APPROVED; 50<=score<80→REVIEW; score>=80→DECLINED. Essas saídas classificam risco, não pulam os gates de autorização.",
+      "operation": "risk.classify",
+      "cases": [
+        {
+          "name": "último aprovado",
+          "given": {
+            "score": 49
+          },
+          "expected": {
+            "decision": "APPROVED"
+          },
+          "id": "SC-BR-RSK-006-01"
+        },
+        {
+          "name": "primeiro review",
+          "given": {
+            "score": 50
+          },
+          "expected": {
+            "decision": "REVIEW"
+          },
+          "id": "SC-BR-RSK-006-02"
+        },
+        {
+          "name": "último review",
+          "given": {
+            "score": 79
+          },
+          "expected": {
+            "decision": "REVIEW"
+          },
+          "id": "SC-BR-RSK-006-03"
+        },
+        {
+          "name": "primeiro declined",
+          "given": {
+            "score": 80
+          },
+          "expected": {
+            "decision": "DECLINED"
+          },
+          "id": "SC-BR-RSK-006-04"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-007",
+      "title": "Somatório é saturado em cem",
+      "norm": "Somar todos os componentes e aplicar min(100,total); não saturar por wraparound nem permitir score>100.",
+      "operation": "risk.score",
+      "cases": [
+        {
+          "name": "saturação",
+          "given": {
+            "base_score": 90,
+            "principal": 100000,
+            "country": "US",
+            "card_present": false,
+            "recent_count": 3
+          },
+          "expected": {
+            "score": 100
+          },
+          "id": "SC-BR-RSK-007-01"
+        },
+        {
+          "name": "sem saturação",
+          "given": {
+            "base_score": 10,
+            "principal": 100000,
+            "country": "US",
+            "card_present": false,
+            "recent_count": 3
+          },
+          "expected": {
+            "score": 80
+          },
+          "id": "SC-BR-RSK-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-RSK-008",
+      "title": "Componentes se acumulam mesmo quando nenhum basta",
+      "norm": "Não usar else-if entre componentes independentes. Internacional+remoto+alto valor com base10 produz 60, enquanto internacional+remoto abaixo do limite produz 45.",
+      "operation": "risk.score",
+      "cases": [
+        {
+          "name": "composição gera review",
+          "given": {
+            "base_score": 10,
+            "principal": 100000,
+            "country": "US",
+            "card_present": false,
+            "recent_count": 0
+          },
+          "expected": {
+            "score": 60
+          },
+          "id": "SC-BR-RSK-008-01"
+        },
+        {
+          "name": "abaixo do valor alto",
+          "given": {
+            "base_score": 10,
+            "principal": 99999,
+            "country": "US",
+            "card_present": false,
+            "recent_count": 0
+          },
+          "expected": {
+            "score": 45
+          },
+          "id": "SC-BR-RSK-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-001",
+      "title": "Primeira causa determina a rejeição",
+      "norm": "Seguir a precedência de OPERATIONS.md. Conta inativa vence insuficiência de crédito; limite de crédito vence score alto. Não informar a última guarda avaliada.",
+      "operation": "auth.decide",
+      "cases": [
+        {
+          "name": "elegibilidade vence crédito",
+          "given": {
+            "account.active": false,
+            "credit_limit": 0
+          },
+          "expected": {
+            "decision": "DECLINED",
+            "reason": "ACCOUNT_INACTIVE"
+          },
+          "id": "SC-BR-AUT-001-01"
+        },
+        {
+          "name": "crédito vence risco",
+          "given": {
+            "credit_limit": 0,
+            "base_score": 90
+          },
+          "expected": {
+            "decision": "DECLINED",
+            "reason": "CREDIT_LIMIT"
+          },
+          "id": "SC-BR-AUT-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-002",
+      "title": "Aprovação cria reserva total",
+      "norm": "Aprovação cria uma autorização e reserva P+F, com state=ACTIVE e capturado zero. Reserva deve aparecer no crédito disponível.",
+      "operation": "auth.approve",
+      "cases": [
+        {
+          "name": "doméstica",
+          "given": {
+            "amount": 10000,
+            "currency": "BRL"
+          },
+          "expected": {
+            "decision": "APPROVED",
+            "held": 10000,
+            "available": 990000,
+            "state": "ACTIVE"
+          },
+          "id": "SC-BR-AUT-002-01"
+        },
+        {
+          "name": "estrangeira",
+          "given": {
+            "amount": 10000,
+            "currency": "USD"
+          },
+          "expected": {
+            "decision": "APPROVED",
+            "held": 51000,
+            "available": 949000,
+            "state": "ACTIVE"
+          },
+          "id": "SC-BR-AUT-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-003",
+      "title": "Autorização sozinha não cria recebível nem pontos",
+      "norm": "Em APPROVED, debt e pontos permanecem inalterados; a dívida e recompensa surgem na captura.",
+      "operation": "auth.approve",
+      "cases": [
+        {
+          "name": "sem captura",
+          "given": {
+            "amount": 10000
+          },
+          "expected": {
+            "debt": 0,
+            "points": 0,
+            "held": 10000
+          },
+          "id": "SC-BR-AUT-003-01"
+        },
+        {
+          "name": "valor diferente sem captura",
+          "given": {
+            "amount": 20000
+          },
+          "expected": {
+            "debt": 0,
+            "points": 0,
+            "held": 20000
+          },
+          "id": "SC-BR-AUT-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-004",
+      "title": "Rejeição não produz efeitos financeiros",
+      "norm": "DECLINED não altera reserva, dívida, diário financeiro, pontos nem contadores de valor/quantidade. Pode persistir resposta de idempotência e log operacional.",
+      "operation": "auth.decide",
+      "cases": [
+        {
+          "name": "insuficiência",
+          "given": {
+            "credit_limit": 9999,
+            "amount": 10000
+          },
+          "expected": {
+            "decision": "DECLINED",
+            "financial_unchanged": true,
+            "count_delta": 0
+          },
+          "id": "SC-BR-AUT-004-01"
+        },
+        {
+          "name": "risco alto",
+          "given": {
+            "base_score": 90,
+            "amount": 10000
+          },
+          "expected": {
+            "decision": "DECLINED",
+            "financial_unchanged": true,
+            "count_delta": 0
+          },
+          "id": "SC-BR-AUT-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-005",
+      "title": "Review é terminal sem reserva",
+      "norm": "REVIEW não cria autorização nem dívida/hold/pontos; soma1 à quantidade diária e à velocidade. Não é aprovação condicional financeira.",
+      "operation": "auth.decide",
+      "cases": [
+        {
+          "name": "score review",
+          "given": {
+            "base_score": 50,
+            "amount": 10000
+          },
+          "expected": {
+            "decision": "REVIEW",
+            "held": 0,
+            "debt": 0,
+            "points": 0,
+            "auth_created": false,
+            "count_delta": 1
+          },
+          "id": "SC-BR-AUT-005-01"
+        },
+        {
+          "name": "último score review",
+          "given": {
+            "base_score": 79,
+            "amount": 10000
+          },
+          "expected": {
+            "decision": "REVIEW",
+            "held": 0,
+            "auth_created": false
+          },
+          "id": "SC-BR-AUT-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-006",
+      "title": "Prazo de reserva deriva do instante explícito",
+      "norm": "expires_at=approved_at+1440 minutos. O relógio de parede não participa e a mesma política vale na virada do dia.",
+      "operation": "auth.approve",
+      "cases": [
+        {
+          "name": "prazo padrão",
+          "given": {
+            "now": 144600
+          },
+          "expected": {
+            "approved_at": 144600,
+            "expires_at": 146040
+          },
+          "id": "SC-BR-AUT-006-01"
+        },
+        {
+          "name": "virada",
+          "given": {
+            "now": 145439
+          },
+          "expected": {
+            "expires_at": 146879
+          },
+          "id": "SC-BR-AUT-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-007",
+      "title": "Aprovação usa a mesma cotação observável",
+      "norm": "No mesmo estado/configuração, P e F aprovados devem corresponder ao QUOTE da mesma entrada; armazenar os valores para a captura cumulativa, sem recotação.",
+      "operation": "auth.quote_consistency",
+      "cases": [
+        {
+          "name": "regular estrangeiro",
+          "given": {
+            "amount": 10000,
+            "currency": "USD",
+            "installments": 1
+          },
+          "expected": {
+            "principal": 50000,
+            "fee": 1000,
+            "same_quote": true
+          },
+          "id": "SC-BR-AUT-007-01"
+        },
+        {
+          "name": "premium parcelado doméstico",
+          "given": {
+            "amount": 10000,
+            "currency": "BRL",
+            "tier": "PREMIUM",
+            "installments": 3
+          },
+          "expected": {
+            "principal": 10000,
+            "fee": 100,
+            "same_quote": true
+          },
+          "id": "SC-BR-AUT-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-AUT-008",
+      "title": "Preflight torna a aprovação indivisível",
+      "norm": "Se não houver capacidade para autorização, diário ou idempotência, retornar ERROR/CAPACITY sem reserva, contador, chave ou resultado parcialmente publicado. Reserva de memória ocorre antes do commit.",
+      "operation": "auth.capacity",
+      "cases": [
+        {
+          "name": "sem espaço de autorização",
+          "given": {
+            "fail_at": "AUTH_STORAGE"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CAPACITY",
+            "unchanged": true
+          },
+          "id": "SC-BR-AUT-008-01"
+        },
+        {
+          "name": "sem espaço de idempotência",
+          "given": {
+            "fail_at": "IDEMPOTENCY_STORAGE"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CAPACITY",
+            "unchanged": true
+          },
+          "id": "SC-BR-AUT-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-001",
+      "title": "Replay exato devolve a resposta original",
+      "norm": "Mesma operação, request_id e payload canônico devolvem a resposta armazenada exatamente, sem novo processamento financeiro.",
+      "operation": "idempotency.replay",
+      "cases": [
+        {
+          "name": "autorizar duas vezes",
+          "given": {
+            "op": "AUTHORIZE",
+            "repeat": 2,
+            "amount": 10000
+          },
+          "expected": {
+            "same_response": true,
+            "held": 10000,
+            "auth_count": 1
+          },
+          "id": "SC-BR-IDM-001-01"
+        },
+        {
+          "name": "três replays",
+          "given": {
+            "op": "AUTHORIZE",
+            "repeat": 4,
+            "amount": 10000
+          },
+          "expected": {
+            "same_response": true,
+            "held": 10000,
+            "auth_count": 1
+          },
+          "id": "SC-BR-IDM-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-002",
+      "title": "Chave repetida com outra intenção é conflito",
+      "norm": "Alterar qualquer campo semântico do payload para uma chave existente retorna IDEMPOTENCY_CONFLICT e preserva o primeiro resultado/estado.",
+      "operation": "idempotency.conflict",
+      "cases": [
+        {
+          "name": "montante alterado",
+          "given": {
+            "first_amount": 10000,
+            "second_amount": 10001
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "IDEMPOTENCY_CONFLICT",
+            "held": 10000
+          },
+          "id": "SC-BR-IDM-002-01"
+        },
+        {
+          "name": "moeda alterada",
+          "given": {
+            "first_currency": "BRL",
+            "second_currency": "USD",
+            "amount": 10000
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "IDEMPOTENCY_CONFLICT",
+            "held": 10000
+          },
+          "id": "SC-BR-IDM-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-003",
+      "title": "Canonicalização elimina diferenças só de escrita",
+      "norm": "Ordem de chaves e zeros à esquerda não mudam o payload depois de parse/validação. Campos default omitidos e seus valores explícitos são equivalentes.",
+      "operation": "idempotency.canonical",
+      "cases": [
+        {
+          "name": "ordem e zeros",
+          "given": {
+            "first": {
+              "amount": "010000",
+              "currency": "BRL"
+            },
+            "second": {
+              "currency": "BRL",
+              "amount": "10000"
+            }
+          },
+          "expected": {
+            "same_payload": true
+          },
+          "id": "SC-BR-IDM-003-01"
+        },
+        {
+          "name": "default explícito",
+          "given": {
+            "first": {
+              "amount": "10000"
+            },
+            "second": {
+              "amount": "10000",
+              "installments": "1"
+            }
+          },
+          "expected": {
+            "same_payload": true
+          },
+          "id": "SC-BR-IDM-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-004",
+      "title": "Namespace de chave inclui o tipo de operação",
+      "norm": "A chave é(op,request_id), não apenas request_id. Mesmo identificador textual pode ser usado em AUTHORIZE e CAPTURE; referências têm o tipo da entidade.",
+      "operation": "idempotency.namespace",
+      "cases": [
+        {
+          "name": "tipos diferentes",
+          "given": {
+            "first_op": "AUTHORIZE",
+            "second_op": "CAPTURE",
+            "request_id": "R1"
+          },
+          "expected": {
+            "same_key": false
+          },
+          "id": "SC-BR-IDM-004-01"
+        },
+        {
+          "name": "mesmo tipo",
+          "given": {
+            "first_op": "AUTHORIZE",
+            "second_op": "AUTHORIZE",
+            "request_id": "R1"
+          },
+          "expected": {
+            "same_key": true
+          },
+          "id": "SC-BR-IDM-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-005",
+      "title": "Erros técnicos e de envelope não consomem chave",
+      "norm": "INVALID_INPUT,NOT_FOUND,OWNERSHIP,CAPACITY e IDEMPOTENCY_CONFLICT não criam nova entrada no cache. Uma tentativa corrigida pode reutilizar a chave que nunca foi registrada.",
+      "operation": "idempotency.error_policy",
+      "cases": [
+        {
+          "name": "invalid input",
+          "given": {
+            "reason": "INVALID_INPUT"
+          },
+          "expected": {
+            "cache_response": false
+          },
+          "id": "SC-BR-IDM-005-01"
+        },
+        {
+          "name": "capacity",
+          "given": {
+            "reason": "CAPACITY"
+          },
+          "expected": {
+            "cache_response": false
+          },
+          "id": "SC-BR-IDM-005-02"
+        },
+        {
+          "name": "not found",
+          "given": {
+            "reason": "NOT_FOUND"
+          },
+          "expected": {
+            "cache_response": false
+          },
+          "id": "SC-BR-IDM-005-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-006",
+      "title": "Rejeições válidas também são memorizadas",
+      "norm": "Uma requisição estruturalmente válida recusada por regra de domínio fica registrada; repetir com a mesma chave retorna a mesma decisão, não tenta aproveitar mudança posterior de saldo/tempo.",
+      "operation": "idempotency.declined_replay",
+      "cases": [
+        {
+          "name": "recusa de crédito persistida",
+          "given": {
+            "first_credit_limit": 9999,
+            "later_credit_limit": 1000000,
+            "amount": 10000
+          },
+          "expected": {
+            "first_decision": "DECLINED",
+            "second_decision": "DECLINED",
+            "same_response": true
+          },
+          "id": "SC-BR-IDM-006-01"
+        },
+        {
+          "name": "review persistido",
+          "given": {
+            "first_base_score": 50,
+            "later_base_score": 10
+          },
+          "expected": {
+            "first_decision": "REVIEW",
+            "second_decision": "REVIEW",
+            "same_response": true
+          },
+          "id": "SC-BR-IDM-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-007",
+      "title": "Replay não duplica efeitos indiretos",
+      "norm": "Repetição não duplica contagem de risco, consumo diário, pontos, lotes ou lançamentos. Verificar o conjunto de efeitos, não apenas o saldo principal.",
+      "operation": "idempotency.capture_replay",
+      "cases": [
+        {
+          "name": "captura repetida",
+          "given": {
+            "principal": 20000,
+            "repeat": 2
+          },
+          "expected": {
+            "debt": 20000,
+            "points": 2,
+            "capture_count": 1,
+            "daily_count": 1
+          },
+          "id": "SC-BR-IDM-007-01"
+        },
+        {
+          "name": "captura repetida várias vezes",
+          "given": {
+            "principal": 20000,
+            "repeat": 5
+          },
+          "expected": {
+            "debt": 20000,
+            "points": 2,
+            "capture_count": 1,
+            "daily_count": 1
+          },
+          "id": "SC-BR-IDM-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-IDM-008",
+      "title": "Consulta não precisa de chave de mutação",
+      "norm": "QUOTE,GET e RECONCILE não consomem idempotência. Repeti-los não altera a capacidade disponível para chaves financeiras.",
+      "operation": "idempotency.query",
+      "cases": [
+        {
+          "name": "quote",
+          "given": {
+            "op": "QUOTE",
+            "repeat": 3
+          },
+          "expected": {
+            "idempotency_delta": 0,
+            "financial_unchanged": true
+          },
+          "id": "SC-BR-IDM-008-01"
+        },
+        {
+          "name": "reconcile",
+          "given": {
+            "op": "RECONCILE",
+            "repeat": 3
+          },
+          "expected": {
+            "idempotency_delta": 0,
+            "financial_unchanged": true
+          },
+          "id": "SC-BR-IDM-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-001",
+      "title": "Captura exige autorização aberta e não expirada",
+      "norm": "Somente ACTIVE/PARTIAL com now<expires_at pode capturar. CAPTURED/CANCELLED/EXPIRED é DECLINED/AUTH_STATE; não reabrir reserva.",
+      "operation": "capture.admission",
+      "cases": [
+        {
+          "name": "antes de expirar",
+          "given": {
+            "state": "ACTIVE",
+            "now": 999,
+            "expires_at": 1000
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-CAP-001-01"
+        },
+        {
+          "name": "instante da expiração",
+          "given": {
+            "state": "ACTIVE",
+            "now": 1000,
+            "expires_at": 1000
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "AUTH_STATE"
+          },
+          "id": "SC-BR-CAP-001-02"
+        },
+        {
+          "name": "cancelada",
+          "given": {
+            "state": "CANCELLED",
+            "now": 999,
+            "expires_at": 1000
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "AUTH_STATE"
+          },
+          "id": "SC-BR-CAP-001-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-002",
+      "title": "Captura respeita principal remanescente",
+      "norm": "d>0 e c+d<=P. Zero é entrada inválida; exceder saldo é DECLINED/CAPTURE_AMOUNT. Não limitar silenciosamente o montante solicitado.",
+      "operation": "capture.amount",
+      "cases": [
+        {
+          "name": "captura restante",
+          "given": {
+            "principal": 10000,
+            "captured": 4000,
+            "amount": 6000
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-CAP-002-01"
+        },
+        {
+          "name": "acima",
+          "given": {
+            "principal": 10000,
+            "captured": 4000,
+            "amount": 6001
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "CAPTURE_AMOUNT"
+          },
+          "id": "SC-BR-CAP-002-02"
+        },
+        {
+          "name": "zero",
+          "given": {
+            "principal": 10000,
+            "captured": 0,
+            "amount": 0
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-BR-CAP-002-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-003",
+      "title": "Tarifa é alocada cumulativamente",
+      "norm": "Para F da autorização, P original e c capturado, tarifa da nova captura=floor(F*(c+d)/P)-floor(F*c/P). O último fragmento absorve resíduo exato.",
+      "operation": "capture.fee_delta",
+      "cases": [
+        {
+          "name": "primeiro fragmento",
+          "given": {
+            "principal": 10000,
+            "fee": 3,
+            "captured": 0,
+            "amount": 3333
+          },
+          "expected": {
+            "fee_delta": 0
+          },
+          "id": "SC-BR-CAP-003-01"
+        },
+        {
+          "name": "segundo fragmento",
+          "given": {
+            "principal": 10000,
+            "fee": 3,
+            "captured": 3333,
+            "amount": 3333
+          },
+          "expected": {
+            "fee_delta": 1
+          },
+          "id": "SC-BR-CAP-003-02"
+        },
+        {
+          "name": "último fragmento",
+          "given": {
+            "principal": 10000,
+            "fee": 3,
+            "captured": 6666,
+            "amount": 3334
+          },
+          "expected": {
+            "fee_delta": 2
+          },
+          "id": "SC-BR-CAP-003-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-004",
+      "title": "Estado depende do total capturado",
+      "norm": "Após captura com 0<c<P, state=PARTIAL; quando c=P, state=CAPTURED e reserva restante zero.",
+      "operation": "capture.next_state",
+      "cases": [
+        {
+          "name": "parcial",
+          "given": {
+            "principal": 10000,
+            "captured_after": 4000
+          },
+          "expected": {
+            "state": "PARTIAL"
+          },
+          "id": "SC-BR-CAP-004-01"
+        },
+        {
+          "name": "total",
+          "given": {
+            "principal": 10000,
+            "captured_after": 10000
+          },
+          "expected": {
+            "state": "CAPTURED"
+          },
+          "id": "SC-BR-CAP-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-005",
+      "title": "Captura troca reserva por dívida",
+      "norm": "Capturar d e tarifa delta reduz held por d+delta e aumenta debt pelo mesmo total. Sem outros eventos, disponibilidade de crédito não muda.",
+      "operation": "capture.transition",
+      "cases": [
+        {
+          "name": "parcial com tarifa",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "captured": 0,
+            "amount": 4000
+          },
+          "expected": {
+            "held": 6120,
+            "debt": 4080,
+            "available_delta": 0
+          },
+          "id": "SC-BR-CAP-005-01"
+        },
+        {
+          "name": "captura integral",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "captured": 0,
+            "amount": 10000
+          },
+          "expected": {
+            "held": 0,
+            "debt": 10200,
+            "available_delta": 0
+          },
+          "id": "SC-BR-CAP-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-006",
+      "title": "Captura tem contrapartidas contábeis",
+      "norm": "Principal capturado credita MERCHANT_CLEARING, tarifa credita FEE_REVENUE e os recebíveis correspondentes são debitados; também baixar reserva. Cada evento financeiro fecha em zero.",
+      "operation": "capture.ledger",
+      "cases": [
+        {
+          "name": "principal e tarifa",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "amount": 10000
+          },
+          "expected": {
+            "receivable_principal_delta": 10000,
+            "receivable_fee_delta": 200,
+            "merchant_clearing_delta": -10000,
+            "fee_revenue_delta": -200,
+            "balanced": true
+          },
+          "id": "SC-BR-CAP-006-01"
+        },
+        {
+          "name": "sem tarifa",
+          "given": {
+            "principal": 10000,
+            "fee": 0,
+            "amount": 10000
+          },
+          "expected": {
+            "receivable_principal_delta": 10000,
+            "receivable_fee_delta": 0,
+            "balanced": true
+          },
+          "id": "SC-BR-CAP-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-007",
+      "title": "Lotes e recompensa fazem parte do mesmo commit",
+      "norm": "Falha ao preparar lotes, diário ou recompensa cancela toda a captura. Não publicar recebível sem parcela/pontos nem consumir idempotência.",
+      "operation": "capture.capacity",
+      "cases": [
+        {
+          "name": "falta de lotes",
+          "given": {
+            "fail_at": "LOT_STORAGE"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CAPACITY",
+            "unchanged": true
+          },
+          "id": "SC-BR-CAP-007-01"
+        },
+        {
+          "name": "falta de diário",
+          "given": {
+            "fail_at": "LEDGER_STORAGE"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CAPACITY",
+            "unchanged": true
+          },
+          "id": "SC-BR-CAP-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-CAP-008",
+      "title": "Captura não reexecuta risco da autorização",
+      "norm": "Uma autorização aberta é um compromisso. Captura válida não deve ser recusada porque a janela de risco agora está alta; os gates de valor/estado/parcelas continuam obrigatórios.",
+      "operation": "capture.no_reauthorization",
+      "cases": [
+        {
+          "name": "risco alto depois",
+          "given": {
+            "principal": 10000,
+            "fee": 0,
+            "amount": 10000,
+            "current_base_score": 90
+          },
+          "expected": {
+            "decision": "OK",
+            "debt": 10000
+          },
+          "id": "SC-BR-CAP-008-01"
+        },
+        {
+          "name": "risco baixo depois",
+          "given": {
+            "principal": 10000,
+            "fee": 0,
+            "amount": 10000,
+            "current_base_score": 10
+          },
+          "expected": {
+            "decision": "OK",
+            "debt": 10000
+          },
+          "id": "SC-BR-CAP-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-001",
+      "title": "Cancelamento de reserva intacta libera todo hold",
+      "norm": "CANCEL em ACTIVE sem captura libera P+F e muda para CANCELLED, sem criar recebível ou reembolso em dinheiro.",
+      "operation": "reversal.cancel",
+      "cases": [
+        {
+          "name": "com tarifa",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "captured": 0
+          },
+          "expected": {
+            "released": 10200,
+            "held": 0,
+            "debt": 0,
+            "state": "CANCELLED"
+          },
+          "id": "SC-BR-REV-001-01"
+        },
+        {
+          "name": "sem tarifa",
+          "given": {
+            "principal": 10000,
+            "fee": 0,
+            "captured": 0
+          },
+          "expected": {
+            "released": 10000,
+            "held": 0,
+            "state": "CANCELLED"
+          },
+          "id": "SC-BR-REV-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-002",
+      "title": "Cancelamento parcial preserva a captura",
+      "norm": "CANCEL em PARTIAL libera apenas principal+tarifa remanescentes, sem reembolsar o que já virou dívida.",
+      "operation": "reversal.cancel",
+      "cases": [
+        {
+          "name": "quarenta por cento capturado",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "captured": 4000
+          },
+          "expected": {
+            "released": 6120,
+            "held": 0,
+            "debt": 4080,
+            "state": "CANCELLED"
+          },
+          "id": "SC-BR-REV-002-01"
+        },
+        {
+          "name": "noventa por cento capturado",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "captured": 9000
+          },
+          "expected": {
+            "released": 1020,
+            "debt": 9180,
+            "state": "CANCELLED"
+          },
+          "id": "SC-BR-REV-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-003",
+      "title": "Cancelamento de terminal é NOOP",
+      "norm": "CANCEL de CAPTURED/CANCELLED/EXPIRED com chave nova retorna NOOP e não muda o diário. Referência ausente não éNOOP.",
+      "operation": "reversal.cancel_terminal",
+      "cases": [
+        {
+          "name": "capturada",
+          "given": {
+            "state": "CAPTURED"
+          },
+          "expected": {
+            "decision": "NOOP",
+            "financial_unchanged": true
+          },
+          "id": "SC-BR-REV-003-01"
+        },
+        {
+          "name": "já cancelada",
+          "given": {
+            "state": "CANCELLED"
+          },
+          "expected": {
+            "decision": "NOOP",
+            "financial_unchanged": true
+          },
+          "id": "SC-BR-REV-003-02"
+        },
+        {
+          "name": "ausente",
+          "given": {
+            "state": "MISSING"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "NOT_FOUND"
+          },
+          "id": "SC-BR-REV-003-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-004",
+      "title": "Expiração inclui o instante limite",
+      "norm": "TICK expira reservas abertas com expires_at<=now. Expirar reserva parcialmente capturada preserva dívida/pontos da captura e não altera CAPTURED.",
+      "operation": "reversal.expire",
+      "cases": [
+        {
+          "name": "um minuto antes",
+          "given": {
+            "state": "ACTIVE",
+            "expires_at": 1000,
+            "now": 999,
+            "remaining_hold": 10000
+          },
+          "expected": {
+            "state": "ACTIVE",
+            "released": 0
+          },
+          "id": "SC-BR-REV-004-01"
+        },
+        {
+          "name": "instante exato",
+          "given": {
+            "state": "PARTIAL",
+            "expires_at": 1000,
+            "now": 1000,
+            "remaining_hold": 6000,
+            "debt": 4000
+          },
+          "expected": {
+            "state": "EXPIRED",
+            "released": 6000,
+            "debt": 4000
+          },
+          "id": "SC-BR-REV-004-02"
+        },
+        {
+          "name": "capturada não expira",
+          "given": {
+            "state": "CAPTURED",
+            "expires_at": 1000,
+            "now": 1001,
+            "remaining_hold": 0,
+            "debt": 10000
+          },
+          "expected": {
+            "state": "CAPTURED",
+            "released": 0,
+            "debt": 10000
+          },
+          "id": "SC-BR-REV-004-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-005",
+      "title": "Reembolso respeita o principal da captura",
+      "norm": "Solicitação positiva e soma de reembolsos<=D da captura referenciada. Ultrapassar éDECLINED/REFUND_AMOUNT; zero éINVALID_INPUT. Não usar principal total da autorização como teto.",
+      "operation": "reversal.refund_amount",
+      "cases": [
+        {
+          "name": "restante exato",
+          "given": {
+            "capture_principal": 4000,
+            "refunded": 1000,
+            "amount": 3000
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-REV-005-01"
+        },
+        {
+          "name": "excede captura",
+          "given": {
+            "capture_principal": 4000,
+            "refunded": 1000,
+            "amount": 3001
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "REFUND_AMOUNT"
+          },
+          "id": "SC-BR-REV-005-02"
+        },
+        {
+          "name": "zero",
+          "given": {
+            "capture_principal": 4000,
+            "refunded": 0,
+            "amount": 0
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-BR-REV-005-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-006",
+      "title": "Tarifa devolvida é cumulativa por captura",
+      "norm": "Para tarifa G da captura D, devolver floor(G*(r+d)/D)-floor(G*r/D). Reembolso total devolve exatamente G, sem usar FX corrente.",
+      "operation": "reversal.refund_fee",
+      "cases": [
+        {
+          "name": "primeira fração",
+          "given": {
+            "capture_principal": 10000,
+            "capture_fee": 3,
+            "refunded": 0,
+            "amount": 3333
+          },
+          "expected": {
+            "fee_refund": 0
+          },
+          "id": "SC-BR-REV-006-01"
+        },
+        {
+          "name": "última fração",
+          "given": {
+            "capture_principal": 10000,
+            "capture_fee": 3,
+            "refunded": 6666,
+            "amount": 3334
+          },
+          "expected": {
+            "fee_refund": 2
+          },
+          "id": "SC-BR-REV-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-007",
+      "title": "Reembolso abate lotes mais distantes primeiro",
+      "norm": "Dentro da captura, cancelar principal e tarifa ainda devidos separadamente, por ciclo mais distante e índice de parcela decrescente. Outros recebíveis da conta não recebem essa baixa.",
+      "operation": "reversal.refund_allocation",
+      "cases": [
+        {
+          "name": "últimas parcelas primeiro",
+          "given": {
+            "lot_principal": [
+              1000,
+              1000,
+              1000
+            ],
+            "refund_principal": 1500
+          },
+          "expected": {
+            "remaining_principal": [
+              1000,
+              500,
+              0
+            ],
+            "cash_refund": 0
+          },
+          "id": "SC-BR-REV-007-01"
+        },
+        {
+          "name": "somente uma parte da última",
+          "given": {
+            "lot_principal": [
+              1000,
+              1000,
+              1000
+            ],
+            "refund_principal": 500
+          },
+          "expected": {
+            "remaining_principal": [
+              1000,
+              1000,
+              500
+            ],
+            "cash_refund": 0
+          },
+          "id": "SC-BR-REV-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-008",
+      "title": "Parte já paga é devolvida em dinheiro",
+      "norm": "Após abater o saldo ainda devido da mesma captura/componente, o resto do reembolso soma a cash_refund_total. Não tornar debt negativa nem criar crédito reutilizável.",
+      "operation": "reversal.refund_paid",
+      "cases": [
+        {
+          "name": "captura toda paga",
+          "given": {
+            "capture_principal": 10000,
+            "capture_fee": 200,
+            "unpaid_principal": 0,
+            "unpaid_fee": 0,
+            "refund_principal": 10000
+          },
+          "expected": {
+            "debt_after": 0,
+            "cash_refund": 10200
+          },
+          "id": "SC-BR-REV-008-01"
+        },
+        {
+          "name": "captura parcialmente paga",
+          "given": {
+            "capture_principal": 10000,
+            "capture_fee": 200,
+            "unpaid_principal": 3000,
+            "unpaid_fee": 0,
+            "refund_principal": 5000
+          },
+          "expected": {
+            "debt_after": 0,
+            "cash_refund": 2100
+          },
+          "id": "SC-BR-REV-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-009",
+      "title": "Reembolso não reabre autorização nem desfaz consumo",
+      "norm": "Reembolsar captura preserva estado terminal da autorização, reserva zero e principal diário bruto. Referência válida pode ser reembolsada depois de cancelamento/expiração da reserva.",
+      "operation": "reversal.refund_closed_auth",
+      "cases": [
+        {
+          "name": "autorização cancelada",
+          "given": {
+            "auth_state": "CANCELLED",
+            "captured": 4000,
+            "daily_gross_principal": 10000,
+            "refund_principal": 4000
+          },
+          "expected": {
+            "decision": "OK",
+            "auth_state": "CANCELLED",
+            "held": 0,
+            "daily_gross_principal": 10000
+          },
+          "id": "SC-BR-REV-009-01"
+        },
+        {
+          "name": "autorização expirada",
+          "given": {
+            "auth_state": "EXPIRED",
+            "captured": 4000,
+            "daily_gross_principal": 10000,
+            "refund_principal": 4000
+          },
+          "expected": {
+            "decision": "OK",
+            "auth_state": "EXPIRED",
+            "held": 0,
+            "daily_gross_principal": 10000
+          },
+          "id": "SC-BR-REV-009-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REV-010",
+      "title": "Reembolso não devolve multa",
+      "norm": "Multa de atraso é ligada à fatura, não à captura; reembolso integral do principal/tarifa não elimina a multa já lançada.",
+      "operation": "reversal.refund_with_late_fee",
+      "cases": [
+        {
+          "name": "com multa pendente",
+          "given": {
+            "unpaid_principal": 10000,
+            "unpaid_fee": 200,
+            "unpaid_late_fee": 1000,
+            "refund_principal": 10000
+          },
+          "expected": {
+            "unpaid_principal": 0,
+            "unpaid_fee": 0,
+            "unpaid_late_fee": 1000,
+            "debt": 1000
+          },
+          "id": "SC-BR-REV-010-01"
+        },
+        {
+          "name": "sem multa",
+          "given": {
+            "unpaid_principal": 10000,
+            "unpaid_fee": 200,
+            "unpaid_late_fee": 0,
+            "refund_principal": 10000
+          },
+          "expected": {
+            "debt": 0
+          },
+          "id": "SC-BR-REV-010-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-001",
+      "title": "Parcelamento tem quantidade limitada",
+      "norm": "n inteiro em [1,12]. Valores fora do intervalo produzem INSTALLMENTS no gate de domínio, sem corrigir para o limite mais próximo.",
+      "operation": "installment.admission",
+      "cases": [
+        {
+          "name": "uma parcela",
+          "given": {
+            "principal": 10000,
+            "n": 1
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-INS-001-01"
+        },
+        {
+          "name": "doze parcelas",
+          "given": {
+            "principal": 12000,
+            "n": 12
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-INS-001-02"
+        },
+        {
+          "name": "zero parcelas",
+          "given": {
+            "principal": 10000,
+            "n": 0
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INSTALLMENTS"
+          },
+          "id": "SC-BR-INS-001-03"
+        },
+        {
+          "name": "treze parcelas",
+          "given": {
+            "principal": 13000,
+            "n": 13
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INSTALLMENTS"
+          },
+          "id": "SC-BR-INS-001-04"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-002",
+      "title": "Compra em país externo admite no máximo três parcelas",
+      "norm": "country!=BR implica n<=3, ainda que currency=BRL. País base permite até 12 se outros requisitos passarem.",
+      "operation": "installment.admission",
+      "cases": [
+        {
+          "name": "três fora do país",
+          "given": {
+            "principal": 12000,
+            "country": "US",
+            "n": 3
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-INS-002-01"
+        },
+        {
+          "name": "quatro fora do país",
+          "given": {
+            "principal": 12000,
+            "country": "US",
+            "n": 4
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INSTALLMENTS"
+          },
+          "id": "SC-BR-INS-002-02"
+        },
+        {
+          "name": "doze no país base",
+          "given": {
+            "principal": 12000,
+            "country": "BR",
+            "n": 12
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-INS-002-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-003",
+      "title": "Principal mínimo por parcela",
+      "norm": "Para n>1, floor(P/n)>=500. n=1 permite principal positivo abaixo de 500. Tarifa não pode completar o mínimo.",
+      "operation": "installment.admission",
+      "cases": [
+        {
+          "name": "igual ao mínimo",
+          "given": {
+            "principal": 1500,
+            "n": 3
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-INS-003-01"
+        },
+        {
+          "name": "abaixo do mínimo",
+          "given": {
+            "principal": 1499,
+            "n": 3,
+            "fee": 100
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INSTALLMENTS"
+          },
+          "id": "SC-BR-INS-003-02"
+        },
+        {
+          "name": "à vista pequeno",
+          "given": {
+            "principal": 1,
+            "n": 1
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-INS-003-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-004",
+      "title": "Resto do principal vai às primeiras parcelas",
+      "norm": "Dividir D emn partes: q=D//n, r=D%n, parte i=q+1 para i<r e q para as de mais, com índice começando em 0.",
+      "operation": "installment.split",
+      "cases": [
+        {
+          "name": "dois centavos de resto",
+          "given": {
+            "total": 10001,
+            "n": 3
+          },
+          "expected": {
+            "parts": [
+              3334,
+              3334,
+              3333
+            ]
+          },
+          "id": "SC-BR-INS-004-01"
+        },
+        {
+          "name": "sem resto",
+          "given": {
+            "total": 9000,
+            "n": 3
+          },
+          "expected": {
+            "parts": [
+              3000,
+              3000,
+              3000
+            ]
+          },
+          "id": "SC-BR-INS-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-005",
+      "title": "Tarifa é dividida independentemente do principal",
+      "norm": "Aplicar q/r à tarifa da captura separadamente; não calcular tarifa percentual por parcela. Zero pode ocorrer em parcela de tarifa.",
+      "operation": "installment.split_components",
+      "cases": [
+        {
+          "name": "restos diferentes",
+          "given": {
+            "principal": 10001,
+            "fee": 5,
+            "n": 3
+          },
+          "expected": {
+            "principal_parts": [
+              3334,
+              3334,
+              3333
+            ],
+            "fee_parts": [
+              2,
+              2,
+              1
+            ]
+          },
+          "id": "SC-BR-INS-005-01"
+        },
+        {
+          "name": "tarifa menor que n",
+          "given": {
+            "principal": 9000,
+            "fee": 1,
+            "n": 3
+          },
+          "expected": {
+            "fee_parts": [
+              1,
+              0,
+              0
+            ]
+          },
+          "id": "SC-BR-INS-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-006",
+      "title": "Agenda começa no ciclo da captura",
+      "norm": "Parcela i pertence a cycle(capture_day)+i; due_day=(cycle_i+1)*30+10. Autorização anterior não ancora a agenda.",
+      "operation": "installment.schedule",
+      "cases": [
+        {
+          "name": "captura no dia100",
+          "given": {
+            "capture_day": 100,
+            "n": 3
+          },
+          "expected": {
+            "cycles": [
+              3,
+              4,
+              5
+            ],
+            "due_days": [
+              130,
+              160,
+              190
+            ]
+          },
+          "id": "SC-BR-INS-006-01"
+        },
+        {
+          "name": "fronteira do ciclo",
+          "given": {
+            "capture_day": 120,
+            "n": 2
+          },
+          "expected": {
+            "cycles": [
+              4,
+              5
+            ],
+            "due_days": [
+              160,
+              190
+            ]
+          },
+          "id": "SC-BR-INS-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-007",
+      "title": "Parcelas conservam componentes exatos",
+      "norm": "Somatórios de parcelas de principal e tarifa devem igualar os respectivos totais da captura. Não criar centavo de diferença contábil.",
+      "operation": "installment.conservation",
+      "cases": [
+        {
+          "name": "três parcelas",
+          "given": {
+            "principal": 10001,
+            "fee": 5,
+            "n": 3
+          },
+          "expected": {
+            "sum_principal": 10001,
+            "sum_fee": 5
+          },
+          "id": "SC-BR-INS-007-01"
+        },
+        {
+          "name": "doze parcelas",
+          "given": {
+            "principal": 12001,
+            "fee": 11,
+            "n": 12
+          },
+          "expected": {
+            "sum_principal": 12001,
+            "sum_fee": 11
+          },
+          "id": "SC-BR-INS-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-INS-008",
+      "title": "Captura parcial parcelada também respeita mínimo",
+      "norm": "Para autorização com n>1, cada captura d gera n lotes e exige floor(d/n)>=500; não usar P original para aprovar captura pequena.",
+      "operation": "installment.capture_admission",
+      "cases": [
+        {
+          "name": "mínimo exato da captura",
+          "given": {
+            "authorized_principal": 10000,
+            "capture_principal": 1500,
+            "n": 3
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-INS-008-01"
+        },
+        {
+          "name": "captura insuficiente",
+          "given": {
+            "authorized_principal": 10000,
+            "capture_principal": 1499,
+            "n": 3
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INSTALLMENTS"
+          },
+          "id": "SC-BR-INS-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-001",
+      "title": "Ciclo só fecha depois de terminar",
+      "norm": "CLOSE de cycle exige day>=(cycle+1)*30; equality passa. Não antecipar fechamento de ciclo em andamento.",
+      "operation": "billing.close_time",
+      "cases": [
+        {
+          "name": "último dia em andamento",
+          "given": {
+            "cycle": 3,
+            "day": 119
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "CYCLE_NOT_ENDED"
+          },
+          "id": "SC-BR-BIL-001-01"
+        },
+        {
+          "name": "instante de fechamento",
+          "given": {
+            "cycle": 3,
+            "day": 120
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-BIL-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-002",
+      "title": "Fechamento respeita ordem e é único",
+      "norm": "Primeiro fechamento usa ciclo de criação; depois só next_cycle_to_close. Ciclo anterior já fechado com nova chave éNOOP; pular ciclo éCYCLE_ORDER.",
+      "operation": "billing.close_order",
+      "cases": [
+        {
+          "name": "próximo ciclo",
+          "given": {
+            "requested": 3,
+            "next_cycle": 3
+          },
+          "expected": {
+            "decision": "OK"
+          },
+          "id": "SC-BR-BIL-002-01"
+        },
+        {
+          "name": "ciclo já fechado",
+          "given": {
+            "requested": 2,
+            "next_cycle": 3,
+            "already_closed": true
+          },
+          "expected": {
+            "decision": "NOOP"
+          },
+          "id": "SC-BR-BIL-002-02"
+        },
+        {
+          "name": "pulo",
+          "given": {
+            "requested": 4,
+            "next_cycle": 3
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CYCLE_ORDER"
+          },
+          "id": "SC-BR-BIL-002-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-003",
+      "title": "Fatura inclui apenas lotes do ciclo líquido de reembolso anterior",
+      "norm": "Emissão soma principal/tarifa não cancelados dos lotes agendados no ciclo; futuras parcelas não entram, embora já componham debt.",
+      "operation": "billing.issue",
+      "cases": [
+        {
+          "name": "excluir futuro",
+          "given": {
+            "cycle": 3,
+            "lots": [
+              {
+                "cycle": 3,
+                "principal": 3000,
+                "fee": 20,
+                "cancelled_principal": 0
+              },
+              {
+                "cycle": 4,
+                "principal": 3000,
+                "fee": 20,
+                "cancelled_principal": 0
+              }
+            ]
+          },
+          "expected": {
+            "principal": 3000,
+            "fee": 20,
+            "total": 3020
+          },
+          "id": "SC-BR-BIL-003-01"
+        },
+        {
+          "name": "reembolso anterior",
+          "given": {
+            "cycle": 3,
+            "lots": [
+              {
+                "cycle": 3,
+                "principal": 3000,
+                "fee": 20,
+                "cancelled_principal": 1000
+              }
+            ]
+          },
+          "expected": {
+            "principal": 2000,
+            "fee": 20,
+            "total": 2020
+          },
+          "id": "SC-BR-BIL-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-004",
+      "title": "Ciclo vazio produz fatura zero válida",
+      "norm": "Não omitir fechamento sem consumo: criar emissão com total/minimum_due zero, avançando o ciclo. Isso não cria lançamento financeiro.",
+      "operation": "billing.empty",
+      "cases": [
+        {
+          "name": "fechamento vazio",
+          "given": {
+            "cycle": 3,
+            "lots": []
+          },
+          "expected": {
+            "total": 0,
+            "minimum_due": 0,
+            "next_cycle": 4,
+            "events_added": 0
+          },
+          "id": "SC-BR-BIL-004-01"
+        },
+        {
+          "name": "outro ciclo vazio",
+          "given": {
+            "cycle": 4,
+            "lots": []
+          },
+          "expected": {
+            "total": 0,
+            "minimum_due": 0,
+            "next_cycle": 5,
+            "events_added": 0
+          },
+          "id": "SC-BR-BIL-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-005",
+      "title": "Vencimento deriva do ciclo, não da hora do fechamento",
+      "norm": "due_day=(cycle+1)*30+10. Fechamento tardio não prorroga vencimento.",
+      "operation": "billing.due_day",
+      "cases": [
+        {
+          "name": "no início da janela",
+          "given": {
+            "cycle": 3,
+            "close_day": 120
+          },
+          "expected": {
+            "due_day": 130
+          },
+          "id": "SC-BR-BIL-005-01"
+        },
+        {
+          "name": "fechamento tardio",
+          "given": {
+            "cycle": 3,
+            "close_day": 135
+          },
+          "expected": {
+            "due_day": 130
+          },
+          "id": "SC-BR-BIL-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-006",
+      "title": "Pagamento mínimo usa teto, piso e total",
+      "norm": "minimum_due=min(total,max(1000,ceil(total*1000/10000))); totalzero resulta emzero. Não exceder o saldo emitido nem usar arredondamento inferior.",
+      "operation": "billing.minimum_due",
+      "cases": [
+        {
+          "name": "saldo pequeno",
+          "given": {
+            "total": 500
+          },
+          "expected": {
+            "minimum_due": 500
+          },
+          "id": "SC-BR-BIL-006-01"
+        },
+        {
+          "name": "piso",
+          "given": {
+            "total": 5000
+          },
+          "expected": {
+            "minimum_due": 1000
+          },
+          "id": "SC-BR-BIL-006-02"
+        },
+        {
+          "name": "arredondamento superior",
+          "given": {
+            "total": 10001
+          },
+          "expected": {
+            "minimum_due": 1001
+          },
+          "id": "SC-BR-BIL-006-03"
+        },
+        {
+          "name": "zero",
+          "given": {
+            "total": 0
+          },
+          "expected": {
+            "minimum_due": 0
+          },
+          "id": "SC-BR-BIL-006-04"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-007",
+      "title": "Pagamento prioriza multa, tarifa e principal",
+      "norm": "Aplicar montante por classes: multa→tarifa→principal; dentro de classe, vencimento mais antigo e chaves estáveis. Não ratear proporcionalmente entre classes.",
+      "operation": "billing.allocate_payment",
+      "cases": [
+        {
+          "name": "paga multa e parte de tarifa",
+          "given": {
+            "late": 1000,
+            "fee": 200,
+            "principal": 10000,
+            "payment": 1100
+          },
+          "expected": {
+            "late_remaining": 0,
+            "fee_remaining": 100,
+            "principal_remaining": 10000
+          },
+          "id": "SC-BR-BIL-007-01"
+        },
+        {
+          "name": "chega ao principal",
+          "given": {
+            "late": 1000,
+            "fee": 200,
+            "principal": 10000,
+            "payment": 1500
+          },
+          "expected": {
+            "late_remaining": 0,
+            "fee_remaining": 0,
+            "principal_remaining": 9700
+          },
+          "id": "SC-BR-BIL-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-008",
+      "title": "Pagamento não antecipa parcelas ainda não faturadas",
+      "norm": "Só saldo já faturado é elegível. Parcela futura permanece na dívida e no crédito comprometido após quitação da fatura atual.",
+      "operation": "billing.pay_invoiced",
+      "cases": [
+        {
+          "name": "quitar atual preserva futuro",
+          "given": {
+            "invoiced": 10000,
+            "future": 20000,
+            "payment": 10000
+          },
+          "expected": {
+            "invoiced_remaining": 0,
+            "future_remaining": 20000,
+            "debt": 20000
+          },
+          "id": "SC-BR-BIL-008-01"
+        },
+        {
+          "name": "parcial atual",
+          "given": {
+            "invoiced": 10000,
+            "future": 20000,
+            "payment": 5000
+          },
+          "expected": {
+            "invoiced_remaining": 5000,
+            "future_remaining": 20000,
+            "debt": 25000
+          },
+          "id": "SC-BR-BIL-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-009",
+      "title": "Pagamento excedente é recusado integralmente",
+      "norm": "payment>invoiced_outstanding → DECLINED/OVERPAYMENT, sem consumo parcial ou saldo credor. Zero éINVALID_INPUT.",
+      "operation": "billing.payment_admission",
+      "cases": [
+        {
+          "name": "exato",
+          "given": {
+            "invoiced": 10000,
+            "payment": 10000
+          },
+          "expected": {
+            "allowed": true
+          },
+          "id": "SC-BR-BIL-009-01"
+        },
+        {
+          "name": "excedente",
+          "given": {
+            "invoiced": 10000,
+            "payment": 10001
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "OVERPAYMENT"
+          },
+          "id": "SC-BR-BIL-009-02"
+        },
+        {
+          "name": "zero",
+          "given": {
+            "invoiced": 10000,
+            "payment": 0
+          },
+          "expected": {
+            "allowed": false,
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-BR-BIL-009-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-010",
+      "title": "Pagamento parcial reduz saldo mas não reescreve emissão",
+      "norm": "Snapshot de emissão e minimum_due original ficam estáveis; outstanding diminui. Saldo não quitado após due_day permanece inadimplente mesmo com mínimo pago.",
+      "operation": "billing.partial_payment",
+      "cases": [
+        {
+          "name": "mínimo pago ainda há atraso",
+          "given": {
+            "issued_total": 10000,
+            "minimum_due": 1000,
+            "payment": 1000,
+            "due_day": 130,
+            "day": 131
+          },
+          "expected": {
+            "issued_total": 10000,
+            "minimum_due": 1000,
+            "outstanding": 9000,
+            "past_due": true
+          },
+          "id": "SC-BR-BIL-010-01"
+        },
+        {
+          "name": "quitado",
+          "given": {
+            "issued_total": 10000,
+            "minimum_due": 1000,
+            "payment": 10000,
+            "due_day": 130,
+            "day": 131
+          },
+          "expected": {
+            "issued_total": 10000,
+            "outstanding": 0,
+            "past_due": false
+          },
+          "id": "SC-BR-BIL-010-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-011",
+      "title": "Multa por atraso é fixa e única por fatura",
+      "norm": "ASSESS com day>due_day,outstanding>0 e ainda não aplicada posta1000. Repetição com outra chave retorna NOOP; PREMIUM não isenta. Snapshot emitido permanece igual.",
+      "operation": "billing.assess_late_fee",
+      "cases": [
+        {
+          "name": "primeira multa",
+          "given": {
+            "day": 131,
+            "due_day": 130,
+            "outstanding": 5000,
+            "assessed": false,
+            "tier": "PREMIUM"
+          },
+          "expected": {
+            "decision": "OK",
+            "late_delta": 1000,
+            "outstanding": 6000
+          },
+          "id": "SC-BR-BIL-011-01"
+        },
+        {
+          "name": "já aplicada",
+          "given": {
+            "day": 132,
+            "due_day": 130,
+            "outstanding": 6000,
+            "assessed": true
+          },
+          "expected": {
+            "decision": "NOOP",
+            "late_delta": 0,
+            "outstanding": 6000
+          },
+          "id": "SC-BR-BIL-011-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BIL-012",
+      "title": "Sem atraso ou saldo não há multa",
+      "norm": "No due_day a fatura não está atrasada. Saldozero impede multa mesmo depois do vencimento; não marcar a flag assessed num NOOP sem multa.",
+      "operation": "billing.assess_late_fee",
+      "cases": [
+        {
+          "name": "dia do vencimento",
+          "given": {
+            "day": 130,
+            "due_day": 130,
+            "outstanding": 5000,
+            "assessed": false
+          },
+          "expected": {
+            "decision": "NOOP",
+            "late_delta": 0,
+            "assessed": false
+          },
+          "id": "SC-BR-BIL-012-01"
+        },
+        {
+          "name": "quitada após vencimento",
+          "given": {
+            "day": 131,
+            "due_day": 130,
+            "outstanding": 0,
+            "assessed": false
+          },
+          "expected": {
+            "decision": "NOOP",
+            "late_delta": 0,
+            "assessed": false
+          },
+          "id": "SC-BR-BIL-012-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-001",
+      "title": "Cliente regular ganha pontos por principal capturado",
+      "norm": "REGULAR,NORMAL recebe floor(D/10000) pontos antes do cap. Tarifa não gera pontos; autorização sem captura não gera pontos.",
+      "operation": "rewards.raw",
+      "cases": [
+        {
+          "name": "um ponto",
+          "given": {
+            "principal": 10000,
+            "fee": 200,
+            "tier": "REGULAR",
+            "category": "NORMAL"
+          },
+          "expected": {
+            "raw_points": 1
+          },
+          "id": "SC-BR-REW-001-01"
+        },
+        {
+          "name": "abaixo de um ponto",
+          "given": {
+            "principal": 9999,
+            "fee": 5000,
+            "tier": "REGULAR",
+            "category": "NORMAL"
+          },
+          "expected": {
+            "raw_points": 0
+          },
+          "id": "SC-BR-REW-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-002",
+      "title": "Premium multiplica depois do truncamento",
+      "norm": "PREMIUM,NORMAL recebe2*floor(D/10000), não floor(2*D/10000). Essa diferença em frações é intencional.",
+      "operation": "rewards.raw",
+      "cases": [
+        {
+          "name": "fração não rende um ponto",
+          "given": {
+            "principal": 9999,
+            "tier": "PREMIUM",
+            "category": "NORMAL"
+          },
+          "expected": {
+            "raw_points": 0
+          },
+          "id": "SC-BR-REW-002-01"
+        },
+        {
+          "name": "uma unidade rende dois",
+          "given": {
+            "principal": 10000,
+            "tier": "PREMIUM",
+            "category": "NORMAL"
+          },
+          "expected": {
+            "raw_points": 2
+          },
+          "id": "SC-BR-REW-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-003",
+      "title": "Categoria restrita não pontua",
+      "norm": "Uma captura com categoria de política RESTRICTED produz zero pontos. A autorização normal já a rejeita; esta regra defensiva tem escopo de cálculo/estados históricos válidos e não afirma alcance no fluxo normal sem bypass.",
+      "operation": "rewards.raw",
+      "cases": [
+        {
+          "name": "restrita premium",
+          "given": {
+            "principal": 100000,
+            "tier": "PREMIUM",
+            "category": "RESTRICTED"
+          },
+          "expected": {
+            "raw_points": 0
+          },
+          "id": "SC-BR-REW-003-01"
+        },
+        {
+          "name": "normal premium",
+          "given": {
+            "principal": 100000,
+            "tier": "PREMIUM",
+            "category": "NORMAL"
+          },
+          "expected": {
+            "raw_points": 20
+          },
+          "id": "SC-BR-REW-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-004",
+      "title": "Cap limita pontos efetivamente concedidos",
+      "norm": "granted=min(raw_points,max(0,1000-gross_granted_in_cycle)). Não conceder valor negativo nem aplicar cap ao principal monetário.",
+      "operation": "rewards.cap",
+      "cases": [
+        {
+          "name": "últimos pontos disponíveis",
+          "given": {
+            "raw_points": 10,
+            "gross_granted": 995
+          },
+          "expected": {
+            "granted": 5
+          },
+          "id": "SC-BR-REW-004-01"
+        },
+        {
+          "name": "cap cheio",
+          "given": {
+            "raw_points": 10,
+            "gross_granted": 1000
+          },
+          "expected": {
+            "granted": 0
+          },
+          "id": "SC-BR-REW-004-02"
+        },
+        {
+          "name": "sem cap próximo",
+          "given": {
+            "raw_points": 10,
+            "gross_granted": 0
+          },
+          "expected": {
+            "granted": 10
+          },
+          "id": "SC-BR-REW-004-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-005",
+      "title": "Cap usa ciclo da captura",
+      "norm": "Gross concedido em ciclo anterior não reduz cap do ciclo atual. A autorização pode ter sido feita antes; período é da captura.",
+      "operation": "rewards.cycle_cap",
+      "cases": [
+        {
+          "name": "novo ciclo",
+          "given": {
+            "capture_day": 120,
+            "grants": [
+              {
+                "cycle": 3,
+                "points": 1000
+              }
+            ],
+            "raw_points": 10
+          },
+          "expected": {
+            "granted": 10
+          },
+          "id": "SC-BR-REW-005-01"
+        },
+        {
+          "name": "mesmo ciclo",
+          "given": {
+            "capture_day": 119,
+            "grants": [
+              {
+                "cycle": 3,
+                "points": 1000
+              }
+            ],
+            "raw_points": 10
+          },
+          "expected": {
+            "granted": 0
+          },
+          "id": "SC-BR-REW-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-006",
+      "title": "Reversão proporcional usa concessão real",
+      "norm": "Pontos a reverter=floor(granted*(r+d)/D)-floor(granted*r/D). Usar granted pós-cap, não raw; reembolso total reverte todos os concedidos.",
+      "operation": "rewards.refund",
+      "cases": [
+        {
+          "name": "concessão reduzida por cap",
+          "given": {
+            "principal": 100000,
+            "granted": 3,
+            "refunded": 0,
+            "amount": 50000
+          },
+          "expected": {
+            "reversed": 1
+          },
+          "id": "SC-BR-REW-006-01"
+        },
+        {
+          "name": "metade final",
+          "given": {
+            "principal": 100000,
+            "granted": 3,
+            "refunded": 50000,
+            "amount": 50000
+          },
+          "expected": {
+            "reversed": 2
+          },
+          "id": "SC-BR-REW-006-02"
+        },
+        {
+          "name": "integral",
+          "given": {
+            "principal": 100000,
+            "granted": 3,
+            "refunded": 0,
+            "amount": 100000
+          },
+          "expected": {
+            "reversed": 3
+          },
+          "id": "SC-BR-REW-006-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-007",
+      "title": "Reembolso não libera cap bruto",
+      "norm": "Reverter pontos reduz saldo líquido, mas gross_granted_in_cycle permanece. Nova captura no mesmo ciclo não readquire o espaço devolvido.",
+      "operation": "rewards.after_refund",
+      "cases": [
+        {
+          "name": "cap cheio antes do estorno",
+          "given": {
+            "gross_granted": 1000,
+            "points_reversed": 100,
+            "new_raw_points": 10
+          },
+          "expected": {
+            "gross_granted": 1000,
+            "new_granted": 0
+          },
+          "id": "SC-BR-REW-007-01"
+        },
+        {
+          "name": "espaço não depende do estorno",
+          "given": {
+            "gross_granted": 990,
+            "points_reversed": 100,
+            "new_raw_points": 20
+          },
+          "expected": {
+            "new_granted": 10
+          },
+          "id": "SC-BR-REW-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-REW-008",
+      "title": "Arredondamento é por captura, não pela autorização",
+      "norm": "Duas capturas menores podem somar menos pontos que uma captura única, pois floor é aplicado em cada D. Não impor metamorfismo falso de invariância por divisão.",
+      "operation": "rewards.capture_partition",
+      "cases": [
+        {
+          "name": "uma captura",
+          "given": {
+            "captures": [
+              10000
+            ],
+            "tier": "REGULAR"
+          },
+          "expected": {
+            "points": 1
+          },
+          "id": "SC-BR-REW-008-01"
+        },
+        {
+          "name": "duas capturas",
+          "given": {
+            "captures": [
+              5000,
+              5000
+            ],
+            "tier": "REGULAR"
+          },
+          "expected": {
+            "points": 0
+          },
+          "id": "SC-BR-REW-008-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-001",
+      "title": "Batch preserva ordem de comandos",
+      "norm": "Executar na ordem recebida. Autorização que consumiu crédito afeta a seguinte; ordenar por request_id mudaria o comportamento e é proibido.",
+      "operation": "batch.order",
+      "cases": [
+        {
+          "name": "primeiro consome",
+          "given": {
+            "credit_limit": 10000,
+            "authorizations": [
+              {
+                "id": "Z",
+                "amount": 6000
+              },
+              {
+                "id": "A",
+                "amount": 5000
+              }
+            ]
+          },
+          "expected": {
+            "decisions": [
+              "APPROVED",
+              "DECLINED"
+            ],
+            "held": 6000
+          },
+          "id": "SC-BR-BAT-001-01"
+        },
+        {
+          "name": "ordem inversa",
+          "given": {
+            "credit_limit": 10000,
+            "authorizations": [
+              {
+                "id": "A",
+                "amount": 5000
+              },
+              {
+                "id": "Z",
+                "amount": 6000
+              }
+            ]
+          },
+          "expected": {
+            "decisions": [
+              "APPROVED",
+              "DECLINED"
+            ],
+            "held": 5000
+          },
+          "id": "SC-BR-BAT-001-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-002",
+      "title": "Rejeição local não interrompe nem desfaz batch",
+      "norm": "Cada comando é atômico, o batch não. Uma rejeição financeira no meio preserva o anterior e permite processar o posterior.",
+      "operation": "batch.continue",
+      "cases": [
+        {
+          "name": "sucesso recusa sucesso",
+          "given": {
+            "credit_limit": 10000,
+            "amounts": [
+              3000,
+              8000,
+              4000
+            ]
+          },
+          "expected": {
+            "decisions": [
+              "APPROVED",
+              "DECLINED",
+              "APPROVED"
+            ],
+            "held": 7000
+          },
+          "id": "SC-BR-BAT-002-01"
+        },
+        {
+          "name": "primeira recusa não impede próxima",
+          "given": {
+            "credit_limit": 10000,
+            "amounts": [
+              11000,
+              4000
+            ]
+          },
+          "expected": {
+            "decisions": [
+              "DECLINED",
+              "APPROVED"
+            ],
+            "held": 4000
+          },
+          "id": "SC-BR-BAT-002-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-003",
+      "title": "Replay em lote não conta como nova operação financeira",
+      "norm": "Repetir request_id/payload em posições diferentes retorna resposta original e não consome saldo adicional. A ordem das respostas ainda inclui o replay.",
+      "operation": "batch.replay",
+      "cases": [
+        {
+          "name": "replay intercalado",
+          "given": {
+            "requests": [
+              {
+                "id": "R1",
+                "amount": 3000
+              },
+              {
+                "id": "R2",
+                "amount": 2000
+              },
+              {
+                "id": "R1",
+                "amount": 3000
+              }
+            ]
+          },
+          "expected": {
+            "response_count": 3,
+            "auth_count": 2,
+            "held": 5000
+          },
+          "id": "SC-BR-BAT-003-01"
+        },
+        {
+          "name": "replay adjacente",
+          "given": {
+            "requests": [
+              {
+                "id": "R1",
+                "amount": 3000
+              },
+              {
+                "id": "R1",
+                "amount": 3000
+              }
+            ]
+          },
+          "expected": {
+            "response_count": 2,
+            "auth_count": 1,
+            "held": 3000
+          },
+          "id": "SC-BR-BAT-003-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-004",
+      "title": "Contas independentes têm projeções isoladas",
+      "norm": "Operação de A1 não altera dívida/reserva/pontos de A2. Agregações de risco, limite diário e pagamento são por conta, nunca globais.",
+      "operation": "batch.account_isolation",
+      "cases": [
+        {
+          "name": "autorizar na primeira",
+          "given": {
+            "op_account": "A1",
+            "amount": 10000
+          },
+          "expected": {
+            "A1_held": 10000,
+            "A2_held": 0
+          },
+          "id": "SC-BR-BAT-004-01"
+        },
+        {
+          "name": "autorizar na segunda",
+          "given": {
+            "op_account": "A2",
+            "amount": 10000
+          },
+          "expected": {
+            "A1_held": 0,
+            "A2_held": 10000
+          },
+          "id": "SC-BR-BAT-004-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-005",
+      "title": "Reconciliação soma recebíveis e reservas reais",
+      "norm": "RECONCILE deriva debt de todos os componentes de lotes ainda devidos e held de autorizações abertas; confere com projeções. Divergência é erro, não ajustada silenciosamente.",
+      "operation": "batch.reconcile",
+      "cases": [
+        {
+          "name": "projeções corretas",
+          "given": {
+            "lot_principal": [
+              1000,
+              2000
+            ],
+            "lot_fee": [
+              20,
+              30
+            ],
+            "late": [
+              1000
+            ],
+            "holds": [
+              5000,
+              2000
+            ],
+            "cached_debt": 4050,
+            "cached_held": 7000
+          },
+          "expected": {
+            "debt": 4050,
+            "held": 7000,
+            "reconciled": true
+          },
+          "id": "SC-BR-BAT-005-01"
+        },
+        {
+          "name": "cache divergente",
+          "given": {
+            "lot_principal": [
+              1000
+            ],
+            "lot_fee": [
+              20
+            ],
+            "late": [],
+            "holds": [
+              5000
+            ],
+            "cached_debt": 999,
+            "cached_held": 5000
+          },
+          "expected": {
+            "reconciled": false,
+            "reason": "INVARIANT_VIOLATION"
+          },
+          "id": "SC-BR-BAT-005-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-006",
+      "title": "Todo evento financeiro é balanceado",
+      "norm": "Soma algébrica das linhas de cada event_id deve ser zero. Soma global zero não basta para esconder dois eventos individualmente quebrados.",
+      "operation": "batch.balance_check",
+      "cases": [
+        {
+          "name": "eventos balanceados",
+          "given": {
+            "events": [
+              [
+                100,
+                -100
+              ],
+              [
+                20,
+                -20
+              ]
+            ]
+          },
+          "expected": {
+            "balanced": true
+          },
+          "id": "SC-BR-BAT-006-01"
+        },
+        {
+          "name": "global zero mas eventos inválidos",
+          "given": {
+            "events": [
+              [
+                100,
+                -90
+              ],
+              [
+                20,
+                -30
+              ]
+            ]
+          },
+          "expected": {
+            "balanced": false
+          },
+          "id": "SC-BR-BAT-006-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-007",
+      "title": "Relatório canônico ordena entidades e lotes",
+      "norm": "Resultados de consulta usam ordem ASCII de IDs e ordem normativa de lotes; não expor ordem de hash/endereços. Isso não ordena a execução do batch.",
+      "operation": "batch.report_order",
+      "cases": [
+        {
+          "name": "ordem lexicográfica",
+          "given": {
+            "ids": [
+              "Z2",
+              "A10",
+              "A2"
+            ]
+          },
+          "expected": {
+            "ids": [
+              "A10",
+              "A2",
+              "Z2"
+            ]
+          },
+          "id": "SC-BR-BAT-007-01"
+        },
+        {
+          "name": "ordem já canônica",
+          "given": {
+            "ids": [
+              "A10",
+              "A2",
+              "Z2"
+            ]
+          },
+          "expected": {
+            "ids": [
+              "A10",
+              "A2",
+              "Z2"
+            ]
+          },
+          "id": "SC-BR-BAT-007-02"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "BR-BAT-008",
+      "title": "TICK é monótono e atomicamente expira todas as reservas",
+      "norm": "TICK para trás éINVALID_TIME. Mesmo instante não repete expirações. Falha de capacidade não altera nem relógio nem parte das reservas.",
+      "operation": "batch.tick",
+      "cases": [
+        {
+          "name": "retrocesso",
+          "given": {
+            "current_now": 1000,
+            "requested_now": 999
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "INVALID_TIME",
+            "unchanged": true
+          },
+          "id": "SC-BR-BAT-008-01"
+        },
+        {
+          "name": "mesmo instante",
+          "given": {
+            "current_now": 1000,
+            "requested_now": 1000,
+            "open_holds": []
+          },
+          "expected": {
+            "decision": "OK",
+            "events_added": 0
+          },
+          "id": "SC-BR-BAT-008-02"
+        },
+        {
+          "name": "falha durante preparação",
+          "given": {
+            "current_now": 999,
+            "requested_now": 1000,
+            "expiring_holds": [
+              100,
+              200
+            ],
+            "fail_at": "LEDGER_STORAGE"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CAPACITY",
+            "unchanged": true
+          },
+          "id": "SC-BR-BAT-008-03"
+        }
+      ],
+      "classification": "functional"
+    },
+    {
+      "id": "FR-IO-001",
+      "title": "Campos obrigatórios e enums são validados",
+      "norm": "Envelope de AUTHORIZE exige referências eamount; currency/parcelas/canal têm defaults do perfil de pedido. Enum desconhecido ou campo obrigatório ausente éINVALID_INPUT antes de idempotência.",
+      "operation": "io.parse",
+      "cases": [
+        {
+          "name": "falta amount",
+          "given": {
+            "raw": "AUTHORIZE request_id=R1 account_id=A1 card_id=C1 merchant_id=M1"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-FR-IO-001-01"
+        },
+        {
+          "name": "canal desconhecido",
+          "given": {
+            "raw": "AUTHORIZE request_id=R1 account_id=A1 card_id=C1 merchant_id=M1 amount=100 channel=DRONE"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-FR-IO-001-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-002",
+      "title": "Chave duplicada é erro, não last-write-wins",
+      "norm": "Tokens que repetem a mesma chave na linha invalidam o comando inteiro mesmo quando valores são iguais.",
+      "operation": "io.parse",
+      "cases": [
+        {
+          "name": "valores diferentes",
+          "given": {
+            "raw": "QUOTE amount=100 amount=200"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-FR-IO-002-01"
+        },
+        {
+          "name": "valores iguais",
+          "given": {
+            "raw": "QUOTE amount=100 amount=100"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-FR-IO-002-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-003",
+      "title": "Campo desconhecido não é ignorado",
+      "norm": "Chaves não admitidas pela operação causam INVALID_INPUT, para evitar mutação diferente da intenção enviada.",
+      "operation": "io.parse",
+      "cases": [
+        {
+          "name": "typo de amount",
+          "given": {
+            "raw": "QUOTE amunt=100"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-FR-IO-003-01"
+        },
+        {
+          "name": "campo extra",
+          "given": {
+            "raw": "QUOTE amount=100 magic=true"
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "INVALID_INPUT"
+          },
+          "id": "SC-FR-IO-003-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-004",
+      "title": "Identificadores têm formato e tamanho definidos",
+      "norm": "ID tem1..48 caracteres ASCII[A-Za-z0-9_-]; preservar case. Não aceitar vazio,barra,espaço ou truncamento.",
+      "operation": "io.identifier",
+      "cases": [
+        {
+          "name": "válido",
+          "given": {
+            "id": "A-1_abc"
+          },
+          "expected": {
+            "valid": true
+          },
+          "id": "SC-FR-IO-004-01"
+        },
+        {
+          "name": "limite de 48",
+          "given": {
+            "id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "expected": {
+            "valid": true
+          },
+          "id": "SC-FR-IO-004-02"
+        },
+        {
+          "name": "49 caracteres",
+          "given": {
+            "id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          },
+          "expected": {
+            "valid": false
+          },
+          "id": "SC-FR-IO-004-03"
+        },
+        {
+          "name": "barra",
+          "given": {
+            "id": "A/1"
+          },
+          "expected": {
+            "valid": false
+          },
+          "id": "SC-FR-IO-004-04"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-005",
+      "title": "Inteiros são parseados sem float e sem overflow",
+      "norm": "Entrada decimal inteira, zeros à esquerda aceitos; fração,expoente,sinal+ e fora do domínio são recusados. Validação antes de multiplicação/conversão.",
+      "operation": "io.money_parse",
+      "cases": [
+        {
+          "name": "zeros à esquerda",
+          "given": {
+            "text": "000123"
+          },
+          "expected": {
+            "ok": true,
+            "value": 123
+          },
+          "id": "SC-FR-IO-005-01"
+        },
+        {
+          "name": "decimal fracionário",
+          "given": {
+            "text": "1.5"
+          },
+          "expected": {
+            "ok": false
+          },
+          "id": "SC-FR-IO-005-02"
+        },
+        {
+          "name": "expoente",
+          "given": {
+            "text": "1e3"
+          },
+          "expected": {
+            "ok": false
+          },
+          "id": "SC-FR-IO-005-03"
+        },
+        {
+          "name": "positivo com sinal",
+          "given": {
+            "text": "+1"
+          },
+          "expected": {
+            "ok": false
+          },
+          "id": "SC-FR-IO-005-04"
+        },
+        {
+          "name": "overflow",
+          "given": {
+            "text": "999999999999999999999999999"
+          },
+          "expected": {
+            "ok": false
+          },
+          "id": "SC-FR-IO-005-05"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-006",
+      "title": "Linha longa é rejeitada integralmente",
+      "norm": "Até8192 bytes incluindo LF são aceitos pelo gate de comprimento;8193 são rejeitados e o restante descartado até LF. A linha seguinte ainda deve ser processada. Nunca executar prefixo truncado.",
+      "operation": "io.line_limit",
+      "cases": [
+        {
+          "name": "limite",
+          "given": {
+            "line_bytes": 8192
+          },
+          "expected": {
+            "length_allowed": true
+          },
+          "id": "SC-FR-IO-006-01"
+        },
+        {
+          "name": "excesso e próxima linha",
+          "given": {
+            "line_bytes": 8193,
+            "next_line": "QUOTE amount=100"
+          },
+          "expected": {
+            "length_allowed": false,
+            "next_processed": true
+          },
+          "id": "SC-FR-IO-006-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-007",
+      "title": "Linhas vazias e comentários completos não geram resultado",
+      "norm": "Ignorar linha vazia e linha cujo primeiro caractere não branco é#. Comentário inline é token extra e portanto erro.",
+      "operation": "io.ignored_lines",
+      "cases": [
+        {
+          "name": "linhas ignoráveis",
+          "given": {
+            "lines": [
+              "",
+              "   ",
+              "# comment",
+              "  # comment"
+            ]
+          },
+          "expected": {
+            "response_count": 0
+          },
+          "id": "SC-FR-IO-007-01"
+        },
+        {
+          "name": "comentário inline inválido",
+          "given": {
+            "lines": [
+              "QUOTE amount=100 # comment"
+            ]
+          },
+          "expected": {
+            "response_count": 1,
+            "decision": "ERROR"
+          },
+          "id": "SC-FR-IO-007-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-008",
+      "title": "JSON de saída é determinístico e tipado",
+      "norm": "Um comando processado produz um objeto JSON; dinheiro é inteiro, não string/float. Mesmo comando/contexto gera os mesmos bytes canônicos, sem banners ou relógio externo.",
+      "operation": "io.output",
+      "cases": [
+        {
+          "name": "cotação repetida isoladamente",
+          "given": {
+            "raw": "QUOTE amount=100 currency=BRL",
+            "runs": 2
+          },
+          "expected": {
+            "response_count_per_run": 1,
+            "principal_is_integer": true,
+            "identical_bytes": true
+          },
+          "id": "SC-FR-IO-008-01"
+        },
+        {
+          "name": "valor com centavos",
+          "given": {
+            "raw": "QUOTE amount=101 currency=BRL",
+            "runs": 2
+          },
+          "expected": {
+            "principal_is_integer": true,
+            "identical_bytes": true
+          },
+          "id": "SC-FR-IO-008-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-009",
+      "title": "Exit code distingue stream concluído de erro impeditivo",
+      "norm": "Stream lido por completo retornaexit0 mesmo com rejeições locais. Seed/invocação/I/O impeditivo retornaexit2; stderr recebe diagnóstico e stdout não recebe banner.",
+      "operation": "io.exit",
+      "cases": [
+        {
+          "name": "rejeição local",
+          "given": {
+            "mode": "VALID_STREAM_WITH_DECLINE"
+          },
+          "expected": {
+            "exit_code": 0
+          },
+          "id": "SC-FR-IO-009-01"
+        },
+        {
+          "name": "seed inválido",
+          "given": {
+            "mode": "INVALID_SEED"
+          },
+          "expected": {
+            "exit_code": 2
+          },
+          "id": "SC-FR-IO-009-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-010",
+      "title": "Seed inválido não cria engine parcial",
+      "norm": "Entidades duplicadas,referências ausentes,configuração inválida ou ordem inadequada abortam a carga antes dos comandos. Não pular silenciosamente linhas inválidas do seed.",
+      "operation": "io.seed",
+      "cases": [
+        {
+          "name": "conta duplicada",
+          "given": {
+            "defect": "DUPLICATE_ACCOUNT"
+          },
+          "expected": {
+            "ok": false,
+            "commands_processed": 0
+          },
+          "id": "SC-FR-IO-010-01"
+        },
+        {
+          "name": "dono ausente",
+          "given": {
+            "defect": "MISSING_CARD_OWNER"
+          },
+          "expected": {
+            "ok": false,
+            "commands_processed": 0
+          },
+          "id": "SC-FR-IO-010-02"
+        },
+        {
+          "name": "taxa inválida",
+          "given": {
+            "defect": "INVALID_RATE"
+          },
+          "expected": {
+            "ok": false,
+            "commands_processed": 0
+          },
+          "id": "SC-FR-IO-010-03"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-011",
+      "title": "Capacidade esgotada é falha explícita",
+      "norm": "Limites de armazenamento são configuráveis e documentados. Excesso retorna CAPACITY sem truncar histórico,diário,lotes,keys nem perder conta. Testar falha por alocação controlada.",
+      "operation": "io.capacity",
+      "cases": [
+        {
+          "name": "histórico cheio",
+          "given": {
+            "resource": "HISTORY",
+            "remaining_capacity": 0
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CAPACITY",
+            "unchanged": true
+          },
+          "id": "SC-FR-IO-011-01"
+        },
+        {
+          "name": "diário cheio",
+          "given": {
+            "resource": "LEDGER",
+            "remaining_capacity": 0
+          },
+          "expected": {
+            "decision": "ERROR",
+            "reason": "CAPACITY",
+            "unchanged": true
+          },
+          "id": "SC-FR-IO-011-02"
+        }
+      ],
+      "classification": "technical"
+    },
+    {
+      "id": "FR-IO-012",
+      "title": "Locale e relógio de parede não mudam semântica",
+      "norm": "Mesmo seed e stream com TICK explícito produzem o mesmo resultado sob diferentes LC_ALL/TZ suportados. Não usar time/rand para decidir políticas,IDs ou arredondamento.",
+      "operation": "io.environment",
+      "cases": [
+        {
+          "name": "timezone diferente",
+          "given": {
+            "variation": "TZ"
+          },
+          "expected": {
+            "identical_results": true
+          },
+          "id": "SC-FR-IO-012-01"
+        },
+        {
+          "name": "locale diferente",
+          "given": {
+            "variation": "LC_ALL"
+          },
+          "expected": {
+            "identical_results": true
+          },
+          "id": "SC-FR-IO-012-02"
+        }
+      ],
+      "classification": "technical"
+    }
+  ]
+}

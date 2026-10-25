@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "groups": [
+    {
+      "group": "malformed_c_api",
+      "status": "PASS",
+      "cases": 11
+    },
+    {
+      "group": "numeric_transaction_edges",
+      "status": "PASS",
+      "cases": 5
+    }
+  ],
+  "cli_processes": 5,
+  "cli_responses": 34
+}

@@ -1,0 +1,4 @@
+CLOCK now=144600
+ACCOUNT id=A1
+CARD id=C1 account_id=A1
+MERCHANT id=M1

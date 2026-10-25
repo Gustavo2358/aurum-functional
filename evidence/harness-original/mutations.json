@@ -1,0 +1,348 @@
+{
+  "status": "PASS",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "flags": [
+    "-std=c17",
+    "-O0",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Werror"
+  ],
+  "baseline": {
+    "status": "PASS",
+    "groups": [
+      {
+        "group": "quote_reference",
+        "status": "PASS"
+      },
+      {
+        "group": "credit_boundaries",
+        "status": "PASS"
+      },
+      {
+        "group": "daily_gross",
+        "status": "PASS"
+      },
+      {
+        "group": "eligibility",
+        "status": "PASS"
+      },
+      {
+        "group": "risk_window",
+        "status": "PASS"
+      },
+      {
+        "group": "capture_fragments",
+        "status": "PASS"
+      },
+      {
+        "group": "refund_fragments",
+        "status": "PASS"
+      },
+      {
+        "group": "future_refund",
+        "status": "PASS"
+      },
+      {
+        "group": "payment_priority",
+        "status": "PASS"
+      },
+      {
+        "group": "reward_cap",
+        "status": "PASS"
+      },
+      {
+        "group": "capture_partition",
+        "status": "PASS"
+      },
+      {
+        "group": "replay",
+        "status": "PASS"
+      },
+      {
+        "group": "declined_replay",
+        "status": "PASS"
+      },
+      {
+        "group": "capacity",
+        "status": "PASS"
+      },
+      {
+        "group": "expiration",
+        "status": "PASS"
+      },
+      {
+        "group": "independent_accounts",
+        "status": "PASS"
+      },
+      {
+        "group": "line_boundary",
+        "status": "PASS"
+      }
+    ],
+    "processes": 47,
+    "responses": 864
+  },
+  "mutants": [
+    {
+      "name": "credit_equality",
+      "file": "subject/src/policy.c",
+      "source_sha256": "a3030bc0ed170139f19cb269a2c661c3d0504ad9c4d73a099c880edab0c5b019",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "credit_boundaries",
+          "status": "FAIL",
+          "error": "decision: expected 'APPROVED', got 'DECLINED'; response={'op': 'AUTHORIZE', 'request_id': 'A', 'decision': 'DECLINED', 'reason': 'CREDIT_LIMIT', 'principal': 10000, 'fee': 200, 'reserved': 0}"
+        }
+      ],
+      "responses": 6,
+      "counterexample": "decision: expected 'APPROVED', got 'DECLINED'; response={'op': 'AUTHORIZE', 'request_id': 'A', 'decision': 'DECLINED', 'reason': 'CREDIT_LIMIT', 'principal': 10000, 'fee': 200, 'reserved': 0}"
+    },
+    {
+      "name": "credit_omits_fee",
+      "file": "subject/src/policy.c",
+      "source_sha256": "a3030bc0ed170139f19cb269a2c661c3d0504ad9c4d73a099c880edab0c5b019",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "credit_boundaries",
+          "status": "FAIL",
+          "error": "decision: expected 'DECLINED', got 'APPROVED'; response={'op': 'AUTHORIZE', 'request_id': 'A', 'decision': 'APPROVED', 'reason': 'NONE', 'principal': 10000, 'fee': 200, 'reserved': 10200, 'auth_id': 'A', 'expires_at': 146040}"
+        }
+      ],
+      "responses": 3,
+      "counterexample": "decision: expected 'DECLINED', got 'APPROVED'; response={'op': 'AUTHORIZE', 'request_id': 'A', 'decision': 'APPROVED', 'reason': 'NONE', 'principal': 10000, 'fee': 200, 'reserved': 10200, 'auth_id': 'A', 'expires_at': 146040}"
+    },
+    {
+      "name": "capture_state_guard_removed",
+      "file": "subject/src/lifecycle.c",
+      "source_sha256": "df29c5e330aff1f650ea9e0bc5929b9a1534d3cced0657c735cdec2cd7b94098",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "expiration",
+          "status": "FAIL",
+          "error": "decision: expected 'OK', got 'ERROR'; response={'op': 'RECONCILE', 'decision': 'ERROR', 'reason': 'INVARIANT_VIOLATION', 'status': 'INVARIANT_VIOLATION', 'debt_difference': 0, 'held_difference': 0}"
+        }
+      ],
+      "responses": 10,
+      "counterexample": "decision: expected 'OK', got 'ERROR'; response={'op': 'RECONCILE', 'decision': 'ERROR', 'reason': 'INVARIANT_VIOLATION', 'status': 'INVARIANT_VIOLATION', 'debt_difference': 0, 'held_difference': 0}"
+    },
+    {
+      "name": "capture_independent_rounding",
+      "file": "subject/src/lifecycle.c",
+      "source_sha256": "df29c5e330aff1f650ea9e0bc5929b9a1534d3cced0657c735cdec2cd7b94098",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "capture_fragments",
+          "status": "FAIL",
+          "error": "decision: expected 'OK', got 'ERROR'; response={'op': 'RECONCILE', 'decision': 'ERROR', 'reason': 'INVARIANT_VIOLATION', 'status': 'INVARIANT_VIOLATION', 'debt_difference': 0, 'held_difference': 0}"
+        }
+      ],
+      "responses": 8,
+      "counterexample": "decision: expected 'OK', got 'ERROR'; response={'op': 'RECONCILE', 'decision': 'ERROR', 'reason': 'INVARIANT_VIOLATION', 'status': 'INVARIANT_VIOLATION', 'debt_difference': 0, 'held_difference': 0}"
+    },
+    {
+      "name": "refund_entire_fee_first",
+      "file": "subject/src/lifecycle.c",
+      "source_sha256": "df29c5e330aff1f650ea9e0bc5929b9a1534d3cced0657c735cdec2cd7b94098",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "refund_fragments",
+          "status": "FAIL",
+          "error": ""
+        }
+      ],
+      "responses": 7,
+      "counterexample": ""
+    },
+    {
+      "name": "refund_restores_reward_cap",
+      "file": "subject/src/lifecycle.c",
+      "source_sha256": "df29c5e330aff1f650ea9e0bc5929b9a1534d3cced0657c735cdec2cd7b94098",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "reward_cap",
+          "status": "FAIL",
+          "error": ""
+        }
+      ],
+      "responses": 14,
+      "counterexample": ""
+    },
+    {
+      "name": "payment_late_last",
+      "file": "subject/src/billing.c",
+      "source_sha256": "06cdac8f888df3aad77e629b60c81c7bacb232ccfbc2fbaef5caa7fe7d2dfe9f",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "payment_priority",
+          "status": "FAIL",
+          "error": "cash_refund: expected 0, got 1000; response={'op': 'REFUND', 'request_id': 'F', 'decision': 'OK', 'reason': 'NONE', 'capture_id': 'X', 'principal': 10000, 'fee': 200, 'cash_refund': 1000, 'points_reversed': 1}"
+        }
+      ],
+      "responses": 18,
+      "counterexample": "cash_refund: expected 0, got 1000; response={'op': 'REFUND', 'request_id': 'F', 'decision': 'OK', 'reason': 'NONE', 'capture_id': 'X', 'principal': 10000, 'fee': 200, 'cash_refund': 1000, 'points_reversed': 1}"
+    },
+    {
+      "name": "payment_principal_before_fee",
+      "file": "subject/src/billing.c",
+      "source_sha256": "06cdac8f888df3aad77e629b60c81c7bacb232ccfbc2fbaef5caa7fe7d2dfe9f",
+      "replacement_count": 3,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "payment_priority",
+          "status": "FAIL",
+          "error": "cash_refund: expected 2, got 100; response={'op': 'REFUND', 'request_id': 'F', 'decision': 'OK', 'reason': 'NONE', 'capture_id': 'X', 'principal': 100, 'fee': 2, 'cash_refund': 100, 'points_reversed': 0}"
+        }
+      ],
+      "responses": 8,
+      "counterexample": "cash_refund: expected 2, got 100; response={'op': 'REFUND', 'request_id': 'F', 'decision': 'OK', 'reason': 'NONE', 'capture_id': 'X', 'principal': 100, 'fee': 2, 'cash_refund': 100, 'points_reversed': 0}"
+    },
+    {
+      "name": "replay_executes_again",
+      "file": "subject/src/engine.c",
+      "source_sha256": "924f5785ac2c0f444b78cc228ec3b5dd9c7abaf44c0ddd3ea09367f1dc526f3a",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "replay",
+          "status": "FAIL",
+          "error": "(2, 3, {'op': 'CAPTURE', 'request_id': 'X', 'decision': 'OK', 'reason': 'NONE', 'auth_id': 'A', 'capture_id': 'X', 'principal': 6000, 'fee': 0, 'points': 0}, {'op': 'CAPTURE', 'request_id': 'X', 'decision': 'DECLINED', 'reason': 'CAPTURE_AMOUNT', 'principal': 0, 'fee': 0, 'points': 0})"
+        }
+      ],
+      "responses": 19,
+      "counterexample": "(2, 3, {'op': 'CAPTURE', 'request_id': 'X', 'decision': 'OK', 'reason': 'NONE', 'auth_id': 'A', 'capture_id': 'X', 'principal': 6000, 'fee': 0, 'points': 0}, {'op': 'CAPTURE', 'request_id': 'X', 'decision': 'DECLINED', 'reason': 'CAPTURE_AMOUNT', 'principal': 0, 'fee': 0, 'points': 0})"
+    },
+    {
+      "name": "expire_one_minute_early",
+      "file": "subject/src/lifecycle.c",
+      "source_sha256": "df29c5e330aff1f650ea9e0bc5929b9a1534d3cced0657c735cdec2cd7b94098",
+      "replacement_count": 2,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "expiration",
+          "status": "FAIL",
+          "error": "released: expected 0, got 10000; response={'op': 'TICK', 'decision': 'OK', 'reason': 'NONE', 'released': 10000}"
+        }
+      ],
+      "responses": 10,
+      "counterexample": "released: expected 0, got 10000; response={'op': 'TICK', 'decision': 'OK', 'reason': 'NONE', 'released': 10000}"
+    },
+    {
+      "name": "accept_truncated_line",
+      "file": "subject/src/protocol.c",
+      "source_sha256": "4841a44f610ba41ade682a2058f65ad8e72c32f16929c0df25f892a4f8099983",
+      "replacement_count": 1,
+      "status": "KILLED",
+      "tests": [
+        {
+          "group": "line_boundary",
+          "status": "FAIL",
+          "error": "decision: expected 'ERROR', got 'APPROVED'; response={'op': 'AUTHORIZE', 'request_id': 'A', 'decision': 'APPROVED', 'reason': 'NONE', 'principal': 10000, 'fee': 0, 'reserved': 10000, 'auth_id': 'A', 'expires_at': 146040}"
+        }
+      ],
+      "responses": 7,
+      "counterexample": "decision: expected 'ERROR', got 'APPROVED'; response={'op': 'AUTHORIZE', 'request_id': 'A', 'decision': 'APPROVED', 'reason': 'NONE', 'principal': 10000, 'fee': 0, 'reserved': 10000, 'auth_id': 'A', 'expires_at': 146040}"
+    },
+    {
+      "name": "equivalent_local_rename",
+      "file": "subject/src/lifecycle.c",
+      "source_sha256": "df29c5e330aff1f650ea9e0bc5929b9a1534d3cced0657c735cdec2cd7b94098",
+      "replacement_count": 7,
+      "status": "EQUIVALENT_PASS",
+      "equivalence": "Consistent renaming of a function-local variable; no type, control or data changes.",
+      "tests": [
+        {
+          "group": "quote_reference",
+          "status": "PASS"
+        },
+        {
+          "group": "credit_boundaries",
+          "status": "PASS"
+        },
+        {
+          "group": "daily_gross",
+          "status": "PASS"
+        },
+        {
+          "group": "eligibility",
+          "status": "PASS"
+        },
+        {
+          "group": "risk_window",
+          "status": "PASS"
+        },
+        {
+          "group": "capture_fragments",
+          "status": "PASS"
+        },
+        {
+          "group": "refund_fragments",
+          "status": "PASS"
+        },
+        {
+          "group": "future_refund",
+          "status": "PASS"
+        },
+        {
+          "group": "payment_priority",
+          "status": "PASS"
+        },
+        {
+          "group": "reward_cap",
+          "status": "PASS"
+        },
+        {
+          "group": "capture_partition",
+          "status": "PASS"
+        },
+        {
+          "group": "replay",
+          "status": "PASS"
+        },
+        {
+          "group": "declined_replay",
+          "status": "PASS"
+        },
+        {
+          "group": "capacity",
+          "status": "PASS"
+        },
+        {
+          "group": "expiration",
+          "status": "PASS"
+        },
+        {
+          "group": "independent_accounts",
+          "status": "PASS"
+        },
+        {
+          "group": "line_boundary",
+          "status": "PASS"
+        }
+      ],
+      "responses": 864
+    }
+  ],
+  "killed": 11,
+  "survived": 0,
+  "equivalent": 1
+}

@@ -1,0 +1,1680 @@
+{
+  "money.validate": {
+    "symbols": [
+      "money_valid"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "value"
+    ],
+    "observations": [
+      "error",
+      "ok"
+    ]
+  },
+  "money.add": {
+    "symbols": [
+      "money_add"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "a",
+      "b"
+    ],
+    "observations": [
+      "error",
+      "ok",
+      "value"
+    ]
+  },
+  "money.subtract": {
+    "symbols": [
+      "money_sub"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "a",
+      "b"
+    ],
+    "observations": [
+      "error",
+      "ok",
+      "value"
+    ]
+  },
+  "money.floor_rate": {
+    "symbols": [
+      "floor_rate"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "bps",
+      "value"
+    ],
+    "observations": [
+      "value"
+    ]
+  },
+  "money.ceil_rate": {
+    "symbols": [
+      "ceil_rate"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "bps",
+      "value"
+    ],
+    "observations": [
+      "value"
+    ]
+  },
+  "money.fx": {
+    "symbols": [
+      "money_fx"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "rate",
+      "value"
+    ],
+    "observations": [
+      "value"
+    ]
+  },
+  "money.checked_mul": {
+    "symbols": [
+      "checked_mul"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "a",
+      "b"
+    ],
+    "observations": [
+      "error",
+      "ok",
+      "value"
+    ]
+  },
+  "money.validate_rates": {
+    "symbols": [
+      "config_valid"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "bps",
+      "fx_rate"
+    ],
+    "observations": [
+      "ok"
+    ]
+  },
+  "pricing.quote": {
+    "symbols": [
+      "quote"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "amount",
+      "currency"
+    ],
+    "observations": [
+      "ok",
+      "principal",
+      "reason"
+    ]
+  },
+  "pricing.components": {
+    "symbols": [
+      "price_components"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "country",
+      "currency",
+      "installments",
+      "principal",
+      "tier"
+    ],
+    "observations": [
+      "fee",
+      "installment_fee",
+      "international_fee"
+    ]
+  },
+  "limits.available": {
+    "symbols": [
+      "available_credit"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "credit_limit",
+      "debt",
+      "held"
+    ],
+    "observations": [
+      "available"
+    ]
+  },
+  "limits.credit": {
+    "symbols": [
+      "credit_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "available",
+      "fee",
+      "principal"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "limits.operation": {
+    "symbols": [
+      "operation_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "fee",
+      "per_operation_limit",
+      "principal"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "limits.daily_amount": {
+    "symbols": [
+      "daily_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "daily_limit",
+      "fee",
+      "principal",
+      "used"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "limits.daily_count": {
+    "symbols": [
+      "daily_totals",
+      "count_admission"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit approved/review/declined historical rows; real aggregation then admission.",
+    "inputs": [
+      "approved",
+      "declined",
+      "review"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "limits.day_projection": {
+    "symbols": [
+      "daily_totals"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit historical rows replace history; current logical day from input.",
+    "inputs": [
+      "day",
+      "history"
+    ],
+    "observations": [
+      "count",
+      "gross_principal"
+    ]
+  },
+  "limits.record_decision": {
+    "symbols": [
+      "record_decision",
+      "daily_totals"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Production history writer receives explicit classified decision; totals observed before/after.",
+    "inputs": [
+      "decision",
+      "principal"
+    ],
+    "observations": [
+      "count_delta",
+      "gross_delta"
+    ]
+  },
+  "limits.after_reversal": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "capture_apply",
+      "cancel_apply",
+      "refund_apply",
+      "daily_totals"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Authorize then CANCEL, or authorize/capture/REFUND with real commands; inspect original-day history.",
+    "inputs": [
+      "action",
+      "approved_principal"
+    ],
+    "observations": [
+      "daily_gross_principal"
+    ]
+  },
+  "risk.score": {
+    "symbols": [
+      "risk_score"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "base_score",
+      "card_present",
+      "country",
+      "currency",
+      "principal",
+      "recent_count"
+    ],
+    "observations": [
+      "score"
+    ]
+  },
+  "risk.classify": {
+    "symbols": [
+      "risk_classify"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "score"
+    ],
+    "observations": [
+      "decision"
+    ]
+  },
+  "risk.velocity": {
+    "symbols": [
+      "recent_count",
+      "risk_score"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit historical rows; score with neutral remaining components observes velocity contribution.",
+    "inputs": [
+      "history",
+      "now"
+    ],
+    "observations": [
+      "component",
+      "recent_count"
+    ]
+  },
+  "eligibility.check": {
+    "symbols": [
+      "eligibility",
+      "invoice_outstanding"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Base entities, typed overrides, explicit invoice/receivable inputs with parent records and balanced opening entries.",
+    "inputs": [
+      "account.active",
+      "amount",
+      "card.allow_contactless",
+      "card.allow_international",
+      "card.expiry_day",
+      "card.status",
+      "card_present",
+      "channel",
+      "country",
+      "currency",
+      "day",
+      "invoices",
+      "merchant.category",
+      "merchant.status",
+      "pin_ok",
+      "profile"
+    ],
+    "observations": [
+      "eligible",
+      "reason"
+    ]
+  },
+  "auth.decide": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "quote",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Base engine plus entity/request overrides; QUOTE comparison when requested; automatic rejection snapshots.",
+    "inputs": [
+      "account.active",
+      "amount",
+      "base_score",
+      "credit_limit"
+    ],
+    "observations": [
+      "auth_created",
+      "count_delta",
+      "debt",
+      "decision",
+      "financial_unchanged",
+      "held",
+      "points",
+      "reason"
+    ]
+  },
+  "auth.approve": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "quote",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Base engine plus entity/request overrides; QUOTE comparison when requested; automatic rejection snapshots.",
+    "inputs": [
+      "amount",
+      "currency",
+      "now"
+    ],
+    "observations": [
+      "approved_at",
+      "available",
+      "debt",
+      "decision",
+      "expires_at",
+      "held",
+      "points",
+      "state"
+    ]
+  },
+  "auth.quote_consistency": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "quote",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Base engine plus entity/request overrides; QUOTE comparison when requested; automatic rejection snapshots.",
+    "inputs": [
+      "amount",
+      "currency",
+      "installments",
+      "tier"
+    ],
+    "observations": [
+      "fee",
+      "principal",
+      "same_quote"
+    ]
+  },
+  "auth.capacity": {
+    "symbols": [
+      "execute",
+      "authorize_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Valid base engine, then targeted capacity fault injection before real AUTHORIZE; complete state equality required.",
+    "inputs": [
+      "fail_at"
+    ],
+    "observations": [
+      "decision",
+      "reason",
+      "unchanged"
+    ]
+  },
+  "io.capacity": {
+    "symbols": [
+      "execute",
+      "authorize_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Valid base engine, then targeted capacity fault injection before real AUTHORIZE; complete state equality required.",
+    "inputs": [
+      "remaining_capacity",
+      "resource"
+    ],
+    "observations": [
+      "decision",
+      "reason",
+      "unchanged"
+    ]
+  },
+  "pricing.purity": {
+    "symbols": [
+      "execute",
+      "quote"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Repeated real QUOTE calls; compare responses and complete financial snapshots.",
+    "inputs": [
+      "amount",
+      "currency",
+      "repeat"
+    ],
+    "observations": [
+      "fee",
+      "financial_unchanged",
+      "principal",
+      "same_response"
+    ]
+  },
+  "idempotency.replay": {
+    "symbols": [
+      "execute",
+      "command_same_key",
+      "command_equal"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Execute AUTHORIZE twice/repeatedly; conflict changes only explicit payload; cache-context test changes only explicit later inputs.",
+    "inputs": [
+      "amount",
+      "op",
+      "repeat"
+    ],
+    "observations": [
+      "auth_count",
+      "held",
+      "same_response"
+    ]
+  },
+  "idempotency.conflict": {
+    "symbols": [
+      "execute",
+      "command_same_key",
+      "command_equal"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Execute AUTHORIZE twice/repeatedly; conflict changes only explicit payload; cache-context test changes only explicit later inputs.",
+    "inputs": [
+      "amount",
+      "first_amount",
+      "first_currency",
+      "second_amount",
+      "second_currency"
+    ],
+    "observations": [
+      "decision",
+      "held",
+      "reason"
+    ]
+  },
+  "idempotency.declined_replay": {
+    "symbols": [
+      "execute",
+      "command_same_key",
+      "command_equal"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Execute AUTHORIZE twice/repeatedly; conflict changes only explicit payload; cache-context test changes only explicit later inputs.",
+    "inputs": [
+      "amount",
+      "first_base_score",
+      "first_credit_limit",
+      "later_base_score",
+      "later_credit_limit"
+    ],
+    "observations": [
+      "first_decision",
+      "same_response",
+      "second_decision"
+    ]
+  },
+  "idempotency.capture_replay": {
+    "symbols": [
+      "execute",
+      "capture_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Real AUTHORIZE then repeat identical CAPTURE; read debt, points, capture count and history.",
+    "inputs": [
+      "principal",
+      "repeat"
+    ],
+    "observations": [
+      "capture_count",
+      "daily_count",
+      "debt",
+      "points"
+    ]
+  },
+  "idempotency.canonical": {
+    "symbols": [
+      "parse_command",
+      "command_equal"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "first",
+      "second"
+    ],
+    "observations": [
+      "same_payload"
+    ]
+  },
+  "idempotency.namespace": {
+    "symbols": [
+      "command_same_key"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "first_op",
+      "request_id",
+      "second_op"
+    ],
+    "observations": [
+      "same_key"
+    ]
+  },
+  "idempotency.error_policy": {
+    "symbols": [
+      "cacheable"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "reason"
+    ],
+    "observations": [
+      "cache_response"
+    ]
+  },
+  "idempotency.query": {
+    "symbols": [
+      "execute",
+      "quote",
+      "reconcile"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Repeat real query; compare financial snapshots and idempotency collection size.",
+    "inputs": [
+      "op",
+      "repeat"
+    ],
+    "observations": [
+      "financial_unchanged",
+      "idempotency_delta"
+    ]
+  },
+  "capture.admission": {
+    "symbols": [
+      "capture_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "expires_at",
+      "now",
+      "state"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "capture.amount": {
+    "symbols": [
+      "capture_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "amount",
+      "captured",
+      "principal"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "capture.fee_delta": {
+    "symbols": [
+      "cumulative_delta"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "amount",
+      "captured",
+      "fee",
+      "principal"
+    ],
+    "observations": [
+      "fee_delta"
+    ]
+  },
+  "capture.next_state": {
+    "symbols": [
+      "capture_state"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "captured_after",
+      "principal"
+    ],
+    "observations": [
+      "state"
+    ]
+  },
+  "capture.transition": {
+    "symbols": [
+      "execute",
+      "capture_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit authorization price contract; optional prior real CAPTURE; balanced opening hold; actual CAPTURE and journal differences.",
+    "inputs": [
+      "amount",
+      "captured",
+      "fee",
+      "principal"
+    ],
+    "observations": [
+      "available_delta",
+      "debt",
+      "held"
+    ]
+  },
+  "capture.ledger": {
+    "symbols": [
+      "execute",
+      "capture_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit authorization price contract; optional prior real CAPTURE; balanced opening hold; actual CAPTURE and journal differences.",
+    "inputs": [
+      "amount",
+      "fee",
+      "principal"
+    ],
+    "observations": [
+      "balanced",
+      "fee_revenue_delta",
+      "merchant_clearing_delta",
+      "receivable_fee_delta",
+      "receivable_principal_delta"
+    ]
+  },
+  "capture.no_reauthorization": {
+    "symbols": [
+      "execute",
+      "capture_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit authorization price contract; optional prior real CAPTURE; balanced opening hold; actual CAPTURE and journal differences.",
+    "inputs": [
+      "amount",
+      "current_base_score",
+      "fee",
+      "principal"
+    ],
+    "observations": [
+      "debt",
+      "decision"
+    ]
+  },
+  "capture.capacity": {
+    "symbols": [
+      "execute",
+      "capture_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Valid authorization/hold setup, targeted storage limit fault, actual CAPTURE and full-state equality.",
+    "inputs": [
+      "fail_at"
+    ],
+    "observations": [
+      "decision",
+      "reason",
+      "unchanged"
+    ]
+  },
+  "reversal.cancel": {
+    "symbols": [
+      "execute",
+      "cancel_apply",
+      "tick_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit authorization with prior real CAPTURE when supplied; real cancellation or TICK; snapshots preserve prior debt.",
+    "inputs": [
+      "captured",
+      "fee",
+      "principal"
+    ],
+    "observations": [
+      "debt",
+      "held",
+      "released",
+      "state"
+    ]
+  },
+  "reversal.cancel_terminal": {
+    "symbols": [
+      "execute",
+      "cancel_apply",
+      "tick_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit authorization with prior real CAPTURE when supplied; real cancellation or TICK; snapshots preserve prior debt.",
+    "inputs": [
+      "state"
+    ],
+    "observations": [
+      "decision",
+      "financial_unchanged",
+      "reason"
+    ]
+  },
+  "reversal.expire": {
+    "symbols": [
+      "execute",
+      "cancel_apply",
+      "tick_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit authorization with prior real CAPTURE when supplied; real cancellation or TICK; snapshots preserve prior debt.",
+    "inputs": [
+      "debt",
+      "expires_at",
+      "now",
+      "remaining_hold",
+      "state"
+    ],
+    "observations": [
+      "debt",
+      "released",
+      "state"
+    ]
+  },
+  "reversal.refund_amount": {
+    "symbols": [
+      "refund_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "amount",
+      "capture_principal",
+      "refunded"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "reversal.refund_fee": {
+    "symbols": [
+      "cumulative_delta"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "amount",
+      "capture_fee",
+      "capture_principal",
+      "refunded"
+    ],
+    "observations": [
+      "fee_refund"
+    ]
+  },
+  "reversal.refund_allocation": {
+    "symbols": [
+      "execute",
+      "refund_apply",
+      "lot_principal",
+      "lot_fee"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit captures/lots/paid/cancelled components, parent records and balanced opening journal; real REFUND; inspect component balances.",
+    "inputs": [
+      "lot_principal",
+      "refund_principal"
+    ],
+    "observations": [
+      "cash_refund",
+      "remaining_principal"
+    ]
+  },
+  "reversal.refund_paid": {
+    "symbols": [
+      "execute",
+      "refund_apply",
+      "lot_principal",
+      "lot_fee"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit captures/lots/paid/cancelled components, parent records and balanced opening journal; real REFUND; inspect component balances.",
+    "inputs": [
+      "capture_fee",
+      "capture_principal",
+      "refund_principal",
+      "unpaid_fee",
+      "unpaid_principal"
+    ],
+    "observations": [
+      "cash_refund",
+      "debt_after"
+    ]
+  },
+  "reversal.refund_with_late_fee": {
+    "symbols": [
+      "execute",
+      "refund_apply",
+      "lot_principal",
+      "lot_fee"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit captures/lots/paid/cancelled components, parent records and balanced opening journal; real REFUND; inspect component balances.",
+    "inputs": [
+      "refund_principal",
+      "unpaid_fee",
+      "unpaid_late_fee",
+      "unpaid_principal"
+    ],
+    "observations": [
+      "debt",
+      "unpaid_fee",
+      "unpaid_late_fee",
+      "unpaid_principal"
+    ]
+  },
+  "reversal.refund_closed_auth": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "capture_apply",
+      "cancel_apply",
+      "tick_apply",
+      "refund_apply",
+      "daily_totals"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Real AUTHORIZE/CAPTURE then CANCEL or TICK; real REFUND and original-day history observation.",
+    "inputs": [
+      "auth_state",
+      "captured",
+      "daily_gross_principal",
+      "refund_principal"
+    ],
+    "observations": [
+      "auth_state",
+      "daily_gross_principal",
+      "decision",
+      "held"
+    ]
+  },
+  "installment.admission": {
+    "symbols": [
+      "installment_allowed"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "country",
+      "fee",
+      "n",
+      "principal"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "installment.capture_admission": {
+    "symbols": [
+      "capture_installment_allowed"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "authorized_principal",
+      "capture_principal",
+      "n"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "installment.split": {
+    "symbols": [
+      "split_part"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "n",
+      "total"
+    ],
+    "observations": [
+      "parts"
+    ]
+  },
+  "installment.split_components": {
+    "symbols": [
+      "split_part"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "fee",
+      "n",
+      "principal"
+    ],
+    "observations": [
+      "fee_parts",
+      "principal_parts"
+    ]
+  },
+  "installment.conservation": {
+    "symbols": [
+      "split_part"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "fee",
+      "n",
+      "principal"
+    ],
+    "observations": [
+      "sum_fee",
+      "sum_principal"
+    ]
+  },
+  "installment.schedule": {
+    "symbols": [
+      "execute",
+      "capture_apply",
+      "invoice_due_day"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit logical capture day/authorization; actual CAPTURE supplies lot cycle indices; due dates via production helper.",
+    "inputs": [
+      "capture_day",
+      "n"
+    ],
+    "observations": [
+      "cycles",
+      "due_days"
+    ]
+  },
+  "billing.close_time": {
+    "symbols": [
+      "close_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "cycle",
+      "day"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "billing.close_order": {
+    "symbols": [
+      "execute",
+      "close_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit historical lots and cycle pointer, optional prior invoice; balanced opening; real CLOSE snapshot.",
+    "inputs": [
+      "already_closed",
+      "next_cycle",
+      "requested"
+    ],
+    "observations": [
+      "decision",
+      "reason"
+    ]
+  },
+  "billing.issue": {
+    "symbols": [
+      "execute",
+      "close_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit historical lots and cycle pointer, optional prior invoice; balanced opening; real CLOSE snapshot.",
+    "inputs": [
+      "cycle",
+      "lots"
+    ],
+    "observations": [
+      "fee",
+      "principal",
+      "total"
+    ]
+  },
+  "billing.empty": {
+    "symbols": [
+      "execute",
+      "close_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit historical lots and cycle pointer, optional prior invoice; balanced opening; real CLOSE snapshot.",
+    "inputs": [
+      "cycle",
+      "lots"
+    ],
+    "observations": [
+      "events_added",
+      "minimum_due",
+      "next_cycle",
+      "total"
+    ]
+  },
+  "billing.due_day": {
+    "symbols": [
+      "invoice_due_day"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "close_day",
+      "cycle"
+    ],
+    "observations": [
+      "due_day"
+    ]
+  },
+  "billing.minimum_due": {
+    "symbols": [
+      "invoice_minimum"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "total"
+    ],
+    "observations": [
+      "minimum_due"
+    ]
+  },
+  "billing.payment_admission": {
+    "symbols": [
+      "payment_admission"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "invoiced",
+      "payment"
+    ],
+    "observations": [
+      "allowed",
+      "reason"
+    ]
+  },
+  "billing.allocate_payment": {
+    "symbols": [
+      "execute",
+      "pay_apply",
+      "invoice_outstanding",
+      "eligibility"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit invoiced/future lot inputs plus invoice metadata and opening entries; real PAY and remaining-component projections.",
+    "inputs": [
+      "fee",
+      "late",
+      "payment",
+      "principal"
+    ],
+    "observations": [
+      "fee_remaining",
+      "late_remaining",
+      "principal_remaining"
+    ]
+  },
+  "billing.pay_invoiced": {
+    "symbols": [
+      "execute",
+      "pay_apply",
+      "invoice_outstanding",
+      "eligibility"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit invoiced/future lot inputs plus invoice metadata and opening entries; real PAY and remaining-component projections.",
+    "inputs": [
+      "future",
+      "invoiced",
+      "payment"
+    ],
+    "observations": [
+      "debt",
+      "future_remaining",
+      "invoiced_remaining"
+    ]
+  },
+  "billing.partial_payment": {
+    "symbols": [
+      "execute",
+      "pay_apply",
+      "invoice_outstanding",
+      "eligibility"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit invoiced/future lot inputs plus invoice metadata and opening entries; real PAY and remaining-component projections.",
+    "inputs": [
+      "day",
+      "due_day",
+      "issued_total",
+      "minimum_due",
+      "payment"
+    ],
+    "observations": [
+      "issued_total",
+      "minimum_due",
+      "outstanding",
+      "past_due"
+    ]
+  },
+  "billing.assess_late_fee": {
+    "symbols": [
+      "execute",
+      "assess_apply",
+      "invoice_outstanding"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit invoice outstanding, assessment flag, due day and clock; real ASSESS_LATE_FEE and journal delta.",
+    "inputs": [
+      "assessed",
+      "day",
+      "due_day",
+      "outstanding",
+      "tier"
+    ],
+    "observations": [
+      "assessed",
+      "decision",
+      "late_delta",
+      "outstanding"
+    ]
+  },
+  "rewards.raw": {
+    "symbols": [
+      "reward_raw"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "category",
+      "fee",
+      "principal",
+      "tier"
+    ],
+    "observations": [
+      "raw_points"
+    ]
+  },
+  "rewards.cap": {
+    "symbols": [
+      "reward_grant"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "gross_granted",
+      "raw_points"
+    ],
+    "observations": [
+      "granted"
+    ]
+  },
+  "rewards.cycle_cap": {
+    "symbols": [
+      "reward_gross",
+      "reward_grant"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit historical gross grants with structural parents; scalar history fixture does not claim public authorization reachability.",
+    "inputs": [
+      "capture_day",
+      "grants",
+      "raw_points"
+    ],
+    "observations": [
+      "granted"
+    ]
+  },
+  "rewards.after_refund": {
+    "symbols": [
+      "reward_gross",
+      "reward_grant"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit historical gross grants with structural parents; scalar history fixture does not claim public authorization reachability.",
+    "inputs": [
+      "gross_granted",
+      "new_raw_points",
+      "points_reversed"
+    ],
+    "observations": [
+      "gross_granted",
+      "new_granted"
+    ]
+  },
+  "rewards.refund": {
+    "symbols": [
+      "cumulative_delta"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "amount",
+      "granted",
+      "principal",
+      "refunded"
+    ],
+    "observations": [
+      "reversed"
+    ]
+  },
+  "rewards.capture_partition": {
+    "symbols": [
+      "execute",
+      "capture_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Single explicit authorization, real captures from supplied partition array; observe actual point projection.",
+    "inputs": [
+      "captures",
+      "tier"
+    ],
+    "observations": [
+      "points"
+    ]
+  },
+  "batch.order": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Input arrays become ordered real authorizations; separate account/card pair for isolation.",
+    "inputs": [
+      "authorizations",
+      "credit_limit"
+    ],
+    "observations": [
+      "decisions",
+      "held"
+    ]
+  },
+  "batch.continue": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Input arrays become ordered real authorizations; separate account/card pair for isolation.",
+    "inputs": [
+      "amounts",
+      "credit_limit"
+    ],
+    "observations": [
+      "decisions",
+      "held"
+    ]
+  },
+  "batch.replay": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Input arrays become ordered real authorizations; separate account/card pair for isolation.",
+    "inputs": [
+      "requests"
+    ],
+    "observations": [
+      "auth_count",
+      "held",
+      "response_count"
+    ]
+  },
+  "batch.account_isolation": {
+    "symbols": [
+      "execute",
+      "authorize_apply",
+      "project_account"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Input arrays become ordered real authorizations; separate account/card pair for isolation.",
+    "inputs": [
+      "amount",
+      "op_account"
+    ],
+    "observations": [
+      "A1_held",
+      "A2_held"
+    ]
+  },
+  "batch.reconcile": {
+    "symbols": [
+      "project_account",
+      "reconcile",
+      "ledger_balanced"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit receivables/late/holds and opening journal; corruption occurs after validated setup; compare independent snapshots, journal totals and caches.",
+    "inputs": [
+      "cached_debt",
+      "cached_held",
+      "holds",
+      "late",
+      "lot_fee",
+      "lot_principal"
+    ],
+    "observations": [
+      "debt",
+      "held",
+      "reason",
+      "reconciled"
+    ]
+  },
+  "batch.balance_check": {
+    "symbols": [
+      "ledger_post",
+      "ledger_balanced"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit signed event entries; harness checks each event sum against production balance checker.",
+    "inputs": [
+      "events"
+    ],
+    "observations": [
+      "balanced"
+    ]
+  },
+  "batch.report_order": {
+    "symbols": [
+      "main",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Authorize supplied IDs through public CLI, then inspect GET_ACCOUNT auth_ids.",
+    "inputs": [
+      "ids"
+    ],
+    "observations": [
+      "ids"
+    ]
+  },
+  "batch.tick": {
+    "symbols": [
+      "execute",
+      "tick_apply"
+    ],
+    "kind": "COMPONENT",
+    "setup": "Explicit logical clock/expiring holds; capacity fault after validated opening; complete state comparison.",
+    "inputs": [
+      "current_now",
+      "expiring_holds",
+      "fail_at",
+      "open_holds",
+      "requested_now"
+    ],
+    "observations": [
+      "decision",
+      "events_added",
+      "reason",
+      "unchanged"
+    ]
+  },
+  "io.identifier": {
+    "symbols": [
+      "identifier_valid"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "id"
+    ],
+    "observations": [
+      "valid"
+    ]
+  },
+  "io.money_parse": {
+    "symbols": [
+      "decimal_parse"
+    ],
+    "kind": "UNIT",
+    "setup": "Typed scalar inputs from the Given table; direct calls to shared production helpers.",
+    "inputs": [
+      "text"
+    ],
+    "observations": [
+      "ok",
+      "value"
+    ]
+  },
+  "io.parse": {
+    "symbols": [
+      "main",
+      "read_line",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Public production CLI with explicit stream/seed bytes or environment variants; parse JSON and inspect exact bytes, exit and stderr.",
+    "inputs": [
+      "raw"
+    ],
+    "observations": [
+      "decision",
+      "reason"
+    ]
+  },
+  "io.line_limit": {
+    "symbols": [
+      "main",
+      "read_line",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Public production CLI with explicit stream/seed bytes or environment variants; parse JSON and inspect exact bytes, exit and stderr.",
+    "inputs": [
+      "line_bytes",
+      "next_line"
+    ],
+    "observations": [
+      "length_allowed",
+      "next_processed"
+    ]
+  },
+  "io.ignored_lines": {
+    "symbols": [
+      "main",
+      "read_line",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Public production CLI with explicit stream/seed bytes or environment variants; parse JSON and inspect exact bytes, exit and stderr.",
+    "inputs": [
+      "lines"
+    ],
+    "observations": [
+      "decision",
+      "response_count"
+    ]
+  },
+  "io.output": {
+    "symbols": [
+      "main",
+      "read_line",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Public production CLI with explicit stream/seed bytes or environment variants; parse JSON and inspect exact bytes, exit and stderr.",
+    "inputs": [
+      "raw",
+      "runs"
+    ],
+    "observations": [
+      "identical_bytes",
+      "principal_is_integer",
+      "response_count_per_run"
+    ]
+  },
+  "io.exit": {
+    "symbols": [
+      "main",
+      "read_line",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Public production CLI with explicit stream/seed bytes or environment variants; parse JSON and inspect exact bytes, exit and stderr.",
+    "inputs": [
+      "mode"
+    ],
+    "observations": [
+      "exit_code"
+    ]
+  },
+  "io.seed": {
+    "symbols": [
+      "main",
+      "read_line",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Public production CLI with explicit stream/seed bytes or environment variants; parse JSON and inspect exact bytes, exit and stderr.",
+    "inputs": [
+      "defect"
+    ],
+    "observations": [
+      "commands_processed",
+      "ok"
+    ]
+  },
+  "io.environment": {
+    "symbols": [
+      "main",
+      "read_line",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result"
+    ],
+    "kind": "E2E",
+    "setup": "Public production CLI with explicit stream/seed bytes or environment variants; parse JSON and inspect exact bytes, exit and stderr.",
+    "inputs": [
+      "variation"
+    ],
+    "observations": [
+      "identical_results"
+    ]
+  },
+  "flow.run": {
+    "symbols": [
+      "main",
+      "seed_load",
+      "parse_command",
+      "execute",
+      "write_result",
+      "project_account",
+      "invoice_outstanding",
+      "ledger_balanced"
+    ],
+    "kind": "E2E",
+    "setup": "Every input command runs through public CLI; a second production API engine supplies journal snapshots; appended public queries are cross-checked with API state.",
+    "inputs": [
+      "capacity.idempotency",
+      "commands",
+      "credit_limit",
+      "now",
+      "tier"
+    ],
+    "observations": [
+      "auth_count",
+      "auths.R1.state",
+      "available_credit",
+      "balanced",
+      "capture_count",
+      "cash_refund_total",
+      "daily_count",
+      "daily_gross_principal",
+      "debt",
+      "decision_sequence",
+      "held",
+      "invoices.I1.issued_total",
+      "invoices.I1.outstanding",
+      "invoices.I2.issued_total",
+      "invoices.I2.outstanding",
+      "points",
+      "responses.0.decision",
+      "responses.1.decision",
+      "responses.1.reason",
+      "responses.2.decision",
+      "responses.3.decision",
+      "responses.3.reason",
+      "responses.4.decision",
+      "responses.4.reason",
+      "responses.6.decision"
+    ]
+  }
+}

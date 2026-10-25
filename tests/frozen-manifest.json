@@ -1,0 +1,11 @@
+{
+  "source_revision": "a9f3b7e8ec7f09e2ccf9f514be635950226ad513",
+  "files": {
+    "tests/corpus/cases.json": "222ea98bae44425d1201e52c4a0544dac00aa568bf6a69476cd5787db2d70057",
+    "tests/corpus/golden.json": "acb6e6eadaea852039620d95876838ef694074ecd619fbbec3f6f87035d6074d",
+    "tests/corpus/generated.json": "4c2b571058813aa63783a60e696f186ac54f0968d395d482a4056374cbad9d82",
+    "tests/corpus/golden-generated.json": "a1e19342765fa15e149c338fb88fd7b04b5129b953e1e8d2c8f3f8f7738ea820",
+    "tests/corpus/golden-state.json": "766db94141d70dc8dd395ff3d4daea0085d08c8e27be7b95b62aef74b730f807",
+    "tests/original-manifest.json": "3b57759054d3b452fd3a3085c1f8ea126b89120403a24ae138fc55be19a6e843"
+  }
+}
