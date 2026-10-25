@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "scope": "Functional reconstruction traceability, not extraction/slicing methodology",
-  "status": "SOURCE_REVIEWED_FULL_FUNCTIONAL_PASS_DELIVERY_PENDING",
+  "status": "SOURCE_REVIEWED_FULL_FUNCTIONAL_PASS_LOCAL_DELIVERY_VERIFIED",
   "inventory_source": "evidence/architecture-inventory.json",
   "inventory_status": "PASS",
   "source_files": [

@@ -18,7 +18,7 @@ Este plano cobre a reconstrução completa definida em [SPEC.md](SPEC.md). Não 
 | T10 — shell/CLI/adaptador de testes | Seed atômico, parser, executor de edits, JSON e erros byte exact; adapter fora da produção | T04,T07,T08,T09 | CONCLUÍDO: C17 CLI, FR-IO/BAT, ABI somente adapter testes; protocolo/diferenciais PASS |
 | T11 — equivalência completa | Todo Gherkin, propriedades, invariantes, 12 fluxos, corpus golden/gerado, bytes/status/efeitos | T10 | CONCLUÍDO: 296 cenários + 3 controles; 136+24 streams byte exact; 7557 estados de comando PASS |
 | T12 — auditoria funcional e mutantes | AST/inventário de funções/decisões, ausência de heap/I/O/out mutation no core, mutantes mortos | T05..T11 | CONCLUÍDO: 130 funções/714 decisões mapeadas; arquitetura/pureza/revisão PASS; 16 mutantes mortos, 1 equivalente; FULL 14 gates PASS |
-| T13 — fechar e entregar | Build normal/sanitizers, links de uso, gaps honestos, manifesto final e sync destino autorizado | T11,T12 | QA FUNCIONAL CONCLUÍDA: `evidence/full/summary.json` PASS; entrega/sync/manifesto final PGC e publicação de artefato pendentes de confirmação root |
+| T13 — fechar e entregar | Build normal/sanitizers, links de uso, gaps honestos, manifesto final e sync destino autorizado | T11,T12 | CONCLUÍDO: `evidence/full/summary.json` PASS, `MANIFEST.json`, cópia PGC conferida por hashes e smoke. Pacote Library entregue com recibo na resposta final. |
 
 T05 e partes do shell podem avançar em paralelo depois de T04; a integração só aceita o mesmo contrato. T06–T09 não podem ser substituídos por wrappers que mantenham política no shell. Testes novos podem ser escritos antes das tarefas dependentes e ficam pendentes até execução real.
 

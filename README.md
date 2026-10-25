@@ -1,5 +1,7 @@
 # Aurum funcional em C17
 
+Qualificação final: **14 gates PASS**. Veja [resultados e limites](docs/QUALIFICATION.md). Entrega local: `/home/gustavo/Documents/PGC/aurum-functional`, com manifesto SHA-256 e arquivo ZIP.
+
 Reconstrução integral do simulador sintético Aurum com functional core e imperative shell. O executável usa somente C17 e a biblioteca padrão; não chama o Aurum original, Python, serviços externos ou arquivos de teste para decidir resultados.
 
 ```sh
