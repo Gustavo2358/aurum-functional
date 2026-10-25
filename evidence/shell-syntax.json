@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "command": [
+    "cc",
+    "-std=c17",
+    "-O2",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Werror",
+    "-Isubject/include",
+    "-fsyntax-only",
+    "subject/src/shell_storage.c",
+    "subject/src/shell_protocol.c",
+    "subject/src/shell_output.c",
+    "subject/src/main.c"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}

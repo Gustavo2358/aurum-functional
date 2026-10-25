@@ -1,0 +1,102 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "case": "command-directory",
+      "status": "PASS",
+      "observations": {
+        "original": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot read command stream\n"
+        },
+        "candidate": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot read command stream\n"
+        }
+      }
+    },
+    {
+      "case": "seed-directory",
+      "status": "PASS",
+      "observations": {
+        "original": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "invalid or unreadable seed\n"
+        },
+        "candidate": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "invalid or unreadable seed\n"
+        }
+      }
+    },
+    {
+      "case": "missing-command",
+      "status": "PASS",
+      "observations": {
+        "original": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot open command stream\n"
+        },
+        "candidate": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot open command stream\n"
+        }
+      }
+    },
+    {
+      "case": "invalid-seed",
+      "status": "PASS",
+      "observations": {
+        "original": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "invalid or unreadable seed\n"
+        },
+        "candidate": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "invalid or unreadable seed\n"
+        }
+      }
+    },
+    {
+      "case": "output-full",
+      "status": "PASS",
+      "observations": {
+        "original": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot flush results\n"
+        },
+        "candidate": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot flush results\n"
+        }
+      }
+    },
+    {
+      "case": "output-closed-pipe",
+      "status": "PASS",
+      "observations": {
+        "original": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot flush results\n"
+        },
+        "candidate": {
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "cannot flush results\n"
+        }
+      }
+    }
+  ],
+  "candidate_sha256": "6c6ce516e3cabdfece77ff8aa569e1cc135c3b2c8bba60822d843ea642dc666d"
+}

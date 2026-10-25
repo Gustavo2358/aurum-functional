@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "input_files": [
+    "Makefile",
+    "subject/include/aurum.h",
+    "subject/include/core.h",
+    "subject/src/core_command.c",
+    "subject/src/core_money.c",
+    "subject/src/core_policy.c",
+    "subject/src/core_state.c",
+    "subject/src/core_transition.c",
+    "subject/src/main.c",
+    "subject/src/shell_output.c",
+    "subject/src/shell_protocol.c",
+    "subject/src/shell_storage.c"
+  ],
+  "build": {
+    "command": [
+      "make",
+      "build/aurum"
+    ],
+    "exit_code": 0,
+    "stdout": "mkdir -p build\ncc -Isubject/include -std=c17 -O2 -g -Wall -Wextra -Wpedantic -Werror subject/src/core_command.c subject/src/core_money.c subject/src/core_policy.c subject/src/core_state.c subject/src/core_transition.c subject/src/shell_output.c subject/src/shell_protocol.c subject/src/shell_storage.c subject/src/main.c -o build/aurum\n",
+    "stderr": ""
+  },
+  "cases": [
+    {
+      "name": "example-file",
+      "status": "PASS",
+      "args": [
+        "--seed",
+        "seed.txt",
+        "--commands",
+        "commands.txt"
+      ],
+      "reference_exit": 0,
+      "candidate_exit": 0,
+      "stdout_bytes": 1570,
+      "stderr_bytes": 0,
+      "stdout_sha256": "cc1303fbbf60aa11898aae513ecb6624d7dd523a1ee5691b99a4bbd3376ffaf3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "example-stdin",
+      "status": "PASS",
+      "args": [
+        "--commands",
+        "-",
+        "--seed",
+        "seed.txt"
+      ],
+      "reference_exit": 0,
+      "candidate_exit": 0,
+      "stdout_bytes": 1570,
+      "stderr_bytes": 0,
+      "stdout_sha256": "cc1303fbbf60aa11898aae513ecb6624d7dd523a1ee5691b99a4bbd3376ffaf3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "example-invocation",
+      "status": "PASS",
+      "args": [],
+      "reference_exit": 2,
+      "candidate_exit": 2,
+      "stdout_bytes": 0,
+      "stderr_bytes": 55,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "cb0771d30457813db1616cf3be4116df254c6596d10ca2ef3a8deb12106abcd2"
+    },
+    {
+      "name": "example-missing-seed",
+      "status": "PASS",
+      "args": [
+        "--seed",
+        "missing.txt",
+        "--commands",
+        "commands.txt"
+      ],
+      "reference_exit": 2,
+      "candidate_exit": 2,
+      "stdout_bytes": 0,
+      "stderr_bytes": 17,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "1ec44b98de86d56994684cebb6285abb9f033137783d6b60fbee40cc65336c20"
+    }
+  ],
+  "binary_sha256": "5769b6ef6b8411a75e95d102f1e339d06ab1d58f49273eca89d375de41cc2225",
+  "runtime_files_created": []
+}

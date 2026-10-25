@@ -15,6 +15,9 @@ def main():
   records.append(dict(gate=name,command=[str(x) for x in cmd],exit_code=r.returncode,status='PASS' if r.returncode==0 else 'FAIL'))
   print(name,records[-1]['status'],flush=True)
   return r.returncode==0
+ if not run('frozen-integrity',[sys.executable,ROOT/'tests/verify_frozen.py']):
+  (out/'summary.json').write_text(json.dumps({'status':'FAIL','gates':records},indent=2)+'\n')
+  return 1
  if a.build_original:
   binary=out/'aurum';library=out/'libaurum.so'
   src=sorted((ORIGINAL/'subject/src').glob('*.c'));flags=['cc','-std=c17','-O2','-g','-Wall','-Wextra','-Wpedantic','-Werror','-I'+str(ORIGINAL/'subject/include')]

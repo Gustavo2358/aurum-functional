@@ -1,0 +1,11 @@
+QUOTE amount=10000 currency=USD
+AUTHORIZE request_id=ORDER1 account_id=A1 card_id=C1 merchant_id=M1 amount=10000 currency=USD
+CAPTURE request_id=CAP1 auth_id=ORDER1 principal=20000
+CAPTURE request_id=CAP2 auth_id=ORDER1 principal=30000
+TICK now=172800
+CLOSE request_id=CLOSE1 account_id=A1 cycle=3
+PAY request_id=PAY1 account_id=A1 amount=51000
+REFUND request_id=REF1 capture_id=CAP1 principal=10000
+GET_ACCOUNT account_id=A1
+GET_INVOICE invoice_id=I1
+RECONCILE

@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "groups": [
+    {
+      "group": "quote_reference",
+      "status": "PASS"
+    },
+    {
+      "group": "credit_boundaries",
+      "status": "PASS"
+    },
+    {
+      "group": "daily_gross",
+      "status": "PASS"
+    },
+    {
+      "group": "eligibility",
+      "status": "PASS"
+    },
+    {
+      "group": "risk_window",
+      "status": "PASS"
+    },
+    {
+      "group": "capture_fragments",
+      "status": "PASS"
+    },
+    {
+      "group": "refund_fragments",
+      "status": "PASS"
+    },
+    {
+      "group": "future_refund",
+      "status": "PASS"
+    },
+    {
+      "group": "payment_priority",
+      "status": "PASS"
+    },
+    {
+      "group": "reward_cap",
+      "status": "PASS"
+    },
+    {
+      "group": "capture_partition",
+      "status": "PASS"
+    },
+    {
+      "group": "replay",
+      "status": "PASS"
+    },
+    {
+      "group": "declined_replay",
+      "status": "PASS"
+    },
+    {
+      "group": "capacity",
+      "status": "PASS"
+    },
+    {
+      "group": "expiration",
+      "status": "PASS"
+    },
+    {
+      "group": "independent_accounts",
+      "status": "PASS"
+    },
+    {
+      "group": "line_boundary",
+      "status": "PASS"
+    }
+  ],
+  "processes": 47,
+  "responses": 864
+}
